@@ -1,0 +1,59 @@
+{% extends "base_with_simple_header.html" %}
+{% load i18n common_tags %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna | Weather{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag' %}Weather page description metatag{% endblocktrans %}{% endblock %}
+{% block fb_title %}{% blocktrans context "facebook page title" %}Weather page facebook title{% endblocktrans %}{% endblock %}
+{% block fb_desc_meta_tag %}{% blocktrans context "facebook page description" %}Weather page facebook description{% endblocktrans %}{% endblock %}
+{% block fb_images %}
+    {% if weather_info.current_observation.icon_url %}
+        <meta property="og:image" content="{% get_absolute_image_url weather_info.current_observation.icon_url %}"/>
+    {% else %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="wrap-inner">
+    	<h2 class="find__title checkout">{% trans "Weather in El Gouna" %}</h2>
+    	<div class="weather">
+    		<div class="weather__info">
+	    			<div class="weather__icon">
+	    				<img src="{{ weather_info.current_observation.icon_url }}" alt="">
+	    			</div>
+	    			<span class="weather__text upper">{{ weather_info.current_observation.weather }}</span>
+
+	    			<div class="weather__temp big hot">{{ weather_info.current_observation.temp_c }}<span>&deg;C</span></div>
+	    			<span class="weather__text">{% blocktrans context "weather page text" %}Feels like{% endblocktrans %}<span class="weather__temp bold">{{ weather_info.current_observation.feelslike_c }}</span>&deg;C</span>
+	    	</div>
+    		<div class="weather__discr">
+    			<ul class="weather__list">
+    				<li class="weather__list-item">
+    					<span class="weather__text aligned">{% blocktrans context "weather page text" %}Wind direction:{% endblocktrans %}</span>
+    					<span class="weather__text bold aligned">{{ weather_info.current_observation.wind_dir }}</span>
+    				</li>
+    				<li class="weather__list-item">
+    					<span class="weather__text aligned">{% blocktrans context "weather page text" %}Wind speed:{% endblocktrans %}</span>
+    					<span class="weather__text bold aligned">{{ weather_info.current_observation.wind_kph }} <span class="weather__text metrics">Kph</span></span>
+    				</li>
+                </ul>
+                <ul class="weather__list">
+    				<li class="weather__list-item">
+    					<span class="weather__text aligned">{% blocktrans context "weather page text" %}Pressure:{% endblocktrans %}</span>
+    					<span class="weather__text bold aligned">{{ weather_info.current_observation.pressure_mb }}<span class="weather__text metrics">hPa</span></span>
+    				</li>
+    				<li class="weather__list-item">
+    					<span class="weather__text aligned">{% blocktrans context "weather page text" %}Humidity:{% endblocktrans %}</span>
+    					<span class="weather__text bold aligned">{{ weather_info.current_observation.relative_humidity }}<span class="weather__text metrics"></span></span>
+    				</li>
+                </ul>
+                <ul class="weather__list">
+    				<li class="weather__list-item">
+    					<span class="weather__text aligned">{% blocktrans context "weather page text" %}Rainfall:{% endblocktrans %}</span>
+    					<span class="weather__text bold aligned">{{ weather_info.current_observation.precip_today_metric }}<span class="weather__text metrics">mm</span></span>
+    				</li>
+    			</ul>
+    		</div>
+    	</div>
+    </div>
+{% endblock content %}

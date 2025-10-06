@@ -1,0 +1,22 @@
+{% load i18n %}
+
+<div id="select-lang" class="select-lang__active">
+    <label class="select-lang__label">
+       <img src="{{ STATIC_URL }}images/flags/{{ LANGUAGE_CODE }}.png" alt="">
+    </label>
+</div>
+
+<form id="lang-drop" class="select-lang__form selectScroll" action="{% url 'set_language' %}" method="post">
+    {% csrf_token %}
+    <input name="next" type="hidden" value="{{ setlang_redirect_to }}" />
+    {% get_language_info_list for ENABLED_LANGUAGES as languages %}
+    {% for language in languages %}
+        <div class="select-lang__item">
+            <input class="select-lang__radio" type="radio" name="language" id="radio_{{ forloop.counter }}" value="{{ language.code }}"
+                   {% if language.code == LANGUAGE_CODE %}checked="checked"{% endif %}>
+            <label class="select-lang__label check-language" for="radio_{{ forloop.counter }}">
+                <img src="{{ STATIC_URL }}images/flags/{{ language.code }}.png" alt="">
+            </label>
+        </div>
+    {% endfor %}
+</form>

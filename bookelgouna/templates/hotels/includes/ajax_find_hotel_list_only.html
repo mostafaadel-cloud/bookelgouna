@@ -1,0 +1,98 @@
+{% load i18n common_tags %}
+
+{% for hotel in object_list %}
+    <div class="find__article">
+        <div class="find__article-top">
+            <h3 class="find__article-title with-rating">
+                <a href="{{ hotel.get_absolute_url }}" class="find__article-title-link">
+                    {{ hotel.title_trans }}
+                </a>
+            </h3>
+            <div class="find__article-rate-box star-rate-{{ hotel.rating }} hotel-page">
+                <ul>
+                    <li class="find__article-star"></li>
+                    <li class="find__article-star"></li>
+                    <li class="find__article-star"></li>
+                    <li class="find__article-star"></li>
+                    <li class="find__article-star"></li>
+                </ul>
+            </div>
+            {% if hotel.review_avg > 0 %}
+                <div class="find__article-rate-review">
+                    {% blocktrans with mark=hotel.review_avg|floatformat:"0" %}{{ mark }}/5 (based on reviews){% endblocktrans %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="find__article-gallery">
+            <a href="{{ hotel.get_absolute_url }}" class="find__article-preview">
+                {% if hotel.featured_image %}
+                    <img id="find-gallery-preview{{ hotel.pk }}" class="find-gallery-preview"
+                         src="{{ hotel.find_service_big_featured_image }}" alt="">
+                {% elif hotel.images.exists %}
+                    <img id="find-gallery-preview{{ hotel.pk }}" class="find-gallery-preview"
+                         src="{{ hotel.images.first.find_service_big_image_thumbnail }}" alt="">
+                {% endif %}
+            </a>
+
+            {% with price_per_night=hotel.price_per_night %}
+                <div class="find__article-info">
+                    {% if price_per_night %}
+                        <div class="find__article-price-box">
+                            <div class="find__article-price-top">
+                                <span class="find__article-price-amount yellow-price float-price">
+                                    {{ price_per_night|multiply:night_number|floatformat:-2 }}<span class="find__article-price-sign yellow-price">$</span>
+                                </span>
+                                <div class="find__article-overnight block">
+                                    <div  class="find__article-overnight">{% blocktrans %}Full holiday{% endblocktrans %}</div>
+                                    <div  class="find__article-overnight">{% blocktrans with num=night_number %}(at {{ num }} overnight){% endblocktrans %}</div>
+                                    </div>
+                                </div>
+
+                            <div class="find__article-price-top">
+                                <span class="find__article-price-amount orange-price">{{ price_per_night|floatformat:-2 }}<span class="find__article-price-sign orange-price">$</span></span>
+                                {% blocktrans %}Per night{% endblocktrans %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="find__article-price-box">
+                            <div class="find__article-price-top">
+                                <div class="find__article-overnight block">
+                                    <div class="find__article-overnight">{% blocktrans context 'find hotel page review text' %}Review hotel{% endblocktrans %}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <a href="{{ hotel.get_absolute_url }}" class="find__article-book-btn hotel-page">{% blocktrans %}view hotel{% endblocktrans %}</a>
+                </div>
+            {% endwith %}
+
+            <div id="find-gallery" class="find-gallery-multiply owl-carousel" data-previewID="find-gallery-preview{{ hotel.pk }}">
+                {% if hotel.featured_image %}
+                    <div class="item" data-bigImg="{{ hotel.find_service_big_featured_image }}">
+                        <img class="lazyOwl" data-src="{{ hotel.find_service_small_featured_image }}">
+                    </div>
+                {% endif %}
+                {% for image_obj in hotel.images.all %}
+                    <div class="item" data-bigImg="{{ image_obj.find_service_big_image_thumbnail }}">
+                        <img class="lazyOwl" data-src="{{ image_obj.find_service_small_image_thumbnail }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <p class="find__article-text">
+                {{ hotel.description_trans }}
+            </p>
+
+        </div>
+    </div>
+{% empty %}
+    {% url "business" as link %}
+    <h2 class="form__title">{% blocktrans context "find hotel page no hotels in db" with class="form__link" %}No hotels yet. If you are a hotel owner, <a href="{{ link }}" class="{{ class }}">register</a> and add new one.{% endblocktrans %}</h2>
+{% endfor %}
+
+{% if has_more_hotels %}
+    <div class="find__showmore-btn">
+        <a class="find__showmore-btn-link find-page">
+            {% blocktrans %}show more{% endblocktrans %}
+        </a>
+    </div>
+{% endif %}

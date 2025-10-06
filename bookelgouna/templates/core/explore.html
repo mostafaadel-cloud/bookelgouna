@@ -1,0 +1,165 @@
+{% extends "base_with_simple_header.html" %}
+{% load i18n common_tags %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Explore{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag' %}explore page description metatag{% endblocktrans %}{% endblock %}
+{% block fb_title %}{% blocktrans context "facebook page title" %}Explore page facebook title{% endblocktrans %}{% endblock %}
+{% block fb_desc_meta_tag %}{% blocktrans context "facebook page description" %}Explore page facebook description{% endblocktrans %}{% endblock %}
+{% block fb_images %}
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/explore/hotel2.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/explore/apartment3.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/explore/apartment4.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/explore/car-rent2.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/explore/transport3.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/explore/sport1.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/explore/sport2.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/explore/tennis.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/explore/beach3.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/explore/eat2.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/explore/diving.jpg" prepend_static=True %}"/>
+{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    <ul id="contrib_messages" style="display: none">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<div class="wrap-inner">
+    <div class="article-separator">
+        <div class="article hotels-a">
+            <h2 class="article__title">{% blocktrans context "explore page section header text" %}hotels{% endblocktrans %}</h2>
+            <a href="{% url 'find_hotel' %}" class="article__box">
+                <img class="article__img" src="{{ STATIC_URL }}images/photos/explore/hotel2.jpg" alt="hotels">
+                <div class="article__info">
+                    <h3 class="article__name">{% blocktrans context "explore page hotel article title" %}Hotel article title{% endblocktrans %}</h3>
+                    <span class="article__text">{% blocktrans context "explore page hotel article text" %}Hotel article text{% endblocktrans %}</span>
+                    <span class="article__link">{% blocktrans context "explore page hotel article link" %}see more{% endblocktrans %}</span>
+                </div>
+            </a>
+        </div>
+        <div class="article apartment-a">
+            <h2 class="article__title">{% blocktrans context "explore page section header text" %}apartments{% endblocktrans %}</h2>
+            {% url 'find_apartment' as apts_link %}
+            <a href="{{ apts_link }}" class="article__box apt">
+                <img class="article__img" src="{{ STATIC_URL }}images/photos/explore/apartment3.jpg" alt="apartments">
+                <div class="article__info apt">
+                    <h3 class="article__name apt">{% blocktrans context "explore page apartment article 1 title" %}Apartaments for a couple{% endblocktrans %}</h3>
+                    <p class="article__text apt">{% blocktrans context "explore page apartment article 1 text" %}Apartament article text{% endblocktrans %}</p>
+                    <div class="article__bottom">
+{#                        <span class="article__price-number">40</span> $ per day</span>#}
+                        <span class="article__price"><span class="article__price-number"></span></span>
+                        <span class="article__btn-book">{% blocktrans context "explore page apartment article 1 link" %}book now{% endblocktrans %}</span>
+                    </div>
+                </div>
+            </a>
+            <a href="{{ apts_link }}" class="article__box apt apt-980">
+                <img class="article__img" src="{{ STATIC_URL }}images/photos/explore/apartment4.jpg" alt="apartments">
+                <div class="article__info apt">
+                    <h3 class="article__name apt">{% blocktrans context "explore page apartment article 2 title" %}Apartaments for family{% endblocktrans %}</h3>
+                    <p class="article__text apt">{% blocktrans context "explore page apartment article 2 text" %}Apartament article text{% endblocktrans %}</p>
+                    <div class="article__bottom">
+                        {# <span class="article__price-number">80</span> $ per day</span> #}
+                        <span class="article__price"><span class="article__price-number"></span></span>
+                        <span class="article__btn-book">{% blocktrans context "explore page apartment article 2 link" %}book now{% endblocktrans %}</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="article-separator">
+        <h2 class="article__title">{% blocktrans context "explore page section header text" %}transfer to hotel{% endblocktrans %}</h2>
+        {% url 'find_transport' as transport_link %}
+        <div class="article transfer-a">
+            <a href="{{ transport_link }}" class="article__box">
+                <img class="article__img" src="{{ STATIC_URL }}images/photos/explore/car-rent2.jpg" alt="transports">
+                <div class="article__info">
+                    <h3 class="article__name">{% blocktrans context "explore page transport article 1 title" %}Rent a car{% endblocktrans %}</h3>
+                    <p class="article__text">{% blocktrans context "explore page transport article 1 text" %}Rent a car article text.{% endblocktrans %}</p>
+                    <span class="article__link learnmore">{% blocktrans context "explore page transport article 1 link" %}learn more{% endblocktrans %}</span>
+                </div>
+            </a>
+        </div>
+        <div class="article transfer-a">
+            <a href="{{ transport_link }}" class="article__box">
+                <img class="article__img" src="{{ STATIC_URL }}images/photos/explore/transport3.jpg" alt="transports">
+                <div class="article__info">
+                    <h3 class="article__name">{% blocktrans context "explore page transport article 2 title" %}Bus transfer{% endblocktrans %}</h3>
+                    <p class="article__text">{% blocktrans context "explore page transport article 2 text" %}Bus transfer article text.{% endblocktrans %}</p>
+                    <span class="article__link learnmore">{% blocktrans context "explore page transport article 2 link" %}learn more{% endblocktrans %}</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="article-separator">
+        <div class="article-slider">
+            <h2 class="article__title">{% blocktrans context "explore page section header text" %}sports in elgouna{% endblocktrans %}</h2>
+            {% url 'find_sport' as sport_link %}
+            <div id="article-slider" class="owl-carousel">
+                <a href="{{ sport_link }}" class="item">
+                    <img src="{{ STATIC_URL }}images/photos/explore/sport1.jpg" alt="sports">
+                    <div class="article-slider__info">
+                        <h3 class="article-slider__name">{% blocktrans context "explore page sport article 1 title" %}Hydroski{% endblocktrans %}</h3>
+                        <p class="article-slider__text">{% blocktrans context "explore page sport article 1 text" %}Hydroski article text.{% endblocktrans %}</p>
+                        <span class="article-slider__link learnmore">{% blocktrans context "explore page sport article 1 link" %}learn more{% endblocktrans %}</span>
+                    </div>
+                </a>
+                <a href="{{ sport_link }}" class="item">
+                    <img src="{{ STATIC_URL }}images/photos/explore/sport2.jpg" alt="sports">
+                    <div class="article-slider__info">
+                        <h3 class="article-slider__name">{% blocktrans context "explore page sport article 2 title" %}Golf{% endblocktrans %}</h3>
+                        <p class="article-slider__text">{% blocktrans context "explore page sport article 2 text" %}Golf article text.{% endblocktrans %}</p>
+                        <span class="article-slider__link learnmore">{% blocktrans context "explore page sport article 2 link" %}learn more{% endblocktrans %}</span>
+                    </div>
+                </a>
+                <a href="{{ sport_link }}" class="item">
+                    <img src="{{ STATIC_URL }}images/photos/explore/tennis.jpg" alt="sports">
+                    <div class="article-slider__info">
+                        <h3 class="article-slider__name">{% blocktrans context "explore page sport article 3 title" %}Tennis{% endblocktrans %}</h3>
+                        <p class="article-slider__text">{% blocktrans context "explore page sport article 3 text" %}Tennis article text.{% endblocktrans %}</p>
+                        <span class="article-slider__link learnmore">{% blocktrans context "explore page sport article 3 link" %}learn more{% endblocktrans %}</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="article-separator-last">
+        <h2 class="article__title">{% blocktrans context "explore page section header text" %}things to do <span>in Elgouna</span>{% endblocktrans %}</h2>
+        {% url 'find_entertainment' as entertainment_link %}
+        <div class="article things-a">
+            <a href="{{ entertainment_link }}" class="article__box">
+                <img class="article__img" src="{{ STATIC_URL }}images/photos/explore/beach3.jpg" alt="entertainment">
+                <div class="article__info">
+                    <h3 class="article__name">{% blocktrans context "explore page things to do article 1 title" %}Beach{% endblocktrans %}</h3>
+                    <p class="article__text">{% blocktrans context "explore page things to do article 1 text" %}Beach article text.{% endblocktrans %}</p>
+                    <span class="article__link learnmore">{% blocktrans context "explore page things to do article 1 link" %}learn more{% endblocktrans %}</span>
+                </div>
+            </a>
+        </div>
+        <div class="article things-a">
+            <a href="{{ entertainment_link }}" class="article__box">
+                <img class="article__img" src="{{ STATIC_URL }}images/photos/explore/eat2.jpg" alt="entertainment">
+                <div class="article__info">
+                    <h3 class="article__name">{% blocktrans context "explore page things to do article 2 title" %}Dining{% endblocktrans %}</h3>
+                    <p class="article__text">{% blocktrans context "explore page things to do article 2 text" %}Dining article text.{% endblocktrans %}</p>
+                    <span class="article__link learnmore">{% blocktrans context "explore page things to do article 2 link" %}learn more{% endblocktrans %}</span>
+                </div>
+            </a>
+        </div>
+        <div class="article things-a">
+            <a href="{{ entertainment_link }}" class="article__box">
+                <img class="article__img" src="{{ STATIC_URL }}images/photos/explore/diving.jpg" alt="entertainment">
+                <div class="article__info">
+                    <h3 class="article__name">{% blocktrans context "explore page things to do article 3 title" %}Diving{% endblocktrans %}</h3>
+                    <p class="article__text">{% blocktrans context "explore page things to do article 3 text" %}Diving article text.{% endblocktrans %}</p>
+                    <span class="article__link learnmore">{% blocktrans context "explore page things to do article 3 link" %}learn more{% endblocktrans %}</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

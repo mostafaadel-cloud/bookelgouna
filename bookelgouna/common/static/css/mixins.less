@@ -1,0 +1,57 @@
+.clearfix {
+	*zoom: 1;
+
+	&:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+}
+
+.box-shadow (@string) {
+	-webkit-box-shadow: @string;
+	-moz-box-shadow:    @string;
+	box-shadow:         @string;
+}
+
+.gradient (@startColor, @endColor) {
+	background-color: @startColor;
+	background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
+	background: -webkit-linear-gradient(top, @startColor, @endColor);
+	background: -moz-linear-gradient(top, @startColor, @endColor);
+	background: -ms-linear-gradient(top, @startColor, @endColor);
+	background: -o-linear-gradient(top, @startColor, @endColor);
+}
+.rotate (@deg) {
+	-webkit-transform: rotate(@deg);
+	-moz-transform: rotate(@deg);
+	-ms-transform: rotate(@deg);
+	-o-transform: rotate(@deg);
+}
+.skew (@deg1, @deg2) {
+	-webkit-transform: skew(@deg1, @deg2);
+	-moz-transform: skew(@deg1, @deg2);
+	-ms-transform: skew(@deg1, @deg2);
+	-o-transform: skew(@deg1, @deg2);
+}
+.scale (@factor) {
+	-webkit-transform: scale(@factor);
+	-moz-transform: scale(@factor);
+	-ms-transform: scale(@factor);
+	-o-transform: scale(@factor);
+}
+.transition (@transition) {
+	-webkit-transition: @transition;  
+	-moz-transition:    @transition;
+	-ms-transition:     @transition; 
+	-o-transition:      @transition; 
+}
+/*---------------------Variables start---------------------*/
+@font-corbel: 'corbel-bold-italic';
+@font-calibri: 'Calibri';
+@font-pfd-regular: 'pfdintextcondpro-regular';
+@font-pfd-medium: 'pfdintextcondpro-medium';
+@font-pfd-bold: 'pfdintextcondpro-bold';
+@font-helvetica-medium: 'helveticaneuecyr-medium';
+@font-helvetica-roman: 'helveticaneuecyr-roman';
+/*---------------------VAriables end---------------------*/

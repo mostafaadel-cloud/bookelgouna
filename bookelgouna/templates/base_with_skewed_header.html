@@ -1,0 +1,198 @@
+{% extends 'base_site.html' %}
+{% load i18n static common_tags socialaccount widget_tweaks %}
+
+{% block fb_images %}
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/slider1.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/slider2.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/slider3.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/slider4-1.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/slider5.jpg" prepend_static=True %}"/>
+{% endblock %}
+
+{% block base_content %}
+    <div class="wrapper-overflow index-page">
+        <header class="header-m">
+            <div class="wrap-inner">
+                <a class="header-m__logo" href="{% url 'index' %}">
+                    <h1 class="header-m__logo-title">
+                        <span>{% trans "book" %}</span>{% blocktrans %}el GOUNA{% endblocktrans %}
+                    </h1>
+                </a>
+                <div class="header-m__barbox">
+                    <div class="header-m__bar">
+                        {% if request.user.is_authenticated %}
+                            <a class="header__link logged-in index-page" href="{% url 'choose_profile' %}">
+                                    {% if request.user.avatar %}
+                                        <img class="header__avatar" src="{{ request.user.avatar_thumbnail }}">
+                                    {% else %}
+                                        <i class="back-profile"></i>
+                                    {% endif %}
+                                <span class="link-decor">{% trans "Profile" %}</span>
+                            </a>
+                            <a class="header__link logged-in" href="{% url 'account_logout' %}">
+                                <i class="back-logout"></i>
+                                <span class="link-decor">{% trans "Logout" %}</span>
+                            </a>
+                        {% else %}
+                            <a class="header__link" href="{% url 'account_signup' %}">
+                                <i class="back-pencil"></i>
+                                <span class="link-decor">{% trans "Register" %}</span>
+                            </a>
+                            <a class="header__link" href="{% url 'account_login' %}">
+                                <i class="back-login"></i>
+                                <span class="link-decor">{% trans "Login" %}</span>
+                            </a>
+                        {% endif %}
+                        <a href="{% url 'cart' %}" class="header-m__busket">
+                            <i class="back-busket-12"></i>
+                            <span class="header-m__items link-decor">
+                                <span class="header-m__counter">{{ cart_items_count }}</span>{% blocktrans %}My Trip{% endblocktrans %}
+                            </span>
+                        </a>
+                        <a class="header__link date date-box">
+                            <i class="back-calendar-12"></i>
+                            <span class="date-option link-decor">{% trans "Dates & Guests" %}</span>
+                            <span class="selected-date"></span>
+                                <div class="date-calendar">
+                                    <div class="date-calendar__box">
+                                        <form id="save_dates_and_guests_form" method="POST" action="{% url 'save_dates_ajax' %}">
+                                            {% csrf_token %}
+                                            <div class="date-calendar__filters">
+                                                <div class="date-calendar__select-box adults">
+                                                    <span class="date-calendar__label">{% trans "Adults" %}</span>
+                                                    <span class="date-calendar__select-qty">
+                                                        {{ dates_and_guests_form.adults|add_class:"select-qty select-guests"|attr:"tabindex:-1" }}
+                                                    </span>
+                                                </div>
+                                                <div class="date-calendar__select-box children">
+                                                    <span class="date-calendar__label">{% trans "Children" %}</span>
+                                                    <span class="date-calendar__select-qty">
+                                                        {{ dates_and_guests_form.children|add_class:"select-qty select-guests"|attr:"tabindex:-1" }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="date-calendar__separator">
+                                                <label class="date-calendar__label" for="arrival">{% trans "Arrival" %}</label>
+                                                {{ dates_and_guests_form.arrival|add_class:"date-calendar__input"|attr:"id:from-date" }}
+                                            </div>
+                                            <div class="date-calendar__separator">
+                                                <label class="date-calendar__label" for="departure">{% trans "Departure" %}</label>
+                                                {{ dates_and_guests_form.departure|add_class:"date-calendar__input"|attr:"id:to-date" }}
+                                            </div>
+                                        </form>
+                                     </div>
+                                    <div id="calendar-box"></div>
+                                    <div class="date-calendar__btn">
+                                        <input type="submit" value="apply">
+                                    </div>
+                                </div>
+                        </a>
+
+                    </div>
+                    <span class="select-lang index-page">
+                        {% include "common/includes/select_lang_form.html" %}
+                    </span>
+                </div>
+            </div>
+        </header>
+        <div class="content-m">
+            <div class="slider wrap-inner">
+                <a href="#" class="slider-label blue">{% trans "calculate" %}<br><span>{% trans "online" %}</span></a>
+                <a href="{% url 'find_hotel' %}" class="slider-label green">{% trans "find" %} <br> {% trans "hotel" %}
+                </a>
+                {% block content %}{% endblock content %}
+            </div>
+            {% block slides %}
+                <div id="main-slider" class="owl-carousel">
+                    <div class="item slide1">
+                        {% block slide1 %}
+                        {% endblock slide1 %}
+                    </div>
+                    <div class="item slide2">
+                        {% block slide2 %}
+                        {% endblock slide2 %}
+                    </div>
+                    <div class="item slide3">
+                        {% block slide3 %}
+                        {% endblock slide3 %}
+                    </div>
+                    <div class="item slide4">
+                        {% block slide4 %}
+                        {% endblock slide4 %}
+                    </div>
+                    <div class="item slide5">
+                        {% block slide5 %}
+                        {% endblock slide5 %}
+                    </div>
+            </div>
+            {% endblock slides %}
+        </div>
+        <footer class="footer-m">
+            <div class="wrap-inner">
+                <div class="footer-m__menubox">
+                    <i id ="menu-popup" class="icon-menu"></i>
+                    <ul id="menu-drop" class="footer-m__menu">
+                        <li class="footer-m__list">
+                            <a href="{% url 'find_hotel' %}" class="footer-m__link">
+                                <i class="back-hotel"></i>{% trans 'hotels' %}
+                            </a>
+                        </li>
+                        <li class="footer-m__list">
+                            <a href="{% url 'find_apartment' %}" class="footer-m__link">
+                                <i class="back-apartment"></i>{% trans 'apartments' %}
+                            </a>
+                        </li>
+                        <li class="footer-m__list">
+                            <a href="{% url 'find_transport' %}" class="footer-m__link">
+                                <i class="back-transport"></i>{% trans 'transport' %}
+                            </a>
+                        </li>
+                        <li class="footer-m__list">
+                            <a href="{% url 'find_sport' %}" class="footer-m__link">
+                                <i class="back-sports"></i>{% trans 'sports' %}
+                            </a>
+                        </li>
+                        <li class="footer-m__list">
+                            <a href="{% url 'find_excursion' %}" class="footer-m__link">
+                                <i class="back-excursion"></i>{% trans 'excursions' %}
+                            </a>
+                        </li>
+                        <li class="footer-m__list">
+                            <a href="{% url 'find_entertainment' %}" class="footer-m__link">
+                                <i class="back-things"></i>{% trans 'things to do' %}
+                            </a>
+                        </li>
+                        <li class="footer-m__list">
+                            <a href="{% url 'blog' %}" class="footer-m__link">
+                                <i class="back-blog"></i>{% trans 'blog' %}
+                            </a>
+                        </li>
+                        <li class="footer-m__list">
+                            <a href="{% url 'weather' %}" class="footer-m__link">
+                                <i class="back-weather"></i>{% trans 'weather' %}
+                            </a>
+                        </li>
+                        <li class="footer-m__list contact">
+                            <a href="{% url 'explore' %}#contact-info" class="footer-m__link">
+                                <i class="icon-fo icon-sm icon-contact"></i>{% trans 'contact us' %}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="footer-m__info">
+                    <li class="footer-m__info-col">
+                        <p class="footer-m__info-p">{% blocktrans %}A pinnacle of luxury beating in the heart of the Red Sea.{% endblocktrans %}</p>
+                        <p class="footer-m__info-p">{% blocktrans %}Book the best vacation packages and escape into the exotic.{% endblocktrans %}</p>
+                    </li>
+                     <li class="footer-m__info-col">
+                        <p class="footer-m__info-p">{% blocktrans %}Dive in, sail away and explore the legendary azure waters of the Red Sea in the largest all-inclusive resort.{% endblocktrans %}</p>
+                        <p class="footer-m__info-p">{% blocktrans %}Go big and indulge yourself in holistic spas, sumptuous international cuisines, stylish bars and chart-topping events.{% endblocktrans %}</p>
+                    </li>
+                    <li class="footer-m__info-col">
+                        <p class="footer-m__info-p">{% blocktrans %}Find the ideal holiday rental for your next sensational holiday in El Gouna.{% endblocktrans %}</p>
+                        <p class="footer-m__info-p">{% blocktrans %}Discover the difference and live in the moment{% endblocktrans %}</p>
+                    </li>
+                </ul>
+        </footer>
+    </div>
+{% endblock %}

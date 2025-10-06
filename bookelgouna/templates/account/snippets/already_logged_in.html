@@ -1,0 +1,5 @@
+{% load i18n %}
+{% load account %}
+
+{% user_display user as user_display %}
+<p class="form__text">{% blocktrans %}Note: you are already logged in as <span class="form__username">{{ user_display }}</span>.{% endblocktrans %}</p>

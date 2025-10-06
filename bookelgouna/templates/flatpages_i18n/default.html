@@ -1,0 +1,23 @@
+{% extends "base_with_simple_header.html" %}
+{% load i18n staticfiles %}
+
+
+{% block title %}{{ flatpage.title_trans }}{% endblock %}
+{% block desc_meta_tag %}{{ flatpage.desc_metatag_trans }}{% endblock %}
+{% block fb_title %}{{ flatpage.title_trans }}{% endblock %}
+{% block fb_desc_meta_tag %}{{ flatpage.desc_metatag_trans }}{% endblock %}
+
+{% block content %}
+    <div class="wrap-inner">
+        <div class="blog">
+            <div class="blog__right flat-page">
+                <div class="blog__article flat-page">
+                    <div class="blog__top-l flat-page">
+                        <h2 class="blog__article-title flat-page">{{ flatpage.title_trans  }}</h2>
+                    </div>
+                    {{ flatpage.content_trans|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

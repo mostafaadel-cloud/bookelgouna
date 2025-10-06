@@ -1,0 +1,175 @@
+{% load i18n %}
+
+{% if messages %}
+    <ul id="contrib_messages" style="display: none">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<div class="cabinet__tab-content" id="tab-content-owner-hotel">
+    <div class="cabinet__hotel">
+        <div class="cabinet__hotel-container">
+            <h2 class="cabinet__title">{{ service.title_trans }}</h2>
+            <a data-url="{% url "update_service" %}" class="cabinet__updatelink ajax-change-tab" >
+                <i class="icon-pencil"></i>{% blocktrans %}update info{% endblocktrans %}
+            </a>
+            </div>
+            <div class="cabinet__hotel-container">
+                <table class="cabinet__table-status">
+                    {% if duplicate %}
+                        <tr>
+                            <td>
+                                <span class="cabinet__text-grey">{% blocktrans context "business owner excursion item list current status title" %}Current Status:{% endblocktrans %}</span>
+                            </td>
+                            <td>
+                                <span class="cabinet__service-status {{ duplicate.status_css_class }}">{{ duplicate.get_status_display }}
+                                    <span class="tooltip">
+                                        <span class="tooltip-icon">?</span>
+                                        <span class="tooltip-text">
+                                            <div class="tooltip-title">
+                                                {% blocktrans context "business owner excursion item list current status hint title" %}business owner excursion item list current status hint title{% endblocktrans %}
+                                            </div>
+                                            {% blocktrans context "business owner excursion item list current status hint content" %}business owner excursion item list current status hint content{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{{ duplicate.get_absolute_url }}" class="cabinet__link">view</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if not service.is_on_moderation %}
+                        <tr>
+                            <td>
+                                <span class="cabinet__text-grey">{% blocktrans context "business owner excursion item list last published title" %}Last Published:{% endblocktrans %}</span>
+                            </td>
+                            <td>
+                                <span class="cabinet__service-status {{ service.status_css_class }}">{{ service.get_status_display }}
+                                    <span class="tooltip">
+                                        <span class="tooltip-icon">?</span>
+                                        <span class="tooltip-text">
+                                            <div class="tooltip-title">
+                                                {% blocktrans context "business owner excursion item list last published status hint title" %}business owner excursion item list last published status hint title{% endblocktrans %}
+                                            </div>
+                                            {% blocktrans context "business owner excursion item list last published status hint content" %}business owner excursion item list last published status hint content{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                            <td><a href="{{ service.get_absolute_url }}" class="cabinet__link">view</a></td>
+                        </tr>
+                    {% endif %}
+                </table>
+            </div>
+            <h2 class="cabinet__title full-width">{% trans "Items" %}
+                <span class="hint big-text">
+                    <span class="hint-icon">i</span>
+                    <span class="hint-text">
+                        {% blocktrans context "business owner excursion item list header hint" %}business owner excursion item list header hint{% endblocktrans %}
+                    </span>
+                </span>
+            </h2>
+            <button data-url="{% url "create_item" %}" class="cabinet__btn hotel-btn ajax-change-tab">
+                {% blocktrans %}add new item{% endblocktrans %}
+            </button>
+            {% if object_list %}
+            <div class="js-rooms-block">
+                <div class="cabinet__hotel-block">
+                    <table class="cabinet__room-table room-list">
+                        <thead class="cabinet__room-thead room-list">
+                            <tr class="cabinet__room-tr-head room-list">
+                                <th class="cabinet__room-th room-list">#</th>
+                                <th class="cabinet__room-th room-list">{% trans "Type" %}
+                                    <span class="tooltip">
+                                        <span class="tooltip-icon">?</span>
+                                        <span class="tooltip-text">
+                                            <div class="tooltip-title">
+                                                {% blocktrans context "business owner excursion item type hint title" %}business owner excursion item type hint title{% endblocktrans %}
+                                            </div>
+                                            {% blocktrans context "business owner excursion item type hint content" %}business owner excursion item type hint content{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </th>
+                                <th class="cabinet__room-th room-list">{% trans "Number" %}
+                                    <span class="tooltip">
+                                        <span class="tooltip-icon">?</span>
+                                        <span class="tooltip-text">
+                                            <div class="tooltip-title">
+                                                {% blocktrans context "business owner excursion item list number hint title" %}business owner excursion item list number hint title{% endblocktrans %}
+                                            </div>
+                                            {% blocktrans context "business owner excursion item list number hint content" %}business owner excursion item list number hint content{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </th>
+                                <th class="cabinet__room-th room-list">{% trans "Show on site" %}
+                                    <span class="tooltip">
+                                        <span class="tooltip-icon">?</span>
+                                        <span class="tooltip-text">
+                                            <div class="tooltip-title">
+                                                {% blocktrans context "business owner excursion item list show-on-site hint title" %}business owner excursion item list show-on-site hint title{% endblocktrans %}
+                                            </div>
+                                            {% blocktrans context "business owner excursion item list show-on-site hint content" %}business owner excursion item list show-on-site hint content{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </th>
+                                <th class="cabinet__room-th room-list"></th>
+                                <th class="cabinet__room-th room-list"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="cabinet__room-tbody room-list js-rooms-list">
+                            {% for item in object_list %}
+                                <tr class="cabinet__room-tr room-list">
+                                    <td class="cabinet__room-td room-list" data-title="#">
+                                        {{ forloop.counter }}
+                                    </td>
+                                    <td class="cabinet__room-td room-list" data-title="{% trans "Type" %}">
+                                        {{ item.get_type_display }}
+                                    </td>
+                                    <td class="cabinet__room-td room-list" data-title="{% trans "Number" %}">
+                                        <span class="cabinet__allotment">
+                                            <i class="cabinet__allotment-minus icon-decrease-arrow minus-this"></i>
+                                            <span class="cabinet__allotment-value current-value">{{ item.number }}</span>
+                                            <input id="room-allotment-{{ item.pk }}" class="change-value" type="hidden"
+                                                   value="{{ item.number }}" data-url="{% url "excursion_item_number_attr_change" item.slug %}">
+                                            <i class="cabinet__allotment-plus icon-increase-arrow plus-this"></i>
+                                        </span>
+                                    </td>
+                                    <td class="cabinet__room-td room-list" data-title="{% trans "Show on site" %}">
+                                       <div class="cabinet__switch">
+                                          <input id="show-on-site-{{ item.pk }}" class="cabinet__switch-input ajax-show-on-site-attr-change"
+                                                 type="checkbox"{% if item.show_on_site %} checked="checked"{% endif %}
+                                                  data-url="{% url "excursion_item_show_on_site_attr_change" item.slug %}">
+                                          <label class="cabinet__switch-label" for="show-on-site-{{ item.pk }}"></label>
+                                        </div>
+                                    </td>
+                                    <td class="cabinet__room-td room-list">
+                                        <a class="cabinet__docs-link ajax-change-tab"
+                                           data-url="{% url 'update_item' item.slug %}">
+                                            <i class="icon-pencil"></i>
+                                            <span>{% trans "Update" %}</span>
+                                        </a>
+                                    </td>
+                                    <td class="cabinet__room-td room-list">
+                                        <a class="cabinet__docs-link ajax-delete-room" href="{% url 'remove_excursion_item' item.slug %}"
+                                                data-confirm-message="{% trans "Are you sure you want to delete this item?" %}"
+                                                data-approval-word="{% trans "Yes" %}" data-decline-word="{% trans "No" %}"
+                                                data-success-message="{% trans "Item was successfully removed" %}">
+                                            <i class="icon-trash"></i>
+                                            <span>{% trans "Delete" %}</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <button data-url="{% url "create_item" %}" class="cabinet__btn hotel-btn ajax-change-tab">
+                    {% blocktrans %}add new item{% endblocktrans %}
+                </button>
+            </div>
+            {% endif %}
+    </div>
+</div>

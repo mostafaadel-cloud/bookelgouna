@@ -1,0 +1,65 @@
+{% load i18n widget_tweaks common_tags %}
+
+{% with real_item=item.content_object.item %}
+    <td class="cabinet__book-td" data-title="{% trans "Client Id" %}">{% if item.is_offline %}-{% else %}{{ item.order.user.pk }}{% endif %}</td>
+    <td class="cabinet__book-td" data-title="{% trans "Full Name" %}">{% if item.is_offline %}-{% else %}{{ item.order.user.full_name }}{% endif %}</td>
+    <td class="cabinet__book-td" data-title="{% trans "Phone number" %}">{{ item.end_user_phone }}</td>
+    <td class="cabinet__book-td" data-title="{% trans "User e-mail" %}">{{ item.end_user_email }}</td>
+    <td class="cabinet__book-td" data-title="{% trans "Dates" %}">
+        {% if item.item_based_product %}
+            {% blocktrans context "business owner booking tab item based product datetime clause" with date=item.from_date|date:"d.m.y H:i" %}Pick up on {{ date }}{% endblocktrans %}
+        {% else %}
+            <span class="cabinet__book-fromdate">{{ item.from_date|date:"d.m.y" }}-</span><span class="cabinet__book-todate">{{ item.to_date|date:"d.m.y" }}</span></td>
+        {% endif %}
+{#    <td class="cabinet__book-td" data-title="{% trans "Adults" %}">{{ real_item.adults }}</td>#}
+{#    <td class="cabinet__book-td" data-title="{% trans "Children" %}">{{ real_item.children }}</td>#}
+    <td class="cabinet__book-td" data-title="{% trans "Item" %}">{{ real_item }}</td>
+    <td class="cabinet__book-td" data-title="{% trans "Qty" %}">{{ item.quantity }}</td>
+    <td class="cabinet__book-td" data-title="{% trans "Price" %}">{% if item.is_offline %}-{% else %}{{ item.price|floatformat:-2 }}${% endif %}</td>
+    <td class="cabinet__book-td" data-title="{% trans "Status" %}">
+        {% if item.is_pending %}
+            <input class="cabinet__approve change-orderitem" type="button" value="{% trans "approve" %}"
+                   data-success-message="{% trans "Order item was successfully approved." %}"
+                   data-url="{% url 'change_orderitem' item.pk %}" data-action="1">
+            <input class="cabinet__decline change-orderitem" type="button" value="{% trans "decline" %}"
+                   data-success-message="{% trans "Order item was successfully declined." %}"
+                   data-url="{% url 'change_orderitem' item.pk %}" data-action="2">
+        {% elif item.no_show_status_is_available %}
+            <span class="cabinet__book-status-select">
+                <select data-success-message="{% trans "Order item has 'No Show' status now. Keep in mind that you can undo this action only once." %}"
+                        data-url="{% url 'change_orderitem' item.pk %}" data-action="3"
+                        data-conf-opt="{{ item.CONFIRMED }}" data-noshow-opt="{{ item.NO_SHOW }}"
+                        class="select-status" name="">
+                    <option value="{{ item.CONFIRMED }}"{% if item.status == item.CONFIRMED %} selected="selected"{% endif %}>
+                        {% trans "Confirmed" %}
+                    </option>
+                    <option value="{{ item.NO_SHOW }}"{% if item.status == item.NO_SHOW %} selected="selected"{% endif %}>
+                        {% blocktrans %}No show{% endblocktrans %}
+                    </option>
+                </select>
+            </span>
+        {% else %}
+            <span class="cabinet__book-status {{ item.status_css_class }}" >{{ item.get_status_display }}</span>
+            {% if item.undo_action_is_available %}
+                <a data-success-message="{% trans "'No Show' status was cancelled successfully." %}"
+                   class="cabinet__undoaction" data-url="{% url 'change_orderitem' item.pk %}" data-action="4">
+                    {% trans 'Undo "No Show"' %}
+                </a>
+            {% endif %}
+        {% endif %}
+    </td>
+    {% if request.user.is_apt_owner %}
+        <td class="cabinet__book-td" data-title="{% trans "Note" %}">
+            {% if item.is_offline and item.offline_booking_note %}
+                <span class="tooltip">
+                    <span class="tooltip-icon">!</span>
+                    <span class="tooltip-text">
+                        <div class="tooltip-title">
+                            {% blocktrans context "business owner bookings note hint title" %}Your note{% endblocktrans %}
+                        </div>{{ item.offline_booking_note }}
+                    </span>
+                </span>
+            {% endif %}
+        </td>
+    {% endif %}
+{% endwith %}

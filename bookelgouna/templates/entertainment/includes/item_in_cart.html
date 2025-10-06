@@ -1,0 +1,56 @@
+{% load i18n entertainment_tags %}
+<div class="find__link-block">
+    <i class="icon-trash"></i><a class="find__link delete-cartitem-link" href="{% url 'delete_cartitem' cartitem.pk %}">{% trans "delete" %}</a>
+</div>
+<h3 class="find__article-title shop-cart">{{ item.service.title_trans }}</h3>
+<span class="find__article-title shop-cart room-title">{{ item.get_type_display }}</span>
+<div class="find__article-item">
+    <div class="find__article-preview shop-cart">
+        <img id="find-gallery-preview" class="find-gallery-preview" src="{{ item.cart_image_thumbnail }}" alt="">
+    </div>
+    <div class="find__article-info shop-cart">
+        <div class="find__article-price-box">
+            <div class="find__form-qty__select-box">
+                <span class="find__form-qty__items">{% trans "Quantity" %}</span>
+                <span class="find__form-qty__items">{{ cartitem.quantity }}</span>
+            </div>
+            <div class="find__article-price-block">
+                <div class="find__article-price-top shop-cart">
+                    {% if item.is_time_based_item %}
+                        {% blocktrans with class="find__article-overnight shop-cart" days=cartitem.from_date|date_diff:cartitem.to_date %}
+                            Today's price<div class={{ class }}>(at {{ days }} over night)</div>
+                        {% endblocktrans %}
+                    {% endif %}
+                </div>
+                {% get_price_for_dates item cartitem.from_date cartitem.to_date cartitem.quantity as price %}
+                <span class="find__article-price-amount shop-cart orange-price">
+                    {{ price|floatformat:-2 }}
+                    <span class="find__article-price-sign shop-cart orange-price">$</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <p class="find__article-text shop-cart">
+        {{ item.description_trans }}
+    </p>
+    <div class="find__shop-discr">
+        <ul class="find__shop-discr-col-r">
+            {% if item.is_item_based_item %}
+                <li class="find__shop-discr-item">
+                    <span class="find__shop-discr-left">{% trans "Pick up on" %}</span>
+                    <span class="find__shop-discr-right">{{ cartitem.from_date|date:"d.m.y H:i" }}</span>
+                </li>
+            {% else %}
+                <li class="find__shop-discr-item">
+                    <span class="find__shop-discr-left">{% trans "Arrival" %}</span>
+                    <span class="find__shop-discr-right">{{ cartitem.from_date|date:"d.m.Y" }}</span>
+                </li>
+                <li class="find__shop-discr-item">
+                    <span class="find__shop-discr-left">{% trans "Departure" %}</span>
+                    <span class="find__shop-discr-right">{{ cartitem.to_date|date:"d.m.Y" }}</span>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

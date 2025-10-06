@@ -1,0 +1,57 @@
+{% extends "base_with_simple_header.html" %}
+{% load i18n staticfiles %}
+{% block content %}
+    <div class="wrap-inner">
+        <div class="blog">
+            <div class="blog__left">
+            <h2 class="blog__title">{% blocktrans %}Blog{% endblocktrans %}</h2>
+                <form method="get" action="{% url 'blog_search' %}">
+                    <input class="blog__input search" type="search" name="q" placeholder="{% trans "Search" %}"
+                           value="{{ form.q.value|default:"" }}">
+                </form>
+                {% if categories.exists %}
+                    <div class="blog__menubox">
+                        <div id="article-switch" class="blog__switch-menu">
+                            <i class="icon-menu-blue blog-page"></i><span>articles</span>
+                        </div>
+                        <ul id="article-dropdown" class="blog__menu">
+                            {% for category in categories %}
+                                <li class="blog__menu-list">
+                                <!-- add class active to class="blog__menu-link" -->
+                                    <a href="{{ category.get_absolute_url }}" class="blog__menu-link">
+                                        <div class="blog__menu-icon">
+                                            <img src="{% if category.icon %}{{ category.category_icon_thumbnail }}{% else %}{% static 'images/blog_category/icon_no_category-14.png' %}{% endif %}"/>
+                                        </div>
+                                        <span>{{ category.name_trans }}</span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+{#                <div class="blog__menubox">#}
+{#                    <div id="follow-switch" class="blog__switch-menu follow">#}
+{#                        <span>follow us!</span>#}
+{#                    </div>#}
+{#                    <div id="follow-dropdown" class="blog__menu follow">#}
+{#                        <div>#}
+{#                            <input class="blog__input" type="text" placeholder="Your name">#}
+{#                        </div>#}
+{#                        <div>#}
+{#                            <input class="blog__input error" type="email" placeholder="Your e-mail">#}
+{#                            <span class="error"> This field is required</span>#}
+{#                        </div>#}
+{#                        <button class="signup-form__btn blog-signup" type="submit">Sign up</button>#}
+{#                    </div>#}
+{#                </div>#}
+                <div class="blog__likebox">
+                    <div class="fb-like-box" data-href="https://www.facebook.com/bookelgouna?ref=hl" data-width="235" data-height="205" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true"></div>
+                </div>
+            </div>
+            <div class="blog__right">
+                {% block blog_content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

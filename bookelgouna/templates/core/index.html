@@ -1,0 +1,94 @@
+{% extends "base_with_skewed_header.html" %}
+{% load i18n %}
+{% load static widget_tweaks %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Index{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag' %}index page description metatag{% endblocktrans %}{% endblock %}
+{% block fb_title %}{% blocktrans context "facebook page title" %}Index page facebook title{% endblocktrans %}{% endblock %}
+{% block fb_desc_meta_tag %}{% blocktrans context "facebook page description" %}Index page facebook description{% endblocktrans %}{% endblock %}
+
+{% block slide1 %}
+<div class="wrap-inner">
+	<div class="owl-textboard">
+		<span class="owl-text">{% blocktrans %}paradise at your fingertips{% endblocktrans %}</span><br><br>
+		<span class="owl-text-bold">{% blocktrans %}escape reality{% endblocktrans %}</span><br><br>
+		<span class="owl-text">{% blocktrans %}make your dreams come true{% endblocktrans %}</span>
+	</div>
+</div>
+{% endblock slide1 %}
+{% block slide2 %}
+<div class="wrap-inner">
+	<div class="owl-textboard">
+		<span class="owl-text">{% blocktrans %}the ultimate life experience{% endblocktrans %}</span><br><br>
+		<span class="owl-text-bold">{% blocktrans %}luxury yacht marina{% endblocktrans %}</span><br><br>
+		<span class="owl-text">{% blocktrans %}world class hotels{% endblocktrans %}</span>
+	</div>
+</div>
+{% endblock slide2 %}
+{% block slide3 %}
+<div class="wrap-inner">
+	<div class="owl-textboard">
+		<span class="owl-text">{% blocktrans %}feel the pulse of the red sea{% endblocktrans %}</span><br><br>
+		<span class="owl-text-bold">{% blocktrans %}swim, snorkel, relax{% endblocktrans %}</span><br><br>
+		<span class="owl-text">{% blocktrans %}your perfect beach awaits{% endblocktrans %}</span>
+	</div>
+</div>
+{% endblock slide3 %}
+{% block slide4 %}
+<div class="wrap-inner">
+	<div class="owl-textboard">
+		<span class="owl-text">{% blocktrans %}golf like a boss{% endblocktrans %}</span><br><br>
+		<span class="owl-text-bold">{% blocktrans %}celebrate the spirit of the game{% endblocktrans %}</span><br><br>
+		<span class="owl-text">{% blocktrans %}international golf course{% endblocktrans %}</span>
+	</div>
+</div>
+{% endblock slide4 %}
+{% block slide5 %}
+<div class="wrap-inner">
+	<div class="owl-textboard">
+		<span class="owl-text">{% blocktrans %}soak up the sun{% endblocktrans %}</span><br><br>
+		<span class="owl-text-bold">{% blocktrans %}retreat & rejuvenate{% endblocktrans %}</span><br><br>
+		<span class="owl-text">{% blocktrans %}indulge yourself in seclusion{% endblocktrans %}</span>
+	</div>
+</div>
+{% endblock slide5 %}
+
+{% block content %}
+        <div class="dateboard wrap-inner">
+            <form method="POST" action="{% url 'save_dates_and_explore' %}">
+                {% csrf_token %}
+                <div class="dateboard__container">
+                    <span class="dateboard__title">{% blocktrans %}find the best tour for you!{% endblocktrans %}</span>
+                    <div class="dateboard-main">
+                        <div class="dateboard__separator">
+                            <div class="dateboard__separator-l">
+                                <label class="dateboard__label" for="arrival">Arrival</label>
+                                {{ index_dates_and_guests_form.arrival|add_class:"dateboard__input" }}
+                            </div>
+                            <div class="dateboard__separator-r">
+                                <label class="dateboard__label" for="departure">Departure</label>
+                                {{ index_dates_and_guests_form.departure|add_class:"dateboard__input" }}
+                            </div>
+                            <!-- <div id="calendar-box2"></div> -->
+                        </div>
+                        <div class="dateboard__separator">
+                             <div class="dateboard__separator-l">
+                                <span class="dateboard__label guests">{% trans "Adults" %}</span>
+                                <span class="dateboard__select-qty">
+                                    {{ index_dates_and_guests_form.adults|add_class:"select-qty"|attr:"tabindex:-1" }}
+                                </span>
+                            </div>
+                            <div class="dateboard__separator-r">
+                                <span class="dateboard__label guests">{% trans "Children" %}</span>
+                                <span class="dateboard__select-qty">
+                                    {{ index_dates_and_guests_form.children|add_class:"select-qty"|attr:"tabindex:-1" }}
+                                </span>
+                             </div>
+                        </div>
+                        <button class="dateboard__btn" type="submit">{% blocktrans %}Explore{% endblocktrans %}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+{% endblock content %}

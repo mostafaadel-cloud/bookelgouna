@@ -1,0 +1,422 @@
+{% load i18n static widget_tweaks common_tags future %}
+
+<div class="cabinet__tab-content" id="tab-content-owner-hotel">
+    <div class="cabinet__hotel js-service-container"
+         data-incorrect-image-ext=
+         "{% blocktrans context "business owner edit excursion item images error; use $ext in translation to display incorrect file extension" %}You cannot select $ext file. Try again.{% endblocktrans %}"
+         data-duplicate-image=
+         "{% blocktrans context "business owner edit excursion item images error; use $file in translation to display duplicated filename" %}This file has already been selected: $file.{% endblocktrans %}"
+         data-too-many-images=
+         "{% blocktrans context "business owner edit excursion item images error; use $max in translation to display maximum number of images" %}Too many files selected (max: $max).{% endblocktrans %}"
+         data-too-big-image=
+         "{% blocktrans context "business owner edit excursion item images error; use $file in translation to display filename" %}$file is too big (max 10 MB).{% endblocktrans %}"
+         data-featured-image-changed="{% blocktrans context "business owner edit excursion item feature image msg" %}You should save item later to store new image or you can discard it.{% endblocktrans %}"
+         data-gallery-images-changed="{% blocktrans context "business owner edit excursion item gallery image msg" %}You should save item later to store new images or you can discard them.{% endblocktrans %}"
+            data-delete-image-url="{% url 'delete_temp_image' %}">
+        <div class="cabinet__hotel-container">
+            <h2 class="cabinet__title room-page">
+                {% if create_view %}
+                    {% blocktrans %}Create Item{% endblocktrans %}
+                {% else %}
+                    {% blocktrans %}Update Item{% endblocktrans %}
+                {% endif %}
+            </h2>
+            <span class="cabinet__title-add">
+                {% blocktrans with title=service.title_trans %}for excursion company {{ title }}{% endblocktrans %}
+            </span>
+            <a class="cabinet__backlink ajax-change-tab" data-url="{% url "items_list" %}">
+                {% blocktrans %}go to item list{% endblocktrans %}
+            </a>
+        </div>
+        <form id="featured-image-form" data-cancel-label="{% trans 'cancel' %}"
+              action="{% url "upload_featured_image" %}" method="POST" enctype="multipart/form-data">
+            {{ featured_image_form.featured_image|attr:"style:display:none" }}
+        </form>
+        <form id="multiple-images-form" data-cancel-label="{% trans 'cancel' %}"
+              action="{% url "upload_gallery_images" %}" method="POST" enctype="multipart/form-data">
+            {{ multiple_images_form.multiple_images|attr:"multiple"|attr:"style:display:none" }}
+        </form>
+        {% verbatim %}
+            <script id="photos-template" type="text/x-handlebars-template">
+                {{#each files}}
+                    <div class="cabinet__hotel-block pic-item" data-type="{{../type}}">
+                        <div class="cabinet__hotel-pic">
+                            <img src="{{url}}">
+                        </div>
+                        <a class="cabinet__link hotel-page js-cancel-image" data-pk="{{pk}}">
+                            <i class="icon-trash"></i>{{../cancel_label}}
+                        </a>
+                    </div>
+                {{/each}}
+            </script>
+        {% endverbatim %}
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="cabinet__hotel-block js-scroll-to-this-if-error">
+                <div class="cabinet__checkbox">
+                    {{ form.show_on_site|add_class:"cabinet__checkbox-input" }}
+                    <label class="cabinet__checkbox-label" for="{{ form.show_on_site.auto_id }}">
+                        {{ form.show_on_site.label }}
+                        <span class="hint">
+                            <span class="hint-icon">i</span>
+                            <span class="hint-text">
+                                {% blocktrans context "business owner edit excursion item show on site hint" %}business owner edit excursion item show on site hint{% endblocktrans %}
+                            </span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <label class="cabinet__hotel-label">{{ form.type.label }}
+                <span class="hint">
+                    <span class="hint-icon">i</span>
+                    <span class="hint-text">
+                        {% blocktrans context "business owner edit excursion item type hint" %}business owner edit excursion item type hint{% endblocktrans %}
+                    </span>
+                </span>
+            </label>
+            <div class="cabinet__hotel-block left-float js-scroll-to-this-if-error">
+                <div class="cabinet__billing__select-box left-float">
+                    <span class="cabinet__billing__select-method">
+                        <select id="{{ form.type.id }}" name="{{ form.type.name }}"
+                            class="select-method js-item-type-dropdown{% if form.type.errors %} error{% endif %}" tabindex="-1">
+                            {% for value, name in form.fields.type.choices %}
+                                <option value="{{value}}"
+                                       data-related-radio-id="{% cycle 'item-based-item-type-radio' 'time-based-item-type-radio' %}"
+                                       {% if value|slugify == form.type.value|slugify %} selected="selected"{% endif %}>
+                                    {{name}}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        {% if form.type.errors %}
+                            <span class="error">{{ form.type.errors.0 }}</span>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="cabinet__hotel-block right-float">
+                <div class="cabinet__radiobox">
+                    <input type="radio" name="based-options" id="item-based-item-type-radio" disabled="disabled">
+                    <label class="cabinet__radiobox-label" for="item-based-item-type-radio"><span></span>{% trans "Item-based" %}</label>
+                </div>
+                 <div class="cabinet__radiobox">
+                    <input type="radio" name="based-options" id="time-based-item-type-radio" disabled="disabled">
+                    <label class="cabinet__radiobox-label" for="time-based-item-type-radio"><span></span>{% trans "Time-based" %}</label>
+                </div>
+            </div>
+            {{ translations_formset.management_form }}
+            <div class="js-scroll-to-this-if-error clearboth">
+                {% if translations_formset.non_form_errors %}
+                    <div class="lang__errors"><span class="error">{{ translations_formset.non_form_errors.0 }}</span></div>
+                {% endif %}
+                <ul id="{{ translations_formset.id }}" class="lang__tabs">
+                    {% for form in translations_formset.forms %}
+                        <li class="lang__tab-item">
+                            {% with lang_code=form.language_code.value %}
+                                <input type="radio"{% if forloop.first %} checked="checked"{% endif %} name="lang-tabs" id="cab-lang-{{ lang_code }}">
+                                <label class="lang__tab-label{% if form.errors %} has_errors{% endif %}"
+                                       for="cab-lang-{{ lang_code }}" data-lang-code="{{ lang_code }}">
+                                    {{ lang_code|language_name }}
+                                </label>
+                                <div class="lang__tab-panel">
+                                    <div class="lang__tab-content" id="tab-content-lang">
+                                        {% for hidden in form.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                        <div class="cabinet__hotel-block">
+                                            <label class="cabinet__hotel-label">{{ form.title.label }}
+                                                <span class="hint">
+                                                    <span class="hint-icon">i</span>
+                                                    <span class="hint-text">
+                                                        {% blocktrans context "business owner edit excursion item title hint" %}business owner edit excursion item title hint{% endblocktrans %}
+                                                    </span>
+                                                </span>
+                                            </label>
+                                            {{ form.title|add_class:"cabinet__hotel-input"|add_error_class:"error" }}
+                                            {% if form.title.errors %}
+                                                <span class="error">{{ form.title.errors.0 }}</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="cabinet__hotel-block">
+                                            <span class="cabinet__hotel-label">{{ form.long_description.label }}
+                                                <span class="hint">
+                                                    <span class="hint-icon">i</span>
+                                                    <span class="hint-text">
+                                                        {% blocktrans context "business owner edit excursion item description hint" %}business owner edit excursion item description hint{% endblocktrans %}
+                                                    </span>
+                                                </span>
+                                            </span>
+                                            {{ form.long_description|add_class:"cabinet__hotel-discr"|add_error_class:"error" }}
+                                            {% if form.long_description.errors %}
+                                                <span class="error">{{ form.long_description.errors.0 }}</span>
+                                            {% endif %}
+                                        </div>
+                                        {{ form.language_code|attr:"style:display:none" }}
+                                    </div>
+                                </div>
+                            {% endwith %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="cabinet__hotel-block js-scroll-to-this-if-error">
+                <label class="cabinet__hotel-label">{{ form.number.label }}
+                    <span class="hint">
+                        <span class="hint-icon">i</span>
+                        <span class="hint-text">
+                            {% blocktrans context "business owner edit excursion item number hint" %}business owner edit excursion item number hint{% endblocktrans %}
+                        </span>
+                    </span>
+                </label>
+                {{ form.number|add_class:"cabinet__hotel-input"|add_error_class:"error" }}
+                {% if form.number.errors %}
+                    <span class="error">{{ form.number.errors.0 }}</span>
+                {% endif %}
+            </div>
+            <div class="cabinet__hotel-block js-scroll-to-this-if-error">
+                <label class="cabinet__hotel-label">{{ form.price.label }}
+                    <span class="hint">
+                        <span class="hint-icon">i</span>
+                        <span class="hint-text">
+                            {% blocktrans context "business owner edit excursion item price hint" %}business owner edit excursion item price hint{% endblocktrans %}
+                        </span>
+                    </span>
+                </label>
+                {{ form.price|add_class:"cabinet__hotel-input"|add_error_class:"error" }}
+                {% if form.price.errors %}
+                    <span class="error">{{ form.price.errors.0 }}</span>
+                {% endif %}
+            </div>
+            <div class="cabinet__hotel-block set-price js-discount-prices-core-block"
+                    {% if form.hide_discount_prices %} style="display: none;"{% endif %}>
+                <div class="cabinet__category-block">
+                    <label class="cabinet__hotel-label">{% blocktrans %}Discount Prices{% endblocktrans %}
+                        <span class="hint big-text">
+                            <span class="hint-icon">i</span>
+                            <span class="hint-text">
+                                {% blocktrans context "business owner edit excursion item discount prices header hint" %}business owner edit excursion item discount prices header hint{% endblocktrans %}
+                            </span>
+                        </span>
+                    </label>
+                </div>
+                <div class="cabinet__hotel__block special-prices-container js-discount-blocks-container" id="{{ discount_prices_formset.prefix }}">
+                    {% if discount_prices_formset.non_form_errors %}
+                        <span class="error">{{ discount_prices_formset.non_form_errors.0 }}</span>
+                    {% endif %}
+                    {% for subform in discount_prices_formset.initial_forms %}
+                        <div class="cabinet__hotel__block special-price-block{% if subform.DELETE.value %} on_removal{% endif %} js-scroll-to-this-if-error">
+                            {{ subform.id }}
+                            <div class="cabinet__hotel-block set-price per-day hide_on_removal">
+                                <label class="cabinet__hotel-label">{{ subform.number_of_days.label }}</label>
+                                {{ subform.number_of_days|add_class:"cabinet__hotel-input"|add_error_class:"error" }}
+                                {% if subform.number_of_days.errors %}
+                                    <span class="error">{{ subform.number_of_days.errors.0 }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="cabinet__hotel-block set-price per-day hide_on_removal">
+                                <label class="cabinet__hotel-label">{{ subform.discount_price.label }}</label>
+                                {{ subform.discount_price|add_class:"cabinet__hotel-input"|add_error_class:"error" }}
+                                {% if subform.discount_price.errors %}
+                                    <span class="error">{{ subform.discount_price.errors.0 }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="cabinet__hotel-block set-price delete-price hide_on_removal">
+                               <a class="cabinet__docs-link js-delete-existent-special-price">
+                                    <i class="icon-trash"></i><span>{% trans "Delete" %}</span>
+                                </a>
+                            </div>
+                            <div class="cabinet__hotel-block show_on_removal">
+                                <span>{% blocktrans %}Discount price will be removed after successful item save.{% endblocktrans %}</span>
+                                <a class="cabinet__docs-link js-restore-special-price-link">
+                                    <span>{% blocktrans %}Restore it back{% endblocktrans %}</span>
+                                </a>
+                            </div>
+                            {{ subform.item }}
+                            {{ subform.DELETE|add_class:"js-delete-special-price-checkbox"|attr:"style:display:none" }}
+                        </div>
+                    {% endfor %}
+                    {% with prices_initial_form_count=discount_prices_formset.initial_form_count %}
+                    {% for subform in discount_prices_formset.extra_forms %}
+                        {% with first=forloop.first has_errors=subform.errors %}
+                            {% hide_this_price_extra_form forloop subform prices_initial_form_count as hide_it %}
+                            <div class="cabinet__hotel__block special-price-block js-discount-block js-scroll-to-this-if-error"
+                                 {% if hide_it %}style="display: none;"{% endif %}>
+                                {{ subform.id }}
+
+                                <div class="cabinet__hotel-block set-price per-day">
+                                    <label class="cabinet__hotel-label">{{ subform.number_of_days.label }}</label>
+                                    {{ subform.number_of_days|add_class:"cabinet__hotel-input js-clear-this-input"|add_error_class:"error" }}
+                                    {% if subform.number_of_days.errors %}
+                                        <span class="error">{{ subform.number_of_days.errors.0 }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="cabinet__hotel-block set-price per-day">
+                                    <label class="cabinet__hotel-label">{{ subform.discount_price.label }}</label>
+                                    {{ subform.discount_price|add_class:"cabinet__hotel-input js-clear-this-input"|add_error_class:"error" }}
+                                    {% if subform.discount_price.errors %}
+                                        <span class="error">{{ subform.discount_price.errors.0 }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="cabinet__hotel-block set-price delete-price">
+                                   <a class="cabinet__docs-link js-clear-non-existent-discount-block">
+                                        <i class="icon-trash"></i><span>{% trans "Clear" %}</span>
+                                    </a>
+                                </div>
+                                {{ subform.item }}
+                            </div>
+                        {% endwith %}
+                    {% endfor %}
+                    {% endwith %}
+                    {% if discount_prices_formset.initial_form_count != discount_prices_formset.total_form_count %}
+                        <div class="cabinet__hotel-block add-link">
+                            <i class="icon-add-price"></i>
+                            <a class="cabinet__link js-show-more-hidden-discount-price-blocks">
+                                {% blocktrans context "business owner edit excursion item add discount price button" %}add discount price{% endblocktrans %}
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+                {{ discount_prices_formset.management_form }}
+            </div>
+            <div class="cabinet__hotel-block featured-image js-scroll-to-this-if-error">
+                <span class="cabinet__hotel-label">{{ form.featured_image_pk.label }}
+                    <span class="hint">
+                        <span class="hint-icon">i</span>
+                        <span class="hint-text">
+                            {% blocktrans context "business owner edit excursion item featured image hint" %}business owner edit excursion item featured image hint{% endblocktrans %}
+                        </span>
+                    </span>
+                </span>
+                {% if form.featured_image_pk.errors %}
+                    <div>
+                        <span class="error">{{ form.featured_image_pk.errors.0 }}</span>
+                    </div>
+                {% endif %}
+                {{ form.featured_image_pk|attr:"style:display:none" }}
+                {% if form.instance.pk and form.instance.featured_image %}
+                    {% if new_featured_image %}
+                        <div class="cabinet__hotel-block pic-item" data-type="featured">
+                            <div class="cabinet__hotel-pic">
+                                <img src="{{ new_featured_image.business_owner_page_thumbnail }}">
+                            </div>
+                            <a class="cabinet__link hotel-page js-cancel-image" data-pk="{{ new_featured_image.pk }}">
+                                <i class="icon-trash"></i>{% trans "cancel" %}
+                            </a>
+                        </div>
+                    {% endif %}
+                    <div class="cabinet__hotel-pic js-existing-featured-image js-add-featured-before-this-block">
+                        <img{% if new_featured_image %} class="waiting_for_delete"{% endif %}
+                                src="{{ form.instance.business_owner_page_image_thumbnail }}">
+                    </div>
+                    <a class="cabinet__link hotel-page change-featured-image-link js-change-featured-image-btn"
+                            {% if new_featured_image %}style="display: none;"{% endif %}>
+                        <i class="icon-editprofile"></i>{% trans "change" %}
+                    </a>
+{#                    <a class="cabinet__link hotel-page delete-room-image-link">#}
+{#                        <i class="icon-trash"></i>{% trans "delete" %}#}
+{#                    </a>#}
+                    <a class="cabinet__link hotel-page crop-room-image-link ajax-change-tab js-crop-featured-image-btn"
+                            data-url="{% url 'excursion_item_featured_image_crop' form.instance.pk %}"
+                            {% if new_featured_image %}style="display: none;"{% endif %}>
+                        <i class="icon-crop"></i>{% trans "crop" %}
+                    </a>
+                {% else %}
+                    {% if new_featured_image %}
+                        <div class="cabinet__hotel-block pic-item" data-type="featured">
+                            <div class="cabinet__hotel-pic">
+                                <img src="{{ new_featured_image.business_owner_page_thumbnail }}">
+                            </div>
+                            <a class="cabinet__link hotel-page js-cancel-image" data-pk="{{ new_featured_image.pk }}">
+                                <i class="icon-trash"></i>{% trans "cancel" %}
+                            </a>
+                        </div>
+                    {% endif %}
+                     <div class="cabinet__hotel-pic default change-featured-image-link js-featured-image-stub js-add-featured-before-this-block"
+                             {% if new_featured_image %} style="display: none"{% endif %}>
+                     </div>
+                     <div>
+                        <a class="cabinet__link add-pic change-featured-image-link js-featured-image-add-btn"
+                                {% if new_featured_image %} style="display: none"{% endif %}>
+                            {% blocktrans %}add featured image{% endblocktrans %}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="progress-box js-featured-image-upload-progress" style="display: none;">
+                <div class="progress img-width">
+                    <div class="progress-bar" role="progressbar"></div>
+                </div>
+                <div class="progress-size"> {% blocktrans %}Uploaded/Total:{% endblocktrans %} <span class="progress-green"><span class="js-uploaded-size">0</span>/<span class="js-total-size">0</span></span></div>
+            </div>
+            {% if form.multiple_image_pk.errors %}
+                <span class="error">{{ form.multiple_image_pk.errors.0 }}</span>
+            {% endif %}
+            {{ form.multiple_image_pk|attr:"style:display:none" }}
+            <div class="cabinet__hotel-block">
+                <span class="cabinet__hotel-title-big">{% blocktrans %}Photo gallery{% endblocktrans %}
+                    <span class="hint big-text">
+                        <span class="hint-icon">i</span>
+                        <span class="hint-text">
+                            {% blocktrans context "business owner edit excursion item photo gallery hint" %}business owner edit excursion item photo gallery hint{% endblocktrans %}
+                        </span>
+                    </span>
+                </span>
+                <div id="{{ images_formset.prefix }}">
+                    {% for subform in images_formset.forms %}
+                        <div class="cabinet__hotel-block pic-item">
+                            <div class="cabinet__hotel-pic">
+                                <img src="{{ subform.instance.business_owner_page_thumbnail }}">
+                            </div>
+{#                                TODO: make some notion about changed image so that business owner can see it like file summary #}
+{#                                <a class="cabinet__link hotel-page change-image-link">#}
+{#                                    <i class="icon-editprofile"></i>{% trans "change" %}#}
+{#                                </a>#}
+                            <a class="cabinet__link hotel-page delete-image-link">
+                                <i class="icon-trash"></i>{% trans "delete" %}
+                            </a>
+
+                            <a class="cabinet__link hotel-page crop-image-link ajax-change-tab"
+                                    data-url="{% url 'excursion_item_gallery_image_crop' subform.instance.pk %}">
+                                <i class="icon-crop"></i>{% trans "crop" %}
+                            </a>
+                            {{ subform.id|attr:"style:display:none" }}
+                            {{ subform.image|add_class:"change-image-button"|attr:"style:display:none" }}
+                            {{ subform.service|attr:"style:display:none" }}
+                            {{ subform.DELETE|add_class:"delete-image-checkbox"|attr:"style:display:none" }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {{ images_formset.management_form }}
+                {% for pk, instance in new_gallery_images.items %}
+                    <div class="cabinet__hotel-block pic-item" data-type="multiple">
+                        <div class="cabinet__hotel-pic">
+                            <img src="{{ instance.business_owner_page_thumbnail }}">
+                        </div>
+                        <a class="cabinet__link hotel-page js-cancel-image" data-pk="{{ pk }}">
+                            <i class="icon-trash"></i>{% trans "cancel" %}
+                        </a>
+                    </div>
+                {% endfor %}
+                <div class="cabinet__hotel-block add-pic js-add-images-before-this-block">
+                </div>
+                {% if not images_formset.initial_form_count %}
+                    <div class="cabinet__hotel-pic default multiple-images-link js-gallery-images-stub"
+                            {% if new_gallery_images %}style="display:none"{% endif %}>
+                    </div>
+                {% endif %}
+                <div class="progress-box js-multiple-images-upload-progress" style="display: none;">
+                    <div class="progress-size"> {% blocktrans %}Uploaded/Total:{% endblocktrans %} <span class="progress-green"><span class="js-uploaded-size">0</span>/<span class="js-total-size">0</span></span></div>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar"></div>
+                    </div>
+                </div>
+                <a class="cabinet__link add-pic multiple-images-link">{% blocktrans %}add photos{% endblocktrans %}</a>
+            </div>
+            <button type="submit" class="cabinet__btn submit-btn room-page ajax-post-in-tab">
+                {% trans "Save" %}
+            </button>
+            <button type="button" class="cabinet__btn cancel-btn room-page ajax-change-tab" data-url="{% url "items_list" %}">
+                {% trans "Cancel" %}
+            </button>
+        </form>
+    </div>
+</div>

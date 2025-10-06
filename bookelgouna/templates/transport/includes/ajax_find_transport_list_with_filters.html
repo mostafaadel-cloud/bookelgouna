@@ -1,0 +1,52 @@
+{% load i18n common_tags %}
+
+
+<div class="find__form trans-page">
+    <div class="wrap-inner">
+        <h2 class="find__form-title trans-page">{% blocktrans %}transport{% endblocktrans %}</h2>
+        <form id="search-form" method="GET" action="{% url "find_transport" %}">
+            <div class="find__form-filters trans-page">
+                <div class="find__form-type trans-page">
+                    <div class="find__form-type-subtitle trans-page">{{ form.type.label }}</div>
+                    <div class="find__form-type-box trans-page">
+                        {% for checkbox in form.type %}
+                            <div class="find-form__checkbox trans-page">
+                                <input class="find-form__checkbox-input" type="checkbox" name="{{ checkbox.name }}"
+                                       {% if checkbox.choice_value in checkbox.value %}checked="checked"{% endif %}
+                                       value="{{ checkbox.choice_value }}" id="{{ checkbox.id_for_label }}" style="display:none;">
+                                <label class="find-form__checkbox-label trans-page" for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="find__form-pricefilter trans-page">
+                    <span class="find__form-subtitle trans-page">{% blocktrans %}price{% endblocktrans %}</span>
+                    <div class="find__form-price-slider trans-page">
+                        {% if min_price and max_price %}
+                            <span class="find__form-price-value-min trans-page" id="price-value-min"></span>
+                            <span class="find__form-price-value-max trans-page" id="price-value-max"></span>
+                            <div class="find__form-price-line trans-page" id="slider-price" data-min="{{ min_price }}" data-max="{{ max_price }}"
+                                    data-used-min="{{ form.from_price.value }}" data-used-max="{{ form.to_price.value }}"></div>
+                        {% else %}
+                            <span class="find__form-subtitle trans-page">{% blocktrans %}no prices{% endblocktrans %}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="find__form-buttons trans-page">
+                    {{ form.from_price }}
+                    {{ form.to_price }}
+                    {{ form.page }}
+                    <button class="find__form__search-btn js-service-with-type-filter-search"
+                            data-warning-msg="{% trans "Choose at least one transport type." %}">{% trans "search" %}</button>
+                    <a href="{% url 'find_transport' %}">
+                        <button type="button" class="find__form__reset-btn trans-page">{% trans "reset" %}
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="wrap-inner trans-page">
+    {% include "transport/includes/ajax_find_transport_list_only.html" %}
+</div>

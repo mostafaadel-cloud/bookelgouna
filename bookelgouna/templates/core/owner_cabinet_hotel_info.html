@@ -1,0 +1,49 @@
+{% extends 'base_with_simple_header.html' %}
+{% block content %}
+<div class="wrap-inner">
+	<div class="cabinet">
+		<ul class="cabinet__tabs">
+			<li class="cabinet__tab-item">
+				<input type="radio" name="owner-tabs" id="cab-owner-info">
+				<label class="cabinet__tab-label" for="cab-owner-info">general info</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-info">tab1
+					</div>
+				</div>
+			</li>
+			<li class="cabinet__tab-item">
+				<input type="radio"  name="owner-tabs" id="cab-owner-billing">
+				<label class="cabinet__tab-label" for="cab-owner-billing">billing info</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-billing">tab2
+					</div>
+				</div>
+			</li>
+			<li class="cabinet__tab-item">
+				<input type="radio" checked="checked"  name="owner-tabs" id="cab-owner-hotel">
+				<label class="cabinet__tab-label" for="cab-owner-hotel">my hotel</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-hotel">
+						<div class="cabinet__hotel">
+							<div class="cabinet__hotel-container">
+								<h2 class="cabinet__title">Ramada</h2>
+								<a href="#" class="cabinet__updatelink"><i class="icon-pencil"></i>update info</a>
+							</div>
+							<h2 class="cabinet__title">Rooms</h2>
+							<button class="cabinet__btn hotel-btn">add new room</button>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="cabinet__tab-item">
+				<input type="radio" name="owner-tabs" id="cab-owner-docs">
+				<label class="cabinet__tab-label" for="cab-owner-docs">doc<span class="cabinet__tab-add">ument</span>s</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-docs">tab4
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+{% endblock %}

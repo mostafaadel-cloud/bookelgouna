@@ -1,0 +1,55 @@
+{% load i18n widget_tweaks common_tags %}
+
+{% if messages %}
+    <ul id="contrib_messages" style="display: none">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<div class="cabinet__tab-content" id="tab-content-owner-hotel">
+    <div class="cabinet__hotel">
+        <div class="cabinet__hotel-container">
+            <h2 class="cabinet__title room-page">
+                {% blocktrans %}Update Prices{% endblocktrans %}
+            </h2>
+            <span class="cabinet__title-add">
+                {% blocktrans with type=room.description_trans %}for room {{ type }}{% endblocktrans %}
+            </span>
+            <a class="cabinet__backlink ajax-change-tab" data-url="{% url "update_item" room.slug %}">
+                {% blocktrans %}go back to room{% endblocktrans %}
+            </a>
+        </div>
+        <div class="cabinet__hotel-block">
+            <span class="cabinet__hotel-title-big">{% trans "add price categories" %}
+                <span class="hint big-text">
+                    <span class="hint-icon">i</span>
+                    <span class="hint-text">
+                        {% blocktrans context "business owner room add new price category hint" %}business owner room add new price category hint{% endblocktrans %}
+                    </span>
+                </span>
+            </span>
+            <div class="cabinet__btn add-price-category add-category ajax-add-price-category-form-link"
+                 data-url="{% url "room_price_category_create" room.slug %}">
+                <i class="icon-price_category_w"></i>
+                {% blocktrans %}add new price category{% endblocktrans %}
+            </div>
+        </div>
+
+        <div class="cabinet__hotel-block category-pad js-saved-price-categories-header"
+             {% if not room.price_categories.exists %}style="display:none;"{% endif %}>
+            <span class="cabinet__hotel-title-med">{% trans "saved price categories" %}
+                <span class="hint big-text">
+                    <span class="hint-icon">i</span>
+                    <span class="hint-text">
+                        {% blocktrans context "business owner room saved price categories header hint" %}business owner room saved price categories header hint{% endblocktrans %}
+                    </span>
+                </span>
+            </span>
+        </div>
+        {% for price_category in room.price_categories.all %}
+            {% include "hotels/includes/ajax_price_category_view.html" with num=forloop.counter %}
+        {% endfor %}
+    </div>
+</div>

@@ -1,0 +1,74 @@
+{% extends "base_site.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Bookeglouna | Business Owner" %}{% endblock %}
+
+{% block base_content %}
+    <div class="wrapper-overflow owner-signup">
+        <header class="header-m wrap-inner owner-signup">
+             <a class="header-m__logo owner-signup" href="{% url 'index' %}">
+                <h1 class="header-m__logo-title owner-signup">
+                    <span>{% trans "book" %}</span>{% blocktrans %}el GOUNA{% endblocktrans %}
+                </h1>
+            </a>
+            <span class="select-lang owner-signup">
+                {% include "common/includes/select_lang_form.html" %}
+            </span>
+            <a href="#" class="slider-label owner-signup blue">{% blocktrans %}increase and manage your sales{% endblocktrans %}</a>
+            <a href="#" class="slider-label owner-signup green">{% blocktrans %}get your business online{% endblocktrans %}</a>
+        </header>
+        <div class="content-m owner-signup">
+            <div class="slider owner-signup wrap-inner">
+                {% block content %}{% endblock content %}
+            </div>
+            {% block slides %}
+                <div id="main-slider" class="bus-signup owl-carousel">
+                    <div class="item slide1">
+                        {% block slide1 %}
+                        {% endblock slide1 %}
+                        <!-- <img src="{% static 'images/photos/1252-1.jpg' %}" alt="The Perfect Place to Relax"> -->
+                    </div>
+                    <div class="item slide2">
+                        {% block slide2 %}
+                        {% endblock slide2 %}
+                        <!-- <img src="{% static 'images/photos/1252-2.jpg' %}" alt="The Perfect Place to Relax"> -->
+                    </div>
+                    <div class="item slide3">
+                        {% block slide3 %}
+                        {% endblock slide3 %}
+                       <!--  <img src="{% static 'images/photos/1252-3.jpg' %}" alt="The Perfect Place to Relax"> -->
+                    </div>
+                    <div class="item slide4">
+                        {% block slide4 %}
+                        {% endblock slide4 %}
+                        <!-- <img src="{% static 'images/photos/1252-4.jpg' %}" alt="The Perfect Place to Relax"> -->
+                    </div>
+                    <div class="item slide5">
+                        {% block slide5 %}
+                        {% endblock slide5 %}
+                       <!--  <img src="{% static 'images/photos/1252-5.jpg' %}" alt="The Perfect Place to Relax"> -->
+                    </div>
+                </div>
+            {% endblock slides %}
+        </div>
+        <footer class="footer-m bus-signup">
+            <div class="wrap-inner">
+                <ul class="footer-m__info">
+                    <li class="footer-m__info-col">
+                        <p class="footer-m__info-p">{% blocktrans %}Increase bookings and stay ahead of competition.{% endblocktrans %}</p>
+                        <p class="footer-m__info-p">{% blocktrans %}Get more exposure to holiday maykers worldwide{% endblocktrans %}</p>
+                    </li>
+                     <li class="footer-m__info-col">
+                        <p class="footer-m__info-p">{% blocktrans %}We show business to global audience in 6 languages{% endblocktrans %}</p>
+                        <p class="footer-m__info-p">{% blocktrans %}Highlighting your best features in a captivating slideshow{% endblocktrans %}</p>
+                    </li>
+                    <li class="footer-m__info-col">
+                        <p class="footer-m__info-p">{% blocktrans %}100% FREE registration, instant activation.{% endblocktrans %}</p>
+                        <p class="footer-m__info-p">{% blocktrans %}Add your business details and pictures today.{% endblocktrans %}</p>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+{% endblock %}

@@ -1,0 +1,199 @@
+{% load i18n common_tags hotel_tags widget_tweaks %}
+
+{% if errors %}
+    <ul id="ajax-date-form-errors" style="display: none;">
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if has_prices %}
+    <div class="hotels__find-container">
+        <h2 class="hotels__title big">{% blocktrans %}Search available rooms{% endblocktrans %}</h2>
+        <div class="hotels__datefilter">
+            <div class="hotels__datefilter-main">
+                <form id="search-rooms-by-dates" method="GET" action=".">
+                    <span  class="hotels__datefilter-title">{% blocktrans %}select date{% endblocktrans %}</span>
+                    {{ dates_form.type }}
+                    <div class="hotels__datefilter__separator">
+                        <div class="hotels__datefilter__separator-l">
+                            <label class="hotels__datefilter__label" for="arrival">{% trans "Arrival" %}</label>
+                            {{ dates_form.arrival|add_class:"hotels__datefilter__input" }}
+                        </div>
+                        <div class="hotels__datefilter__separator-r">
+                            <label class="hotels__datefilter__label" for="departure">{% trans "Departure" %}</label>
+                            {{ dates_form.departure|add_class:"hotels__datefilter__input" }}
+                        </div>
+                    </div>
+                    <input type="submit" value="apply">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<form method="POST" id="room_booking_form" action="{% url 'add_rooms_to_cart' %}" data-warning="{% trans "Choose at least one room for booking." %}">
+    {% csrf_token %}
+{#    <input style="display:none;" id="id_cartitem-item_pk" min="1" name="cartitem-item_pk" type="number" value="{{ room.pk }}" placeholder="">#}
+    {{ cartitem_form.content_type_pk|attr:"style:display:none" }}
+    {{ cartitem_form.from_date|attr:"style:display:none" }}
+    {{ cartitem_form.to_date|attr:"style:display:none" }}
+
+    {% if has_prices %}
+        <div class="hotels__block-l">
+            <p class="hotels__info">{% blocktrans %}Today's price{% endblocktrans %}</p>
+            <p class="hotels__info">{% blocktrans with num=night_number %}(at {{ num }} overnight){% endblocktrans %}</p>
+        </div>
+        <div class="hotels__block-r">
+             <button class="hotels__bookroom-btn" type="submit">{% blocktrans %}book rooms{% endblocktrans %}</button>
+             <div class="hotels__total">
+                 <div class="hotels__total-text js-total-number">{% blocktrans with num=0 %}Selected <span>{{ num }}</span> room(s){% endblocktrans %}</div>
+                 <div class="hotels__total-amount js-total-amount">{% blocktrans with price=0 %}Price <span>{{ price }}</span>${% endblocktrans %}</div>
+             </div>
+        </div>
+    {% else %}
+        <div class="hotels__block">
+            <p class="hotels__info">{% blocktrans context "hotel detail page no prices text" %}This hotel has no prices.{% endblocktrans %}</p>
+            <a class="hotels__bookroom-btn apt-page no-prices" href="#contact-info">{% blocktrans context "hotel detail page no prices button" %}Contact Admin for a Quote{% endblocktrans %}</a>
+        </div>
+    {% endif %}
+    {% for room in rooms %}
+        <div class="hotels__find-container js-room-container">
+            <div id="item{{ room.pk }}" class="hotels__rooms">
+{#                <h2 class="hotels__title">{{ room.type }}</h2>#}
+                <h2 class="hotels__title">{{ room.description_trans }}</h2>
+                <div class="hotels__block room-left">
+                    <div  class="hotels__block preview">
+                        <a  href="#amenitiesBox{{ room.pk }}" class="hotels__img-preview roomAmenities">
+                            <img src="{{ room.hotel_room_image_thumbnail }}">
+                        </a>
+                        <div id="amenitiesBox{{ room.pk }}" class="white-popup mfp-hide">
+                            <span>{% trans "Amenities" %}</span>
+                            {% with amenities=room.amenities.all|join:", " %}
+                                {% if amenities %}
+                                    <p>{{ amenities }}</p>
+                                {% else %}
+                                    <p>{% trans "No special amenities." %}</p>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                        <div class="hotels__infobox-text">
+                            {% blocktrans count num=room.allotment with css="hotels__infobox-num js-room-number" %}
+                                <span class="{{ css }}">{{ num }}</span>room left
+                            {% plural %}
+                                <span class="{{ css }}">{{ num }}</span>rooms left
+                            {% endblocktrans %}
+                        </div>
+                    </div>
+                    <div class="hotels__discr">
+                        <ul class="hotels__discr-list">
+                            <li class="hotels__discr-item">
+                                <i class="hotels__discr-icons back-m2"></i>
+                                <span class="hotels__discr-text">{{ room.area|floatformat }} m²</span>
+                            </li>
+                            {% if room.has_sea_views %}
+                                <li class="hotels__discr-item">
+                                    <i class="hotels__discr-icons back-views"></i>
+                                    <span class="hotels__discr-text">{% blocktrans %}Sea views{% endblocktrans %}</span>
+                                </li>
+                            {% endif %}
+                            {% if room.has_air_conditioning %}
+                                <li class="hotels__discr-item">
+                                    <i class="hotels__discr-icons back-aircon"></i>
+                                    <span class="hotels__discr-text">{% blocktrans %}Air Conditioning{% endblocktrans %}</span>
+                                </li>
+                            {% endif %}
+                            <li class="hotels__discr-item">
+                                <i class="hotels__discr-icons back-beds"></i>
+                                <span class="hotels__discr-text">
+                                    {% blocktrans with adults_number=room.adults %}{{ adults_number }} Adults{% endblocktrans %}
+                                </span>
+                            </li>
+                            <li class="hotels__discr-item">
+                                <i class="hotels__discr-icons back-childbeds"></i>
+                                <span class="hotels__discr-text">
+                                    {% blocktrans with child_number=room.children %}{{ child_number }} Children{% endblocktrans %}
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="hotels__preview-container">
+                    <ul class="hotels__room-list js-price-categories-list">
+                        {% for price_category in room.price_categories.all %}
+                            <li class="hotels__room-item js-current-price-category">
+                                <div class="hotels__discr-item room-page">
+                                    <div class="hotels__discr-text">{{ price_category.name_trans }}</div>
+                                </div>
+                                <div class="hotels__price-container">
+                                    {% get_price_for_dates_prefetched price_category start_date end_date as holiday_price %}
+                                    <div class="hotels__price-block ">
+                                        <span class="hotels__price-or yellow-price"><span class="js-price-per-room">{{ holiday_price|floatformat:-2 }}</span><span class="hotels__price-sign">&nbsp;$</span></span>
+                                        {% blocktrans context 'hotel detail page price label' %}Full holiday{% endblocktrans %}
+                                    </div>
+                                    <div class="hotels__price-block">
+                                        <span class="hotels__price-or"><span>{{ holiday_price|divideby:night_number|floatformat:-2 }}</span><span class="hotels__price-sign">&nbsp;$</span></span>
+                                        {% blocktrans context 'hotel detail page price label' %}Per night{% endblocktrans %}
+                                    </div>
+                                </div>
+                                <ul class="hotels__discr-list second-list">
+                                    <li class="hotels__discr-item second-list">
+                                        <i class="hotels__discr-icons second-list back-tick-green"></i>
+                                        <span class="hotels__discr-text second-list">{{ price_category.get_pay_option_display }}</span>
+                                        <div class="info">
+                                            <i class="info-icon">i</i>
+                                            <div class="info-box">
+                                                <span class="info-title">{% trans "Conditions" %}</span>
+                                                <p class="info-text">{{ price_category.conditions_trans }}</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="hotels__discr-item second-list">
+                                        <i class="hotels__discr-icons back-tick-green second-list"></i>
+                                        <span class="hotels__discr-text second-list">{{ price_category.meal_plan.name_trans }}</span>
+                                    </li>
+                                    <li class="hotels__discr-item second-list">
+                                        <i class="hotels__discr-icons back-beds second-list"></i>
+                                        <span class="hotels__discr-text second-list">{{ price_category.type }}</span>
+                                    </li>
+                                </ul>
+                                <div class="hotels__infobox">
+                                    <div class="find__form-qty__select-box hotel-detail">
+                                        <span class="find__form-qty__items room-page">{% blocktrans %}Select Quantity{% endblocktrans %}</span>
+                                        <span class="find__form-qty__select-qty hotel-detail">
+                                            {% generate_select_for_price_category %}
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+{#                    not required for now#}
+{#                    <div class="long-discr">{{ room.description_trans|linebreaksbr }}</div>#}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        {% if has_prices %}
+            <div class="hotels__find-container">
+                <h2 class="hotels__title">{% blocktrans %}No room with these parameters.{% endblocktrans %}</h2>
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% if has_prices %}
+        <div class="hotels__block">
+            <div class="hotels__block-l">
+                <p class="hotels__info">{% blocktrans %}Today's price{% endblocktrans %}</p>
+                <p class="hotels__info">{% blocktrans with num=night_number %}(at {{ num }} overnight){% endblocktrans %}</p>
+            </div>
+            <div class="hotels__block-r">
+                 <button class="hotels__bookroom-btn" type="submit">{% blocktrans %}book rooms{% endblocktrans %}</button>
+                 <div class="hotels__total">
+                     <div class="hotels__total-text js-total-number">{% blocktrans with num=0 %}Selected <span>{{ num }}</span> room(s){% endblocktrans %}</div>
+                     <div class="hotels__total-amount js-total-amount">{% blocktrans with price=0 %}Price <span>{{ price }}</span>${% endblocktrans %}</div>
+                 </div>
+            </div>
+        </div>
+    {% endif %}
+</form>

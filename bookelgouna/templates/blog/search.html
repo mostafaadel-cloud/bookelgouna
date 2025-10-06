@@ -1,0 +1,24 @@
+{% extends 'blog/base.html' %}
+{% load i18n %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Blog Search{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag' %}blog search description metatag{% endblocktrans %}{% endblock %}
+{% block fb_title %}{% blocktrans context "facebook page title" %}Blog Search page facebook title{% endblocktrans %}{% endblock %}
+{% block fb_desc_meta_tag %}{% blocktrans context "facebook page description" %}Blog Search page facebook description{% endblocktrans %}{% endblock %}
+
+{% block blog_content %}
+    {% if page_obj.object_list %}
+        <h2 class="blog__search_header">{% blocktrans %}Search results for "{{ query }}":{% endblocktrans %}</h2>
+    {% endif %}
+    {% include "blog/includes/pagination.html" %}
+    {% for result in page_obj.object_list %}
+        {% include "blog/includes/blog_post.html" with post=result.object %}
+    {% empty %}
+        {% if query %}
+            <h2 class="blog__article-title">{% blocktrans %}No results for "{{ query }}".{% endblocktrans %}</h2>
+        {% else %}
+            <h2 class="blog__article-title">{% blocktrans %}No search parameters.{% endblocktrans %}</h2>
+        {% endif %}
+    {% endfor %}
+    {% include "blog/includes/pagination.html" %}
+{% endblock %}

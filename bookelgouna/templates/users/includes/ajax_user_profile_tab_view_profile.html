@@ -1,0 +1,64 @@
+{% load i18n %}
+
+{% if messages %}
+    <ul id="contrib_messages" style="display: none">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<div class="cabinet__tab-content" id="tab-content-user-info">
+    <div class="cabinet__info">
+        {% with request.user as user %}
+            <div class="cabinet__info-options">
+                <a id="edit-profile" class="cabinet__link ajax-change-tab" data-url="{% url "edit_user_profile" %}">
+                    <i class="icon-editprofile"></i>{% blocktrans %}edit profile{% endblocktrans %}
+                </a>
+                <a class="cabinet__link ajax-change-tab" data-url="{% url "account_change_password" %}">
+                    <i class="icon-changepass"></i>{% blocktrans %}change password{% endblocktrans %}
+                </a>
+            </div>
+            <div class="cabinet__info-avatar">
+                <div class="cabinet__info-img">
+                    {% if user.avatar %}
+                        <img src="{{ user.avatar_thumbnail }}">
+                         {% else %}
+                        <div class="cabinet__info-img default-avatar"></div>
+                    {% endif %}
+                </div>
+{#                <a class="cabinet__link ajax-change-tab link-sm" data-url="{% url "edit_user_profile" %}">{% blocktrans %}change avatar{% endblocktrans %}</a>#}
+            </div>
+            <div class="cabinet__info-details">
+                <div class="cabinet__info-detailbox">
+                    <span class="cabinet__info-title">{% blocktrans %}Your Login:{% endblocktrans %}</span>
+                    <span class="cabinet__info-discr">{{ user.username }}</span>
+                </div>
+                {% if user.first_name or user.last_name %}
+                    <div class="cabinet__info-detailbox">
+                        <span class="cabinet__info-title">{% blocktrans %}Your Name:{% endblocktrans %}</span>
+                        <span class="cabinet__info-discr">{{ user.full_name }}</span>
+                    </div>
+                {% endif %}
+                {% if user.country %}
+                    <div class="cabinet__info-detailbox">
+                        <span class="cabinet__info-title">{% blocktrans %}Country:{% endblocktrans %}</span>
+                        <span class="cabinet__info-discr">{{ user.get_country_display }}</span>
+                    </div>
+                {% endif %}
+                {% if user.preferred_language %}
+                    <div class="cabinet__info-detailbox">
+                        <span class="cabinet__info-title">{% blocktrans %}Language:{% endblocktrans %}</span>
+                        <span class="cabinet__info-discr">{{ user.get_preferred_language_display }}</span>
+                    </div>
+                {% endif %}
+                {% if user.phone %}
+                    <div class="cabinet__info-detailbox">
+                        <span class="cabinet__info-title">{% blocktrans %}Phone Number:{% endblocktrans %}</span>
+                        <span class="cabinet__info-discr"><bdo dir="ltr">{{ user.phone }}</bdo></span>
+                    </div>
+                {% endif %}
+            </div>
+        {% endwith %}
+    </div>
+</div>

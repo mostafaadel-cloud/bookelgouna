@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<div class="cabinet__tab-content" id="tab-content-owner-info">
+    <div class="cabinet__info">
+        <p>
+            {% blocktrans %}Your previous object version was approved by admin at exactly the same time of your last update
+                try. Please observe approved version and make changes again. This functionality will be implemented further.
+            {% endblocktrans %}
+            <a data-url="{% url 'service_view' %}" class="cabinet__link ajax-change-tab">{% blocktrans %}View your items{% endblocktrans %}</a>
+        </p>
+    </div>
+</div>

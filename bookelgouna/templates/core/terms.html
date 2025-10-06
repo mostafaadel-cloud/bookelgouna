@@ -1,0 +1,13 @@
+{% extends "base_with_simple_header.html" %}
+{% load i18n %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Terms&Conditions{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag' %}terms&condtions description metatag{% endblocktrans %}{% endblock %}
+{% block fb_title %}{% blocktrans context "facebook page title" %}Terms&Conditions page facebook title{% endblocktrans %}{% endblock %}
+{% block fb_desc_meta_tag %}{% blocktrans context "facebook page description" %}Terms&Conditions page facebook description{% endblocktrans %}{% endblock %}
+
+{% block content %}
+    <div class="wrap-inner">
+        {% include "core/includes/terms_block.html" %}
+    </div>
+{% endblock content %}

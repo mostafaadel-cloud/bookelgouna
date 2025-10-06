@@ -1,0 +1,77 @@
+{% load i18n widget_tweaks %}
+
+<div class="cabinet__tab-content" id="tab-content-owner-info">
+    <div class="cabinet__info js-scroll-to-this-if-error">
+        <form method="POST" action="{% url 'edit_business_profile' %}" enctype="multipart/form-data">
+            <span class="cabinet__billing-warning gen-info">{% blocktrans %}This image will be used for comments{% endblocktrans %}</span>
+            <div class="cabinet__info-avatar">
+                <div class="cabinet__info-img">
+                    {% if form.instance.avatar %}
+                        <img src="{{ form.instance.avatar_thumbnail }}">
+                        {% else %}
+                        <div class="cabinet__info-img no-avatar"></div>
+                    {% endif %}
+                </div>
+                <div class="cabinet__info-title" style="display: none">
+                    <span>{% trans "File:" %}</span>
+                    <span class="file-names"></span>
+                </div>
+                <div>
+                    <a class="cabinet__link change-avatar-link link-sm">
+                        {% blocktrans %}change avatar{% endblocktrans %}
+                    </a>
+                </div>
+                {{ form.avatar|add_class:"change-avatar-button"|attr:"style:display:none" }}
+            </div>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="non_field_errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            <div class="cabinet__info-details">
+                <div class="cabinet__info-detailbox js-scroll-to-this-if-error">
+                    <span class="cabinet__info-title">{{ form.first_name.label }}</span>
+                    <div class="cabinet__info-separator">
+                        {{ form.first_name|add_class:"cabinet__info-input"|add_error_class:"error" }}
+                        {% if form.first_name.errors %}
+                            <span class="error">{{ form.first_name.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="cabinet__info-detailbox js-scroll-to-this-if-error">
+                    <span class="cabinet__info-title">{{ form.last_name.label }}</span>
+                    <div class="cabinet__info-separator">
+                        {{ form.last_name|add_class:"cabinet__info-input"|add_error_class:"error" }}
+                        {% if form.last_name.errors %}
+                            <span class="error">{{ form.last_name.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="cabinet__info-detailbox country-select-profile-edit-page">
+                    <span class="cabinet__info-title">{{ form.preferred_language.label }}</span>
+                    <span class="cabinet__billing__select-method general-info">
+                        {{ form.preferred_language|add_error_class:"error" }}
+                    </span>
+                </div>
+                <div class="cabinet__info-detailbox js-scroll-to-this-if-error">
+                    <span class="cabinet__info-title">{{ form.phone.label }}</span>
+                    <div class="cabinet__info-separator">
+                        {{ form.phone|add_class:"cabinet__info-input"|add_error_class:"error" }}
+                        {% if form.phone.errors %}
+                            <span class="error">{{ form.phone.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="cabinet__info-edit">
+                <button type="submit" class="cabinet__btn submit-btn edit-profile ajax-post-in-tab">
+                    {% blocktrans %}submit<span>changes</span>{% endblocktrans %}
+                </button>
+                <button type="button" class="cabinet__btn cancel-btn edit-profile ajax-change-tab"
+                        data-url="{% url "business_profile" %}">{% trans "cancel" %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

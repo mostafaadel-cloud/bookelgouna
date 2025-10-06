@@ -1,0 +1,96 @@
+{% extends "blog/base.html" %}
+{% load i18n static socialaccount common_tags %}
+
+{% block title %}{{ post.title_trans }}{% endblock %}
+{% block desc_meta_tag %}{{ post.desc_metatag_trans }}{% endblock %}
+{% block fb_title %}{{ post.title_trans }}{% endblock %}
+{% block fb_desc_meta_tag %}{{ post.desc_metatag_trans }}{% endblock %}
+{% block fb_images %}
+    <meta property="og:image" content="{% get_absolute_image_url post.featured_image_thumbnail %}"/>
+    {% for img in post.images.all %}
+        <meta property="og:image" content="{% get_absolute_image_url img.post_icon_thumbnail %}"/>
+    {% endfor %}
+{% endblock %}
+
+{% block on_body_open %}
+{#    allauth have only fb app now. Its media js includes jsdk initiailization. In order to not duplicate #}
+{#    jsdk initialization for facebook social like/share buttons I reuse here allauth templatetag. #}
+    {% providers_media_js %}
+{% endblock %}
+
+{% block blog_content %}
+    <a class="blog__back" href="{{ back_url }}">{% trans "back" %}</a>
+    <div class="blog__article">
+        <div class="blog__top-r">
+            <div class="blog__category">
+                {% with category=post.category %}
+                    <a class="blog__link" href="{{ category.get_absolute_url }}">{{ category.name_trans }}</a>
+                    <img src="{% if category.icon %}{{ category.category_icon_thumbnail }}{% else %}{% static 'images/blog_category/icon_no_category-14.png' %}{% endif %}"/>
+                {% endwith %}
+            </div>
+            <span class="blog__date">{{ post.created|date:"P d.m.y" }}</span>
+        </div>
+        <div class="blog__top-l">
+            <h2 class="blog__article-title">{{ post.title_trans }}</h2>
+            <span class="blog__article-text">
+                {% blocktrans count number=comments_count %}
+                    ({{ number }} comment)
+                {% plural %}
+                    ({{ number }} comments)
+                {% endblocktrans %}
+            </span>
+        </div>
+{#            here can be two situations: only featured image - no slider is required at all and featured image plus additional images#}
+{#            so i suppose it should be done using if - if there are additional images then use slider classes on wrappers #}
+{#            otherwise output one featured image (so both situations require correct styling #}
+        {% if post.images.exists %}
+            {# slider - use any structure you want BUT guarantee that the featured_image is outputted and other images also. #}
+            <div class="blog__block">
+                <div id="find-gallery-single" class="find-gallery-single blog-page owl-carousel">
+                    <a class="image-post-popup item" href="{{ post.featured_image_thumbnail }}">
+                        <img src="{{ post.featured_image_thumbnail }}" alt="">
+                    </a>
+                    {% for img in post.images.all %}
+                        <a class="image-post-popup item" href="{{ img.post_icon_thumbnail }}">
+                            <img src="{{ img.post_icon_thumbnail }}" alt="">
+                        </a>
+                    {% endfor %}
+                </div>
+                {% if post.video_link %}
+                    <a class="video-popup" href="#" data-link="{{ post.video_link }}">
+                        <img src="http://img.youtube.com/vi/{{ post.video_id }}/0.jpg" alt="">
+                    </a>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="blog__block">
+                <div class="blog__preview-box">
+                    <img class="blog__preview-pic" src="{{ post.featured_image_thumbnail }}" alt="">
+                </div>
+                {% if post.video_link %}
+                    <a class="video-popup" href="#" data-link="{{ post.video_link }}">
+                        <img src="http://img.youtube.com/vi/{{ post.video_id }}/0.jpg" alt="">
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+        <div class="sharing_toolbox blog_page">
+            {% include 'common/includes/fb_and_gplus_buttons.html' %}
+        </div>
+
+        {{ post.text_trans|safe }}
+    </div>
+
+    <div id="comments_container">
+        {% if can_add_comment %}
+            <div class="hotels__find-container comment-container">
+                {% url 'new_blogcomment' as comment_url %}
+                {% include "blog/includes/ajax_comment_form_block.html" with comment_url=comment_url comment_form=comment_form %}
+            </div>
+        {% endif %}
+        <div class="hotels__find-container comment-list-container">
+            <h3 class="hotels__title">{% trans "comments" %}</h3>
+            {% include "blog/comment_list.html" with next_page=2 entity_id=post.pk %}
+        </div>
+    </div>
+{% endblock blog_content %}

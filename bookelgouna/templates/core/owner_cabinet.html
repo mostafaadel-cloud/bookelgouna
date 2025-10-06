@@ -1,0 +1,581 @@
+{% extends 'base_for_cabinets.html' %}
+{% block content %}
+<div class="wrap-inner">
+	<div class="cabinet">
+		<ul class="cabinet__tabs">
+			<li class="cabinet__tab-item">
+				<input type="radio" checked="checked"name="owner-tabs" id="cab-owner-info">
+				<label class="cabinet__tab-label" for="cab-owner-info">general info</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-info">
+						<div class="cabinet__info">
+							<div class="cabinet__info-options">
+								<a id="edit-profile" class="cabinet__link" href="#">
+								<i class="icon-editprofile"></i>edit profile</a>
+								<a class="cabinet__link" href="#">
+								<i class="icon-changepass"></i>change password</a>
+							</div>
+							<div class="cabinet__info-avatar">
+								<div class="cabinet__info-img">
+									<img src="http://lorempixel.com/118/118/people/1/">
+								</div>
+								<a class="cabinet__link link-sm" href="#">change avatar</a>
+							</div>
+							<div class="cabinet__info-details">
+								<div class="cabinet__info-detailbox">
+									<span class="cabinet__info-title">Your Login:</span>
+									<span class="cabinet__info-discr">maher_m</span>	
+								</div>
+								<div class="cabinet__info-detailbox">
+									<span class="cabinet__info-title">Your Name:</span>
+									<span class="cabinet__info-discr">Michael Maher</span>
+								</div>
+								<div class="cabinet__info-detailbox">
+									<span class="cabinet__info-title">Phone Number:</span>
+									<span class="cabinet__info-discr">+20205546484</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="cabinet__tab-item">
+				<input type="radio"  name="owner-tabs" id="cab-owner-billing">
+				<label class="cabinet__tab-label" for="cab-owner-billing">billing info</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-billing">
+						<div class="cabinet__billing">
+							<h2 class="cabinet__title">Financial information</h2>
+							<span class="cabinet__billing-warning">This information will be used for payout, please, fill it carefully</span>
+							<form class="cabinet__billing-form">
+								<div class="cabinet__billing-container">		<div class="cabinet__billing-left">
+										<div class="cabinet__billing-block">
+											<label class="cabinet__billing-label">Payout Method</label>
+											<div class="cabinet__billing__select-box">
+												<span class="cabinet__billing__select-method">
+													<select id="select-method" tabindex="-1" class="select-method" name="" placeholder="Bank Wire">
+														<option></option>
+														<option value="wire">Bank Wire</option>
+														<option value="check">Bank Check</option>
+														<option value="paypal">Paypal</option>
+													</select>
+												</span>
+											</div>
+										</div>
+										<div class="cabinet__billing-block">
+											<label class="cabinet__billing-label">Beneficiary account number</label>
+											<input class="error cabinet__billing-input" placeholder='9 digits'>
+											<span class="error">This field is requered</span>
+										</div>
+										<div class="cabinet__billing-block">
+											<label class="cabinet__billing-label">Beneficiary name</label>
+											<input class=" error cabinet__billing-input" placeholder="Your full name">
+											<span class="error">This field is requered</span>
+										</div>
+										<div class="cabinet__billing-block">
+											<label class="cabinet__billing-label">Bank Name</label>
+											<input class="cabinet__billing-input">
+										</div>
+										<div class="cabinet__billing-block">
+											<label class="cabinet__billing-label">IBAN</label>
+											<input class="cabinet__billing-input">
+										</div>
+										<div class="cabinet__billing-block">
+											<label class="cabinet__billing-label">BIC</label>
+											<input class="cabinet__billing-input">
+										</div>
+									</div>
+
+									<div class="cabinet__billing-right">
+										<div class="cabinet__billing-block">
+											<label class="cabinet__billing-label">Preffered Currency</label>
+											<div class="cabinet__billing__select-box">
+												<span class="cabinet__billing__select-method">
+													<select id="select-method" tabindex="-1" class="select-method" name="" placeholder="USD">
+														<option></option>
+														<option value="wire">USD</option>
+														<option value="check">EUR</option>
+														<option value="paypal">GBP</option>
+													</select>
+												</span>
+											</div>
+										</div>
+										<div class="cabinet__billing-block">
+											<label class="cabinet__billing-label">Bank Address</label>
+											<input class="cabinet__billing-input">
+										</div>
+										<div class="cabinet__billing-block">
+											<label class="cabinet__billing-label">Street</label>
+											<input class="cabinet__billing-input">
+										</div>
+										<div class="cabinet__billing-block">
+											<label class="cabinet__billing-label">City</label>
+											<input class="cabinet__billing-input">
+										</div>
+										<div class="cabinet__billing-block">
+											<label class="cabinet__billing-label">State</label>
+											<input class="cabinet__billing-input">
+										</div>
+										<div class="cabinet__billing-block">
+											<label class="cabinet__billing-label">Country</label>
+											<input class="cabinet__billing-input">
+										</div>
+									</div>
+								</div>
+								<button class="cabinet__btn billing-btn">Save information</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="cabinet__tab-item">
+				<input type="radio"  name="owner-tabs" id="cab-owner-hotel">
+				<label class="cabinet__tab-label" for="cab-owner-hotel">my hotel</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-hotel">
+						<div class="cabinet__hotel">
+							<h2 class="cabinet__title">Create Hotel</h2>
+							<div class="cabinet__hotel-container">
+								<ul class="lang__tabs">
+										<li class="lang__tab-item">
+											<input type="radio" checked="checked" name="lang-tabs" id="cab-lang-eng">
+											<label class="lang__tab-label" for="cab-lang-eng">eng<span>lish</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-ar">
+											<label class="lang__tab-label" for="cab-lang-ar">ara<span>bic</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-ge">
+											<label class="lang__tab-label" for="cab-lang-ge">ger<span>man</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-ru">
+											<label class="lang__tab-label" for="cab-lang-ru">rus<span>sian</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-it">
+											<label class="lang__tab-label" for="cab-lang-it">ita<span>lian</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-fr">
+											<label class="lang__tab-label" for="cab-lang-fr">fr<em>a</em><span>ench<span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+								</ul>
+								<div class="cabinet__hotel-block">
+									<span class="cabinet__hotel-label">Class Hotel</span>
+									 <div class="cabinet__hotel-stars" id="createHotelRate" data-score="3"></div>
+								</div>
+								<div class="cabinet__hotel-block">
+									<span class="cabinet__hotel-label">Featured image</span>
+									<div class="cabinet__hotel-pic">
+										<img src="http://lorempixel.com/300/300/city/8/">
+									</div>
+									<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+									<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+									<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+								</div>
+								<div class="cabinet__hotel-block">
+									<label class="cabinet__hotel-label">Video:</label>
+									<input class="cabinet__hotel-input" placeholder='Youtube URL'>
+								</div>
+								<div class="cabinet__hotel-block">
+									<span class="cabinet__hotel-title-big">Photo gallery</span>
+									<div class="cabinet__hotel-block pic-item">
+										<div class="cabinet__hotel-pic">
+											<img src="http://lorempixel.com/300/300/city/8/">
+										</div>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+									</div>
+									<div class="cabinet__hotel-block pic-item">
+										<div class="cabinet__hotel-pic">
+											<img src="http://lorempixel.com/300/300/city/8/">
+										</div>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+									</div>
+									<div class="cabinet__hotel-block pic-item">
+										<div class="cabinet__hotel-pic">
+											<img src="http://lorempixel.com/300/300/city/8/">
+										</div>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+									</div>
+									<div class="cabinet__hotel-block pic-item">
+										<div class="cabinet__hotel-pic">
+											<img src="http://lorempixel.com/300/300/city/8/">
+										</div>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+									</div>
+									<div class="cabinet__hotel-block pic-item">
+										<div class="cabinet__hotel-pic">
+											<img src="http://lorempixel.com/300/300/city/8/">
+										</div>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+									</div>
+									<div class="cabinet__hotel-block add-pic"><a class="cabinet__link add-pic" href="#">add picture</a></div>
+								</div>
+
+							</div>
+							<button class="cabinet__btn hotel-btn">Save your hotel</button>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="cabinet__tab-item">
+				<input type="radio" name="owner-tabs" id="cab-owner-docs">
+				<label class="cabinet__tab-label" for="cab-owner-docs">doc<span class="cabinet__tab-add">ument</span>s</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-docs">
+						<div class="cabinet__docs">
+							<h2 class="cabinet__title">Documents</h2>
+							<button class="cabinet__btn doc-save-btn">Add more</button>
+							<div class="cabinet__docs-table-block">
+								<table id="docs-table" class="cabinet__docs-table">
+									<thead >
+										<tr class="cabinet__docs-tr-head">
+											<th class="cabinet__docs-th">№</th>
+											<th class="cabinet__docs-th">Name</th>
+											<th class="cabinet__docs-th"></th>
+											<th class="cabinet__docs-th"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="cabinet__docs-tr">
+											<td class="cabinet__docs-num">1</td>
+											<td class="cabinet__docs-name">
+												<a class="cabinet__docs-name-link" href="#">
+													Standart room with double bed.docx
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-download"></i>
+													<span>Download</span></td>
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-trash"></i>
+													<span>Delete</span>
+												</a>
+											</td>
+											</td>
+										</tr>
+										<tr class="cabinet__docs-tr">
+											<td class="cabinet__docs-num">2</td>
+											<td class="cabinet__docs-name">
+												<a class="cabinet__docs-name-link" href="#">
+													Digital media attribution.pdf
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-download"></i>
+													<span>Download</span></td>
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-trash"></i>
+													<span>Delete</span>
+												</a>
+											</td>
+										</tr>
+										<tr class="cabinet__docs-tr">
+											<td class="cabinet__docs-num">3</td>
+											<td class="cabinet__docs-name">
+												<a class="cabinet__docs-name-link" href="#">
+													Digital media attribution.pdf
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-download"></i>
+													<span>Download</span></td>
+												</a>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-trash"></i>
+													<span>Delete</span>
+												</a>
+											</td>
+										</tr>
+										<tr class="cabinet__docs-tr">
+											<td class="cabinet__docs-num">4</td>
+											<td class="cabinet__docs-name">
+												<a class="cabinet__docs-name-link" href="#">
+													How to credit the authorship of the icons?.jpg
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-download"></i>
+													<span>Download</span></td>
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-trash"></i>
+													<span>Delete</span>
+												</a>
+											</td>
+										</tr>
+										<tr class="cabinet__docs-tr">
+											<td class="cabinet__docs-num">5</td>
+											<td class="cabinet__docs-name">
+												<a class="cabinet__docs-name-link" href="#">
+													Standart room with double bed.docx
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-download"></i>
+													<span>Download</span></td>
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-trash"></i>
+													<span>Delete</span>
+												</a>
+											</td>
+											</td>
+										</tr>
+										<tr class="cabinet__docs-tr">
+											<td class="cabinet__docs-num">6</td>
+											<td class="cabinet__docs-name">
+												<a class="cabinet__docs-name-link" href="#">
+													Digital media attribution.pdf
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-download"></i>
+													<span>Download</span></td>
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-trash"></i>
+													<span>Delete</span>
+												</a>
+											</td>
+										</tr>
+										<tr class="cabinet__docs-tr">
+											<td class="cabinet__docs-num">7</td>
+											<td class="cabinet__docs-name">
+												<a class="cabinet__docs-name-link" href="#">
+													Digital media attribution.pdf
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-download"></i>
+													<span>Download</span></td>
+												</a>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-trash"></i>
+													<span>Delete</span>
+												</a>
+											</td>
+										</tr>
+										<tr class="cabinet__docs-tr">
+											<td class="cabinet__docs-num">8</td>
+											<td class="cabinet__docs-name">
+												<a class="cabinet__docs-name-link" href="#">
+													How to credit the authorship of the icons?.jpg
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-download"></i>
+													<span>Download</span></td>
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-trash"></i>
+													<span>Delete</span>
+												</a>
+											</td>
+										</tr>
+										<tr class="cabinet__docs-tr">
+											<td class="cabinet__docs-num">9</td>
+											<td class="cabinet__docs-name">
+												<a class="cabinet__docs-name-link" href="#">
+													Standart room with double bed.docx
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-download"></i>
+													<span>Download</span></td>
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-trash"></i>
+													<span>Delete</span>
+												</a>
+											</td>
+											</td>
+										</tr>
+										<tr class="cabinet__docs-tr">
+											<td class="cabinet__docs-num">10</td>
+											<td class="cabinet__docs-name">
+												<a class="cabinet__docs-name-link" href="#">
+													Digital media attribution.pdf
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-download"></i>
+													<span>Download</span></td>
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-trash"></i>
+													<span>Delete</span>
+												</a>
+											</td>
+										</tr>
+										<tr class="cabinet__docs-tr">
+											<td class="cabinet__docs-num">11</td>
+											<td class="cabinet__docs-name">
+												<a class="cabinet__docs-name-link" href="#">
+													Digital media attribution.pdf
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-download"></i>
+													<span>Download</span></td>
+												</a>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-trash"></i>
+													<span>Delete</span>
+												</a>
+											</td>
+										</tr>
+										<tr class="cabinet__docs-tr">
+											<td class="cabinet__docs-num">12</td>
+											<td class="cabinet__docs-name">
+												<a class="cabinet__docs-name-link" href="#">
+													How to credit the authorship of the icons?.jpg
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-download"></i>
+													<span>Download</span></td>
+												</a>
+											</td>
+											<td class="cabinet__docs-link">
+												<a class="cabinet__docs-link" href="#">
+													<i class="icon-trash"></i>
+													<span>Delete</span>
+												</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<span class="cabinet__pages">
+									<a class="cabinet__page-item current" href="#">1</a>
+									<a class="cabinet__page-item" href="#">2</a>
+									<a class="cabinet__page-item" href="#">3</a>
+									<a class="cabinet__page-item" href="#">4</a>
+								</span>
+							</div>
+							<button class="cabinet__btn doc-save-btn">Add more</button>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+{% endblock %}

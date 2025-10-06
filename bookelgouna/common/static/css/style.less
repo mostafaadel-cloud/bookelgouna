@@ -1,0 +1,132 @@
+@import 'reset.less';
+@import 'fonts.less';
+@import 'mixins.less';
+@import 'index.less';
+@import 'main.less';
+@import 'terms.less';
+@import 'hotels.less';
+@import 'find.less';
+@import 'forms.less';
+@import 'cabinet.less';
+@import 'blog.less';
+@import 'contacts.less';
+@import 'error_pages.less';
+@import 'arabic.less';
+                                                   
+/*---------------------General CSS---------------------*/
+a {
+	text-decoration: none;
+	cursor: pointer;
+}
+
+i {
+	display: inline-block;
+	margin-right: 2px;
+}
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
+	margin: 0 auto;
+	background: #fff;
+}
+body {
+	visibility: hidden;
+	// overflow-y: scroll;
+}
+input, button, textarea {
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+input[type=text]::-ms-clear {
+  display: none;
+}
+
+input[type=password]::-ms-reveal {
+  display: none;
+}
+input[type='submit'] {
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;  
+}
+::-webkit-input-placeholder { color:#777; }
+::-moz-placeholder { color:#777; } /* firefox 19+ */
+:-ms-input-placeholder { color:#777; } /* ie */
+input:-moz-placeholder { color:#777; }
+
+textarea:focus::-webkit-input-placeholder,
+textarea:focus:-moz-placeholder {
+	color: transparent;
+}
+
+.wrapper {
+	position: relative;
+	height: 100%;
+}
+.wrapper-overflow {
+	height: 100%;
+	position: relative;
+	&.index-page {
+		overflow-x: hidden;
+	}
+}
+.wrapper-main-overflow {
+	min-height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+.wrap-inner {
+	min-width: 320px;
+	margin: 0 auto;
+	padding: 0 10px;
+	.clearfix;
+}
+.wrap-inner.relative {
+	position: relative;
+}
+/* necessary plugin styles */
+.ellip {
+  display: block;
+  height: 100%;
+}
+
+.ellip-line {
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
+.ellip,
+.ellip-line {
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+}
+.overlay {
+	display: none;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.8);
+	z-index: 10;
+}
+.spinner {
+	width: 128px;
+	height: 128px;
+	background: url(../images/spinner.gif) no-repeat;
+	position: fixed;
+	margin-top: -64px;
+	margin-left: -64px;
+	top: 50%;
+	left: 50%;
+
+}

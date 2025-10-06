@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% if is_paginated %}
+    <ul class="pagination">
+        {% for page in pages %}
+            {% if page.idx %}
+                <li class="pagination__item non-multy-page{% if page.active %} active{% endif %}">
+                    <a {% if not page.active %}href="{{ BASE_BLOG_URL }}?page={{ page.idx }}{{ PAGINATION_URL_PARAMS }}"{% endif %}>{{ page.idx }}</a>
+                </li>
+            {% elif page.dots %}
+                <li class="pagination__item disabled non-multy-page dot-dot">
+                    ...
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endif %}

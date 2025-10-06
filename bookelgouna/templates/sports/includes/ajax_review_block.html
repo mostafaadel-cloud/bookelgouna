@@ -1,0 +1,10 @@
+{% load i18n %}
+<h3 class="hotels__title">{% blocktrans %}rate this sport company{% endblocktrans %}</h3>
+{% if not user_review %}
+    <span class="hotels__text-add">{% blocktrans %}Notice that you can appreciate this sport company only one time{% endblocktrans %}</span>
+{% endif %}
+<div class="hotels__rate-hotel" id="rateSport" data-sport-pk="{{ service.pk }}" data-can-review="{{ can_review }}"
+     data-score="{{ user_review }}" data-url="{% url 'new_sport_review' %}"></div>
+{% if user_review %}
+    <span class="hotels__text-add">{% blocktrans %}Your rate is {{ user_review }}/5{% endblocktrans %}</span>
+{% endif %}

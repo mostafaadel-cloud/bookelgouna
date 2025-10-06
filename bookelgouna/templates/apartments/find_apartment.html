@@ -1,0 +1,13 @@
+{% extends "base_service_find_page.html" %}
+{% load i18n %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Find Apartment{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag' %}find apartment description metatag{% endblocktrans %}{% endblock %}
+{% block fb_title %}{% blocktrans context "facebook page title" %}find apartment page facebook title{% endblocktrans %}{% endblock %}
+{% block fb_desc_meta_tag %}{% blocktrans context "facebook page description" %}find apartment page facebook description{% endblocktrans %}{% endblock %}
+
+{% block content %}
+<div class="find apt-page" id="find-hotel-list" data-page="{{ form.page.value }}">
+    {% include 'apartments/includes/ajax_find_apartment_list_with_filters.html' %}
+</div>
+{% endblock %}

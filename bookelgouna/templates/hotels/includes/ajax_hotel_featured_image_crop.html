@@ -1,0 +1,31 @@
+{% load i18n static widget_tweaks %}
+
+
+<div class="cabinet__tab-content" id="tab-content-owner-hotel">
+    <div class="cabinet__hotel">
+        <div class="cabinet__hotel-container">
+            <h2 class="cabinet__title">{% trans "Featured Image Cropper" %}</h2>
+            <a class="cabinet__backlink ajax-change-tab" data-url="{% url "update_service" %}">
+                {% blocktrans %}go back to hotel{% endblocktrans %}
+            </a>
+        </div>
+        <form method="POST">
+            <div class="cabinet__hotel-container">
+                {% csrf_token %}
+                {{ form.featured_image|attr:"style:display:none" }}
+                <div class="cabinet__hotel-block">
+                    <span class="cabinet__hotel-label">{% trans "Big image (find hotels, hotel details pages)" %}</span>
+                    {{ form.big_crop }}
+                </div>
+                <div class="cabinet__hotel-block">
+                    <span class="cabinet__hotel-label">{% trans "Small image (find hotels, hotel details pages)" %}</span>
+                    {{ form.small_crop }}
+                </div>
+            </div>
+            <button class="cabinet__btn hotel-btn ajax-post-in-tab">{% blocktrans %}Save{% endblocktrans %}</button>
+            <button type="button" class="cabinet__btn cancel-btn hotel-btn ajax-change-tab" data-url="{% url "update_service" %}">
+                {% trans "Cancel" %}
+            </button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,297 @@
+from django.core import validators
+from extra_views import InlineFormSet
+from image_cropping import ImageCropWidget
+
+from django import forms
+from django.forms import BaseInlineFormSet
+from django.utils.translation import ugettext_lazy as _, pgettext_lazy
+
+from booking.models import CartItem
+from common.form_mixins import MultipleImagesFormMixin, FeaturedImageFormMixin
+from common.forms import TravelDatesForm, TranslationsBaseInline
+
+
+from .models import ApartmentComment, Apartment, ApartmentImage, ApartmentAmenity, ApartmentPriceCategory, \
+    ApartmentPrice, ApartmentReview, ApartmentOptions
+
+
+class ApartmentImageForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(ApartmentImageForm, self).__init__(*args, **kwargs)
+        self.fields['image'].widget = forms.FileInput()
+
+    class Meta:
+        model = ApartmentImage
+        fields = ('image',)
+
+
+class ApartmentImageInline(InlineFormSet):
+    form_class = ApartmentImageForm
+    model = ApartmentImage
+    main_model = Apartment
+    extra = 0
+
+    def __init__(self, parent_model, request, instance, view_kwargs=None, view=None):
+        super(ApartmentImageInline, self).__init__(self.main_model, request, instance, view_kwargs, view)
+
+    class Meta:
+        fields = ('image',)
+
+
+class ApartmentTranslationsInline(TranslationsBaseInline):
+    main_model = Apartment
+
+    class Meta:
+        fields = ('title', 'long_description')
+
+
+class ApartmentForm(FeaturedImageFormMixin, MultipleImagesFormMixin, forms.ModelForm):
+    image_model = ApartmentImage
+
+    amenities = forms.ModelMultipleChoiceField(
+        queryset=ApartmentAmenity.objects.language().fallbacks().prefetch_related('translations'),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+    featured_image_pk = forms.IntegerField(label=_('Featured Image'), required=False, min_value=1)
+    multiple_image_pk = forms.CharField(required=False, validators=[validators.validate_comma_separated_integer_list])
+    error_messages = {
+        'no_featured_image': pgettext_lazy('apartment error message on business owner page',
+                                           'No featured image.')
+    }
+
+    class Meta:
+        model = Apartment
+        fields = ('address', 'type', 'area', 'number_of_rooms', 'adults', 'children', 'min_nights_to_book',
+                  'show_on_site', 'amenities')
+
+
+class AptPriceForm(forms.ModelForm):
+    from_date_errors = {
+        'required': _('Start date is required.'),
+        'invalid': _('Start date has incorrect format.')
+    }
+    to_date_errors = {
+        'required': _('End date is required.'),
+        'invalid': _('End date has incorrect format.')
+    }
+    price_errors = {
+        'required': _('Price is required.'),
+        'invalid': _('Price has incorrect format.')
+    }
+    from_date = forms.DateField(label=_('from'), input_formats=['%d.%m.%Y'], widget=forms.DateInput(format='%d.%m.%Y'),
+                                error_messages=from_date_errors)
+    to_date = forms.DateField(label=_('to (excl.)'), input_formats=['%d.%m.%Y'], widget=forms.DateInput(format='%d.%m.%Y'),
+                              error_messages=to_date_errors)
+
+    def __init__(self, *kwargs, **args):
+        super(AptPriceForm, self).__init__(*kwargs, **args)
+        self.fields['price'].error_messages['required'] = self.price_errors['required']
+        self.fields['price'].error_messages['invalid'] = self.price_errors['invalid']
+
+    def clean_to_date(self):
+        cleaned_data = self.cleaned_data
+        from_date = cleaned_data.get('from_date')
+        to_date = cleaned_data.get('to_date')
+        if from_date and to_date:
+            diff = (to_date - from_date).days
+            if diff < 1:
+                raise forms.ValidationError(_('End date should be more than start date.'))
+        return to_date
+
+    class Meta:
+        model = ApartmentPrice
+        fields = ('price', 'from_date', 'to_date')
+
+
+class AptInlineFormSet(BaseInlineFormSet):
+    def get_queryset(self):
+        """
+        This is needed here instead of explicit filtering of apt prices filter(generated=False).order_by('from_date')
+        cause it doesn't work correctly. This filtering is done in AptPriceCategoryUpdateView so instance
+        contains prefetched correctly filtered and ordered prices.
+        """
+        return self.instance.prices.all()
+
+    def clean(self):
+        """ There are two possible situatians when price date ranges are clashed:
+            1. One range fully includes another range. Lets find bigger and mark both of them as clashed.
+            2. One range partially includes another range. Lets find earlier and mark both of therm as clashed
+        """
+        super(AptInlineFormSet, self).clean()
+
+        if any(self.errors):
+            # Don't bother validating the formset unless each form is valid on its own
+            return
+        form_and_dateranges = []
+        for form in self.forms:
+            # skip autogenerated price ranges
+            if hasattr(form.instance, 'pk') and form.instance.generated:
+                continue
+            start_date = form.cleaned_data.get('from_date')
+            to_date = form.cleaned_data.get('to_date')
+            if start_date and to_date:
+                form_and_daterange = {
+                    'form': form,
+                    'start': start_date,
+                    'end': to_date,
+                }
+                form_and_dateranges.append(form_and_daterange)
+        if len(form_and_dateranges) > 1:
+            clash = False
+            for form_and_dates1 in form_and_dateranges:
+                for form_and_dates2 in form_and_dateranges:
+                    if form_and_dates1['form'] == form_and_dates2['form']:
+                        continue
+                    s1 = form_and_dates1['start']
+                    e1 = form_and_dates1['end']
+                    s2 = form_and_dates2['start']
+                    e2 = form_and_dates2['end']
+                    if s1 < s2 < e1 < e2:
+                        # partial clash
+                        f1 = form_and_dates1['form']
+                        f2 = form_and_dates2['form']
+                        f1.add_error(None, _('This daterange is clashed with some other daterange.'))
+                        f2.add_error(None, _('This daterange is clashed with some other daterange.'))
+                        clash = True
+                    elif s1 <= s2 < e2 <= e1:
+                        # full inclusion
+                        f1 = form_and_dates1['form']
+                        f2 = form_and_dates2['form']
+                        f1.add_error(None, _('This daterange is clashed with some other daterange.'))
+                        f2.add_error(None, _('This daterange is clashed with some other daterange.'))
+                        clash = True
+            if clash:
+                raise forms.ValidationError(_("Clashed dateranges were found (outlined by red)"))
+
+
+class AptPriceCategoryPricesInline(InlineFormSet):
+    main_model = ApartmentPriceCategory
+    form_class = AptPriceForm
+    model = ApartmentPrice
+    formset_class = AptInlineFormSet
+    extra = 100
+
+    def __init__(self, parent_model, request, instance, view_kwargs=None, view=None):
+        super(AptPriceCategoryPricesInline, self).__init__(self.main_model, request, instance, view_kwargs, view)
+
+    class Meta:
+        fields = ('price', 'from_date', 'to_date')
+
+
+class AptPriceCategoryForm(forms.ModelForm):
+    class Meta:
+        model = ApartmentPriceCategory
+        fields = ('regular_price', 'pay_option')
+        widgets = {
+            'pay_option': forms.RadioSelect(attrs={'class': 'cabinet__radiobox-input'}),
+        }
+
+
+class AptPriceCategoryTranslationsInline(TranslationsBaseInline):
+    main_model = ApartmentPriceCategory
+
+    class Meta:
+        fields = ('name', 'conditions',)
+
+
+class AptGalleryImageCropForm(forms.ModelForm):
+    class Meta:
+        model = ApartmentImage
+        fields = ('image', 'big_crop', 'small_crop')
+        widgets = {
+            'image': ImageCropWidget,
+        }
+
+
+class AptFeaturedImageCropForm(forms.ModelForm):
+    class Meta:
+        model = Apartment
+        fields = ('featured_image', 'big_crop', 'small_crop', 'cart_crop')
+        widgets = {
+            'featured_image': ImageCropWidget,
+        }
+
+class ApartmentOptionsForm(forms.ModelForm):
+    def clean(self):
+        for_long_term = self.cleaned_data.get('for_long_term')
+        long_term_price = self.cleaned_data.get('long_term_price')
+        for_sale = self.cleaned_data.get('for_sale')
+        sale_price = self.cleaned_data.get('sale_price')
+        if for_long_term is not None and for_long_term and long_term_price is None:
+            self.add_error('long_term_price', forms.ValidationError(
+                pgettext_lazy('business owner apartment options long term price error',
+                              u'Type long term price or remove tick.')))
+        if for_sale is not None and for_sale and sale_price is None:
+            self.add_error('sale_price', forms.ValidationError(
+                pgettext_lazy('business owner apartment options sale price error',
+                              u'Type sale price or remove tick.')))
+        # if for_long_term is not None and not for_long_term and long_term_price is not None:
+        #     self.add_error('long_term_price', forms.ValidationError(
+        #         pgettext_lazy('business owner apartment options long term price error',
+        #                       u'Add tick in order to save this price.')))
+        # if for_sale is not None and not for_sale and sale_price is not None:
+        #     self.add_error('sale_price', forms.ValidationError(
+        #         pgettext_lazy('business owner apartment options sale price error',
+        #                       u'Add tick in order to save this price.')))
+
+    class Meta:
+        model = ApartmentOptions
+        fields = ('for_long_term', 'long_term_price', 'for_sale', 'sale_price')
+
+
+class ApartmentSearchForm(forms.Form):
+    type = forms.MultipleChoiceField(label=_('Type'), choices=Apartment.TYPES,
+                                     widget=forms.CheckboxSelectMultiple)
+    from_price = forms.IntegerField(widget=forms.HiddenInput)
+    to_price = forms.IntegerField(widget=forms.HiddenInput)
+    room_num_from = forms.IntegerField(widget=forms.HiddenInput)
+    room_num_to = forms.IntegerField(widget=forms.HiddenInput)
+    page = forms.IntegerField(widget=forms.HiddenInput, initial=1)
+
+
+class CartItemForm(forms.ModelForm):
+    item_pk = forms.IntegerField(min_value=1)
+    from_date = forms.DateField(input_formats=['%d.%m.%Y'], widget=forms.DateInput(format='%d.%m.%Y'))
+    to_date = forms.DateField(input_formats=['%d.%m.%Y'], widget=forms.DateInput(format='%d.%m.%Y'))
+
+    class Meta:
+        model = CartItem
+        fields = ('from_date', 'to_date')
+
+
+class PriceSearchForm(TravelDatesForm):
+    pass
+
+
+class ApartmentCommentForm(forms.ModelForm):
+    entity_id = forms.IntegerField(min_value=1)
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(ApartmentCommentForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = ApartmentComment
+        fields = ('text',)
+
+    def clean(self):
+        entity_id = self.cleaned_data.get('entity_id')
+        if entity_id:
+            user = self.request.user
+            if user.is_authenticated() and user.is_end_user():
+                try:
+                    Apartment.originals.get(id=entity_id)
+                except Apartment.DoesNotExist:
+                    raise forms.ValidationError(_('No apartment with this pk.'))
+                if user.apartment_comments.filter(entity_id=entity_id).exists():
+                    raise forms.ValidationError(_('You have added comment earlier. It might not have been approved yet.'))
+            else:
+                raise forms.ValidationError(_('Only authorized clients can add new comments.'))
+
+
+class ApartmentReviewForm(forms.ModelForm):
+    class Meta:
+        model = ApartmentReview
+        fields = ('rate', 'service', 'reviewer')

@@ -1,0 +1,263 @@
+{% extends 'base_with_simple_header.html' %}
+{% block content %}
+<div class="wrap-inner">
+	<div class="cabinet">
+		<ul class="cabinet__tabs">
+			<li class="cabinet__tab-item">
+				<input type="radio" checked="checked" name="owner-tabs" id="cab-owner-info">
+				<label class="cabinet__tab-label" for="cab-owner-info">general info</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-info">
+						<div class="cabinet__info">
+							<div class="cabinet__info-options">
+								<a id="edit-profile" class="cabinet__link" href="#">
+								<i class="icon-editprofile"></i>edit profile</a>
+								<a class="cabinet__link" href="#">
+								<i class="icon-changepass"></i>change password</a>
+							</div>
+							<div class="cabinet__info-avatar">
+								<div class="cabinet__info-img">
+									<img src="http://lorempixel.com/118/118/people/1/">
+								</div>
+								<a class="cabinet__link link-sm" href="#">change avatar</a>
+							</div>
+							<div class="cabinet__info-details">
+								<div class="cabinet__info-detailbox">
+									<span class="cabinet__info-title">Your Login:</span>
+									<div class="cabinet__info-separator">
+										<input	class="cabinet__info-input error" type="text">
+										<span class="error">This field is requered</span>
+									</div>
+								</div>
+								<div class="cabinet__info-detailbox">
+									<span class="cabinet__info-title">Your Name:</span>
+									<div class="cabinet__info-separator">
+										<input	class="cabinet__info-input" type="text">
+										<span class="error">This field is requered</span>
+									</div>
+								</div>
+								<div class="cabinet__info-detailbox">
+									<span class="cabinet__info-title">Phone Number:</span>
+									<div class="cabinet__info-separator">
+										<input	class="cabinet__info-input" type="text">
+									</div>
+								</div>
+							</div>
+							<div class="cabinet__info-edit">
+								<button class="cabinet__btn submit-btn edit-profile">submit<span>changes</span></button>
+								<button class="cabinet__btn cancel-btn edit-profile">cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="cabinet__tab-item">
+				<input type="radio" name="owner-tabs" id="cab-owner-billing">
+				<label class="cabinet__tab-label" for="cab-owner-billing">billing info</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-billing">
+						tab2
+					</div>
+				</div>
+			</li>
+			<li class="cabinet__tab-item">
+				<input type="radio"   name="owner-tabs" id="cab-owner-hotel">
+				<label class="cabinet__tab-label" for="cab-owner-hotel">my hotel</label>
+				<div class="cabinet__tab-panel">
+						<div class="cabinet__tab-content" id="tab-content-owner-hotel">
+							<div class="cabinet__hotel">
+									<div class="cabinet__hotel-container">
+										<h2 class="cabinet__title">Edit Hotel</h2>
+										<a href="#" class="cabinet__backlink"> go Back</a>
+									</div>
+								<div class="cabinet__hotel-container">
+									<ul class="lang__tabs">
+										<li class="lang__tab-item">
+											<input type="radio" checked="checked" name="lang-tabs" id="cab-lang-eng">
+											<label class="lang__tab-label" for="cab-lang-eng">eng<span>lish</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-ar">
+											<label class="lang__tab-label" for="cab-lang-ar">ara<span>bic</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-ge">
+											<label class="lang__tab-label" for="cab-lang-ge">ger<span>man</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-ru">
+											<label class="lang__tab-label" for="cab-lang-ru">rus<span>sian</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-it">
+											<label class="lang__tab-label" for="cab-lang-it">ita<span>lian</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-fr">
+											<label class="lang__tab-label" for="cab-lang-fr">fr<em>a</em><span>ench<span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul>
+									<div class="cabinet__hotel-block">
+										<span class="cabinet__hotel-label">Class Hotel</span>
+										 <div class="cabinet__hotel-stars" id="createHotelRate" data-score="3"></div>
+									</div>
+									<div class="cabinet__hotel-block">
+										<span class="cabinet__hotel-label">Featured image</span>
+										<div class="cabinet__hotel-pic">
+											<img src="http://lorempixel.com/300/300/city/8/">
+										</div>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+										<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+									</div>
+
+									<div class="cabinet__hotel-block">
+										<label class="cabinet__hotel-label">Video:</label>
+										<input class="cabinet__hotel-input" placeholder='Youtube URL'>
+									</div>
+									<div class="cabinet__hotel-block">
+										<span class="cabinet__hotel-title-big">Photo gallery</span>
+										<div class="cabinet__hotel-block pic-item">
+											<div class="cabinet__hotel-pic">
+												<img src="http://lorempixel.com/300/300/city/8/">
+											</div>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+										</div>
+										<div class="cabinet__hotel-block pic-item">
+											<div class="cabinet__hotel-pic">
+												<img src="http://lorempixel.com/300/300/city/8/">
+											</div>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+										</div>
+										<div class="cabinet__hotel-block pic-item">
+											<div class="cabinet__hotel-pic">
+												<img src="http://lorempixel.com/300/300/city/8/">
+											</div>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+										</div>
+										<div class="cabinet__hotel-block pic-item">
+											<div class="cabinet__hotel-pic">
+												<img src="http://lorempixel.com/300/300/city/8/">
+											</div>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+										</div>
+										<div class="cabinet__hotel-block pic-item">
+											<div class="cabinet__hotel-pic">
+												<img src="http://lorempixel.com/300/300/city/8/">
+											</div>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+										</div>
+										<div class="cabinet__hotel-block pic-item">
+											<div class="cabinet__hotel-pic">
+												<img src="http://lorempixel.com/300/300/city/8/">
+											</div>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+											<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+										</div>
+
+										<div class="cabinet__hotel-block add-pic"><a class="cabinet__link add-pic" href="#">add picture</a></div>
+									</div>
+
+								</div>
+								<button class="cabinet__btn submit-btn">Save changes</button>
+								<button class="cabinet__btn cancel-btn">cancel</button>
+							</div>
+						</div>
+				</div>
+			</li>
+			<li class="cabinet__tab-item">
+				<input type="radio" name="owner-tabs" id="cab-owner-docs">
+				<label class="cabinet__tab-label" for="cab-owner-docs">doc<span class="cabinet__tab-add">ument</span>s</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-docs">
+						tab4
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+{% endblock %}

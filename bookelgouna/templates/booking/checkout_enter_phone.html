@@ -1,0 +1,31 @@
+{% extends "base_with_simple_header.html" %}
+{% load i18n common_tags widget_tweaks %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Checkout{% endblocktrans %}{% endblock %}
+
+{% block content %}
+    <div class="wrap-inner">
+        <div class="find">
+            <h2 class="find__title checkout">{% trans "Checkout (Step 2)" %}</h2>
+            <div class="checkout__text">{% blocktrans %}In order to complete checkout you should provide valid phone.{% endblocktrans %}</div>
+            <form method="POST" action="{% url 'checkout_enter_phone' %}">
+                {% csrf_token %}
+                <div class="cabinet__billing-block">
+                    <label class="checkout__label">{{ form.phone.label }}</label>
+                    {% with WIDGET_ERROR_CLASS='error' %}
+                        {% render_field form.phone class="cabinet__billing-input js-phone-field" placeholder=phone_placeholder %}
+                    {% endwith %}
+                    {% if form.phone.errors %}
+                        <span class="error">{{ form.phone.errors.0|safe }}</span>
+                    {% endif %}
+                </div>
+                <div class="find__shop-btns">
+                    <a class="find__article-book-btn shop-cart" href="{% url 'checkout' %}">{% trans "Back" %}</a>
+                    <div class="show480 shop-cart-confirm">
+                        <input class="find__article-book-btn shop-cart-submit" type="submit" value="{% trans "Confirm" %}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

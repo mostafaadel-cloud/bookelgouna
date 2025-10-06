@@ -1,0 +1,73 @@
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            {% for name in names %}
+                <th>{{ name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>approved</td>
+            {% for approved_number in approved_numbers %}
+                <td>{{ approved_number }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>unapproved</td>
+            {% for unapproved_info in unapproved_infos %}
+                {% with count=unapproved_info.count %}
+                    <td>
+                        {% if count > 0 %}
+                            <a href="{{ unapproved_info.link }}">{{ count }}</a>
+                        {% else %}
+                            {{ count }}
+                        {% endif %}
+                    </td>
+                {% endwith %}
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>no prices</td>
+            {% for no_prices_info in no_prices_infos %}
+                {% with count=no_prices_info.count %}
+                    <td>
+                        {% if count > 0 %}
+                            <a href="{{ no_prices_info.link }}">{{ count }}</a>
+                        {% else %}
+                            {{ count }}
+                        {% endif %}
+                    </td>
+                {% endwith %}
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>unappr. comments</td>
+            {% for unapproved_comment_info in unapproved_comment_infos %}
+                {% with count=unapproved_comment_info.count %}
+                    <td>
+                        {% if count > 0 %}
+                            <a href="{{ unapproved_comment_info.link }}">{{ count }}</a>
+                        {% else %}
+                            {{ count }}
+                        {% endif %}
+                    </td>
+                {% endwith %}
+            {% endfor %}
+        </tr>
+        <tr style="background-color: lightgray;"><td colspan="7"></td></tr>
+        <tr>
+            <td colspan="4">unapproved blog comments</td>
+            <td colspan="3">
+                {% with count=unapproved_blog_comment_info.count %}
+                    {% if count > 0 %}
+                        <a href="{{ unapproved_blog_comment_info.link }}">{{ count }}</a>
+                    {% else %}
+                        {{ count }}
+                    {% endif %}
+                {% endwith %}
+            </td>
+        </tr>
+    </tbody>
+</table>

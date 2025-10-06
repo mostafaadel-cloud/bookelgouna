@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<li class="cabinet__tab-item">
+    <input type="radio" {% if tab_name == "service" %}checked="checked"{% endif %}  name="tabs"
+           id="cab-owner-hotel" data-url="{% url "service_view" %}" class="ajax-change-tab">
+    <label class="cabinet__tab-label owner-profile" for="cab-owner-hotel">{{ service_type }}</label>
+    <div class="cabinet__tab-panel">
+        {% if tab_name == "service" %}
+            {% include ajax_template_name %}
+        {% endif %}
+    </div>
+</li>

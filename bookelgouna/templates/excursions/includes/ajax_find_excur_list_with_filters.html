@@ -1,0 +1,38 @@
+{% load i18n common_tags %}
+
+<div class="find__form excurs-page">
+    <div class="wrap-inner excurs-page">
+        <h2 class="find__form-title excurs-page">{% blocktrans %}Excursions{% endblocktrans %}</h2>
+        <form id="search-form" method="GET" action="{% url "find_excursion" %}">
+            <div class="find__form-filters excurs-page">
+                <div class="find__form-pricefilter excurs-page">
+                    <span class="find__form-subtitle excurs-page">{% blocktrans %}price{% endblocktrans %}</span>
+                    <div class="find__form-price-slider excurs-page">
+                        {% if min_price and max_price %}
+                            <span class="find__form-price-value-min" id="price-value-min"></span>
+                            <span class="find__form-price-value-max" id="price-value-max"></span>
+                            <div class="find__form-price-line excurs-page" id="slider-price" data-min="{{ min_price }}" data-max="{{ max_price }}"
+                                    data-used-min="{{ form.from_price.value }}" data-used-max="{{ form.to_price.value }}"></div>
+                        {% else %}
+                            <span class="find__form-subtitle excurs-page">{% blocktrans %}no prices{% endblocktrans %}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="find__form-buttons excurs-page">
+                    {{ form.from_price }}
+                    {{ form.to_price }}
+                    {{ form.page }}
+                    <button class="find__form__search-btn excurs-page">{% trans "search" %}</button>
+                    <a href="{% url 'find_excursion' %}">
+                        <button type="button" class="find__form__reset-btn excurs-page">{% trans "reset" %}
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="wrap-inner excurs-page">
+    {% include 'excursions/includes/ajax_find_excur_list_only.html' %}
+</div>

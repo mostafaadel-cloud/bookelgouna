@@ -1,0 +1,57 @@
+{% load i18n widget_tweaks %}
+
+<form class="ajax-apt-options-submit" action="{% url "apt_options" object.slug %}" method="POST">
+    {% csrf_token %}
+    <div class="cabinet__hotel-block category-orange">
+        <div class="cabinet__hotel-label">{% blocktrans context "business owner apartment options header" %}Choose required options{% endblocktrans %}
+            <span class="hint big-text">
+                <span class="hint-icon">i</span>
+                <span class="hint-text">
+                    {% blocktrans context "business owner apartment options header hint" %}business owner apartment options header hint{% endblocktrans %}
+                </span>
+            </span>
+        </div>
+        {% if messages %}
+            {% for msg in messages %}
+                <span class="success_message">{{ msg }}</span>
+            {% endfor %}
+        {% endif %}
+        <div class="cabinet__hotel__separator category-orange">
+            <div class="cabinet__checkbox apt-options js-scroll-to-this-if-error">
+                <span class="cabinet__checkbox-sep">
+                    {{ form.for_long_term }}
+                    <label class="cabinet__checkbox-label" for="{{ form.for_long_term.id_for_label }}">
+                        {{ form.for_long_term.label }}
+                    </label>
+                </span>
+                <span class="cabinet__input-box">
+                    {% trans "type long term price" as long_term_price_placeholder %}
+                    {% with WIDGET_ERROR_CLASS='error' %}
+                        {% render_field form.long_term_price placeholder=long_term_price_placeholder %}
+                    {% endwith %}
+                    {% if form.long_term_price.errors %}
+                        <span class="error">{{ form.long_term_price.errors.0 }}</span>
+                    {% endif %}
+                </span>
+            </div>
+            <div class="cabinet__checkbox apt-options js-scroll-to-this-if-error">
+                <span class="cabinet__checkbox-sep">
+                    {{ form.for_sale }}
+                    <label class="cabinet__checkbox-label" for="{{ form.for_sale.id_for_label }}">
+                        {{ form.for_sale.label }}
+                    </label>
+                </span>
+                <span class="cabinet__input-box">
+                    {% trans "type sale price" as sale_price_placeholder %}
+                    {% with WIDGET_ERROR_CLASS='error' %}
+                        {% render_field form.sale_price placeholder=sale_price_placeholder %}
+                    {% endwith %}
+                    {% if form.sale_price.errors %}
+                        <span class="error">{{ form.sale_price.errors.0 }}</span>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <input class="cabinet__options-save" value="save options" type="submit">
+    </div>
+</form>

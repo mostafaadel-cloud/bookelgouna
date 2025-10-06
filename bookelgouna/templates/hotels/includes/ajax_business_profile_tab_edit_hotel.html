@@ -1,0 +1,319 @@
+{% load i18n static widget_tweaks %}
+
+<div class="cabinet__tab-content" id="tab-content-owner-hotel">
+    <div class="cabinet__hotel js-service-container"
+         data-incorrect-image-ext=
+         "{% blocktrans context "business owner edit hotel images error; use $ext in translation to display incorrect file extension" %}You cannot select $ext file. Try again.{% endblocktrans %}"
+         data-duplicate-image=
+         "{% blocktrans context "business owner edit hotel images error; use $file in translation to display duplicated filename" %}This file has already been selected: $file.{% endblocktrans %}"
+         data-too-many-images=
+         "{% blocktrans context "business owner edit hotel images error; use $max in translation to display maximum number of images" %}Too many files selected (max: $max).{% endblocktrans %}"
+         data-too-big-image=
+         "{% blocktrans context "business owner edit hotel images error; use $file in translation to display filename" %}$file is too big (max 10 MB).{% endblocktrans %}"
+         data-featured-image-changed="{% blocktrans context "business owner edit hotel feature image msg" %}You should save hotel later to store new image or you can discard it.{% endblocktrans %}"
+         data-gallery-images-changed="{% blocktrans context "business owner edit hotel gallery image msg" %}You should save hotel later to store new images or you can discard them.{% endblocktrans %}"
+            data-delete-image-url="{% url 'delete_temp_image' %}"
+            data-request-exceeded-maximum="{% blocktrans context "business owner edit hotel images error" %}Total files size should not exceed 512 MB.{% endblocktrans %}">
+        <form id="featured-image-form" data-cancel-label="{% trans 'cancel' %}"
+              action="{% url "upload_featured_image" %}" method="POST" enctype="multipart/form-data">
+            {{ featured_image_form.featured_image|attr:"style:display:none" }}
+        </form>
+        <form id="multiple-images-form" data-cancel-label="{% trans 'cancel' %}"
+              action="{% url "upload_gallery_images" %}" method="POST" enctype="multipart/form-data">
+            {{ multiple_images_form.multiple_images|attr:"multiple"|attr:"style:display:none" }}
+        </form>
+        {% verbatim %}
+            <script id="photos-template" type="text/x-handlebars-template">
+                {{#each files}}
+                    <div class="cabinet__hotel-block pic-item" data-type="{{../type}}">
+                        <div class="cabinet__hotel-pic">
+                            <img src="{{url}}">
+                        </div>
+                        <a class="cabinet__link hotel-page js-cancel-image" data-pk="{{pk}}">
+                            <i class="icon-trash"></i>{{../cancel_label}}
+                        </a>
+                    </div>
+                {{/each}}
+            </script>
+        {% endverbatim %}
+        <form method="POST" enctype="multipart/form-data" action=".">
+            {% csrf_token %}
+            <h2 class="cabinet__title full-width">
+                {% if create_view %}
+                    {% blocktrans %}Create Hotel{% endblocktrans %}
+                {% else %}
+                    {% blocktrans %}Update Hotel{% endblocktrans %}
+                {% endif %}
+                <span class="hint big-text">
+                    <span class="hint-icon">i</span>
+                    <span class="hint-text">
+                        {% blocktrans context "business owner edit hotel header hint" %}business owner edit hotel header hint{% endblocktrans %}
+                    </span>
+                </span>
+            </h2>
+            <div class="cabinet__hotel-container">
+                <div class="js-scroll-to-this-if-error">
+                    {{ translations_formset.management_form }}
+                    {% if translations_formset.non_form_errors %}
+                        <span class="error">{{ translations_formset.non_form_errors.0 }}</span>
+                    {% endif %}
+                    <ul id="{{ translations_formset.id }}" class="lang__tabs">
+                        {% for form in translations_formset.forms %}
+                            <li class="lang__tab-item">
+                                {% with lang_code=form.language_code.value %}
+                                    <input type="radio"{% if forloop.first %} checked="checked"{% endif %} name="lang-tabs" id="cab-lang-{{ lang_code }}">
+        {#                            <label class="lang__tab-label" for="cab-lang-eng">eng<span>lish</span></label>#}
+                                    <label class="lang__tab-label{% if form.errors %} has_errors{% endif %}"
+                                           for="cab-lang-{{ lang_code }}" data-lang-code="{{ lang_code }}">
+                                        {{ lang_code|language_name }}
+                                    </label>
+                                    <div class="lang__tab-panel">
+                                        <div class="lang__tab-content" id="tab-content-lang">
+                                            {% for hidden in form.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            <div class="cabinet__hotel-block">
+                                                <label class="cabinet__hotel-label">{{ form.title.label }}
+                                                    <span class="hint">
+                                                        <span class="hint-icon">i</span>
+                                                        <span class="hint-text">
+                                                            {% blocktrans context "business owner edit hotel title hint" %}business owner edit hotel title hint{% endblocktrans %}
+                                                        </span>
+                                                    </span>
+                                                </label>
+                                                {{ form.title|add_class:"cabinet__hotel-input"|add_error_class:"error" }}
+                                                {% if form.title.errors %}
+                                                    <span class="error">{{ form.title.errors.0 }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="cabinet__hotel-block">
+                                                <span class="cabinet__hotel-label">{{ form.long_description.label }}
+                                                    <span class="hint">
+                                                        <span class="hint-icon">i</span>
+                                                        <span class="hint-text">
+                                                            {% blocktrans context "business owner edit hotel description hint" %}business owner edit hotel description hint{% endblocktrans %}
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                                {{ form.long_description|add_class:"cabinet__hotel-discr"|add_error_class:"error" }}
+                                                {% if form.long_description.errors %}
+                                                    <span class="error">{{ form.long_description.errors.0 }}</span>
+                                                {% endif %}
+                                            </div>
+                                            {{ form.language_code|attr:"style:display:none" }}
+                                        </div>
+                                    </div>
+                                {% endwith %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="cabinet__hotel-block js-scroll-to-this-if-error">
+                    <label class="cabinet__hotel-label">{{ form.address.label }}
+                        <span class="hint">
+                            <span class="hint-icon">i</span>
+                            <span class="hint-text">
+                                {% blocktrans context "business owner edit hotel address hint" %}business owner edit hotel address hint{% endblocktrans %}
+                            </span>
+                        </span>
+                    </label>
+                    {{ form.address|add_class:"cabinet__hotel-input"|add_error_class:"error" }}
+                    {% if form.address.errors %}
+                        <span class="error">{{ form.address.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="cabinet__hotel-block js-scroll-to-this-if-error">
+                    <span class="cabinet__hotel-label ">{{ form.rating.label }}
+                        <span class="hint">
+                            <span class="hint-icon">i</span>
+                            <span class="hint-text">
+                                {% blocktrans context "business owner edit hotel rating hint" %}business owner edit hotel rating hint{% endblocktrans %}
+                            </span>
+                        </span>
+                    </span>
+                    <div class="cabinet__hotel-stars" id="createHotelRate" data-score="{{ form.rating.value|default:"5" }}"></div>
+                    {{ form.rating|attr:"style:display:none" }}
+                </div>
+                <div class="cabinet__hotel-block featured-image js-scroll-to-this-if-error">
+                    <span class="cabinet__hotel-label">{{ form.featured_image_pk.label }}
+                        <span class="hint">
+                            <span class="hint-icon">i</span>
+                            <span class="hint-text">
+                                {% blocktrans context "business owner edit hotel featured image hint" %}business owner edit hotel featured image hint{% endblocktrans %}
+                            </span>
+                        </span>
+                    </span>
+                    {% if form.featured_image_pk.errors %}
+                        <div>
+                            <span class="error">{{ form.featured_image_pk.errors.0 }}</span>
+                        </div>
+                    {% endif %}
+                    {{ form.featured_image_pk|attr:"style:display:none" }}
+                    {% if form.instance.pk and form.instance.featured_image %}
+                        {% if new_featured_image %}
+                            <div class="cabinet__hotel-block pic-item" data-type="featured">
+                                <div class="cabinet__hotel-pic">
+                                    <img src="{{ new_featured_image.business_owner_page_thumbnail }}">
+                                </div>
+                                <a class="cabinet__link hotel-page js-cancel-image" data-pk="{{ new_featured_image.pk }}">
+                                    <i class="icon-trash"></i>{% trans "cancel" %}
+                                </a>
+                            </div>
+                        {% endif %}
+                        <div class="cabinet__hotel-pic js-existing-featured-image js-add-featured-before-this-block">
+                            <img{% if new_featured_image %} class="waiting_for_delete"{% endif %}
+                                    src="{{ form.instance.business_owner_page_featured_image_thumbnail }}">
+                        </div>
+                        <a class="cabinet__link hotel-page change-featured-image-link js-change-featured-image-btn"
+                                {% if new_featured_image %}style="display: none;"{% endif %}>
+                            <i class="icon-editprofile"></i>{% trans "change" %}
+                        </a>
+    {#                    <a class="cabinet__link hotel-page delete-room-image-link">#}
+    {#                        <i class="icon-trash"></i>{% trans "delete" %}#}
+    {#                    </a>#}
+                        <a class="cabinet__link hotel-page crop-room-image-link ajax-change-tab js-crop-featured-image-btn"
+                                data-url="{% url 'hotel_featured_image_crop' form.instance.pk %}"
+                                {% if new_featured_image %}style="display: none;"{% endif %}>
+                            <i class="icon-crop"></i>{% trans "crop" %}
+                        </a>
+                    {% else %}
+                        {% if new_featured_image %}
+                            <div class="cabinet__hotel-block pic-item" data-type="featured">
+                                <div class="cabinet__hotel-pic">
+                                    <img src="{{ new_featured_image.business_owner_page_thumbnail }}">
+                                </div>
+                                <a class="cabinet__link hotel-page js-cancel-image" data-pk="{{ new_featured_image.pk }}">
+                                    <i class="icon-trash"></i>{% trans "cancel" %}
+                                </a>
+                            </div>
+                        {% endif %}
+                         <div class="cabinet__hotel-pic default change-featured-image-link js-featured-image-stub js-add-featured-before-this-block"
+                                 {% if new_featured_image %} style="display: none"{% endif %}>
+                         </div>
+                         <div>
+                            <a class="cabinet__link add-pic change-featured-image-link js-featured-image-add-btn"
+                                    {% if new_featured_image %} style="display: none"{% endif %}>
+                                {% blocktrans %}add featured image{% endblocktrans %}
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="progress-box js-featured-image-upload-progress" style="display: none;">
+                    <div class="progress img-width">
+                        <div class="progress-bar" role="progressbar"></div>
+                    </div>
+                    <div class="progress-size"> {% blocktrans %}Uploaded/Total:{% endblocktrans %} <span class="progress-green"><span class="js-uploaded-size">0</span>/<span class="js-total-size">0</span></span></div>
+                </div>
+{#                <div class="cabinet__hotel-block">#}
+{#                    <label class="cabinet__hotel-label">{{ form.video_link.label }}#}
+{#                        <span class="hint">#}
+{#                            <span class="hint-icon">i</span>#}
+{#                            <span class="hint-text">#}
+{#                                {% blocktrans context "business owner edit hotel video hint" %}business owner edit hotel description hint{% endblocktrans %}#}
+{#                            </span>#}
+{#                        </span>#}
+{#                    </label>#}
+{#                    {{ form.video_link|add_class:"cabinet__hotel-input"|add_error_class:"error"}}#}
+{#                    {% if form.video_link.errors %}#}
+{#                        <span class="error">{{ form.video_link.errors.0 }}</span>#}
+{#                    {% endif %}#}
+{#                </div>#}
+                {% if form.multiple_image_pk.errors %}
+                    <span class="error">{{ form.multiple_image_pk.errors.0 }}</span>
+                {% endif %}
+                {{ form.multiple_image_pk|attr:"style:display:none" }}
+                <div class="cabinet__hotel-block">
+                    <span class="cabinet__hotel-title-big">{% blocktrans %}Photo gallery{% endblocktrans %}
+                        <span class="hint big-text">
+                            <span class="hint-icon">i</span>
+                            <span class="hint-text">
+                                {% blocktrans context "business owner edit hotel photo gallery hint" %}business owner edit hotel photo gallery hint{% endblocktrans %}
+                            </span>
+                        </span>
+                    </span>
+                    <div id="{{ images_formset.prefix }}">
+                        {% for subform in images_formset.forms %}
+                            <div class="cabinet__hotel-block pic-item">
+                                <div class="cabinet__hotel-pic">
+                                    <img src="{{ subform.instance.business_owner_page_thumbnail }}">
+                                </div>
+{#                                TODO: make some notion about changed image so that business owner can see it like file summary #}
+{#                                <a class="cabinet__link hotel-page change-image-link">#}
+{#                                    <i class="icon-editprofile"></i>{% trans "change" %}#}
+{#                                </a>#}
+                                <a class="cabinet__link hotel-page delete-image-link">
+                                    <i class="icon-trash"></i>{% trans "delete" %}
+                                </a>
+
+                                <a class="cabinet__link hotel-page crop-image-link ajax-change-tab"
+                                        data-url="{% url 'hotel_gallery_image_crop' subform.instance.pk %}">
+                                    <i class="icon-crop"></i>{% trans "crop" %}
+                                </a>
+                                {{ subform.id|attr:"style:display:none" }}
+                                {{ subform.image|add_class:"change-image-button"|attr:"style:display:none" }}
+                                {{ subform.service|attr:"style:display:none" }}
+                                {{ subform.DELETE|add_class:"delete-image-checkbox"|attr:"style:display:none" }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {{ images_formset.management_form }}
+                    {% for pk, instance in new_gallery_images.items %}
+                        <div class="cabinet__hotel-block pic-item" data-type="multiple">
+                            <div class="cabinet__hotel-pic">
+                                <img src="{{ instance.business_owner_page_thumbnail }}">
+                            </div>
+                            <a class="cabinet__link hotel-page js-cancel-image" data-pk="{{ pk }}">
+                                <i class="icon-trash"></i>{% trans "cancel" %}
+                            </a>
+                        </div>
+                    {% endfor %}
+                    <div class="cabinet__hotel-block add-pic js-add-images-before-this-block">
+                    </div>
+                    {% if not images_formset.initial_form_count %}
+                        <div class="cabinet__hotel-pic default multiple-images-link js-gallery-images-stub"
+                            {% if new_gallery_images %}style="display:none"{% endif %}>
+                        </div>
+                    {% endif %}
+                    <div class="progress-box js-multiple-images-upload-progress" style="display: none;">
+                        <div class="progress-size"> {% blocktrans %}Uploaded/Total:{% endblocktrans %} <span class="progress-green"><span class="js-uploaded-size">0</span>/<span class="js-total-size">0</span></span></div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar"></div>
+                        </div>
+                    </div>
+                    <a class="cabinet__link add-pic multiple-images-link">{% blocktrans %}add photos{% endblocktrans %}</a>
+                </div>
+                {% regroup form.amenities by attrs.cat_name as amenities %}
+                <div class="cabinet__hotel-block">
+                    <span class="cabinet__hotel-title-big">{% trans "Amenities" %}
+                        <span class="hint big-text">
+                            <span class="hint-icon">i</span>
+                            <span class="hint-text">
+                                {% blocktrans context "business owner edit hotel amenities hint" %}business owner edit hotel amenities hint{% endblocktrans %}
+                            </span>
+                        </span>
+                    </span>
+                    {% for amenity_group in amenities %}
+                        <div  class="cabinet__hotel-block amenities">
+                            <label class="cabinet__hotel-label amenities" for="">{{amenity_group.grouper}}</label>
+                            <div class="cabinet__hotel-inputbox">
+                                <div class="select-amenities">
+                                    {% for amenity in amenity_group.list %}
+                                        <div class="select-amenities__checkbox">
+                                            {{amenity}} <br />
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <button class="cabinet__btn hotel-btn ajax-post-in-tab">{% blocktrans %}Save your hotel{% endblocktrans %}</button>
+            {% if not create_view %}
+                <button type="button" class="cabinet__btn hotel-btn cancel-btn ajax-change-tab"
+                        data-url="{% url "items_list" %}">{% trans "cancel" %}
+                </button>
+            {% endif %}
+        </form>
+    </div>
+</div>

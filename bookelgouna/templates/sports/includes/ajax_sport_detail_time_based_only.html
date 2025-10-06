@@ -1,0 +1,115 @@
+{% load i18n common_tags sports_tags widget_tweaks %}
+
+{# if not ajax request then don't show errors in order to prevent error duplication #}
+{% if errors and request.is_ajax %}
+    <ul id="ajax-date-form-errors" style="display: none;">
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% csrf_token %}
+{{ cartitem_form.from_date|attr:"style:display:none" }}
+{{ cartitem_form.to_date|attr:"style:display:none" }}
+
+{% with has_subscription_items=subscription_items.exists %}
+{% if has_subscription_items or errors %}
+    <div class="hotels__find-container">
+        <h2 class="hotels__title big">{% blocktrans %}Choose dates{% endblocktrans %}</h2>
+        <div class="hotels__datefilter">
+            <div class="hotels__datefilter-main js-time-based-custom-dates-container">
+                <span  class="hotels__datefilter-title">{% blocktrans %}select date{% endblocktrans %}</span>
+                <div class="hotels__datefilter__separator">
+                    <div class="hotels__datefilter__separator-l">
+                        <label class="hotels__datefilter__label" for="arrival">{% trans "From" %}</label>
+                        {{ dates_form.arrival|add_class:"hotels__datefilter__input"|add_error_class:"error"|add_non_field_error_class:"error" }}
+                    </div>
+                    <div class="hotels__datefilter__separator-r">
+                        <label class="hotels__datefilter__label" for="departure">{% trans "To" %}</label>
+                        {{ dates_form.departure|add_class:"hotels__datefilter__input"|add_error_class:"error"|add_non_field_error_class:"error" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="hotels__info">{% blocktrans %}Subscriptions{% endblocktrans %}</h2>
+    {% if has_subscription_items %}
+    <div class="hotels__find-container js-room-container">
+        <div class="hotels__rooms">
+            <div class="hotels__preview-container">
+                <ul class="hotels__room-list trans-page js-price-categories-list">
+                {% for item in subscription_items %}
+                    <li class="hotels__room-item js-current-price-category">
+                        <div class="hotels__block preview-container itemsGallery">
+                            <a href="{{ item.service_detail_small_image_thumbnail }}" class="hotels__block preview photo-gallery">
+                                <img src="{{ item.service_detail_small_image_thumbnail }}">
+                            </a>
+                            {% for img in item.images.all %}
+                                <a class="item-image-hide" href="{{ img.service_detail_popup_image_thumbnail }}" alt="">
+                                    <img src="{{ img.service_detail_popup_image_thumbnail }}" alt="">
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="display-table time-based">
+                            <div class="hotels__discr-item trans-page">
+                                <div class="hotels__discr-text trans-page">{{ item.title_trans }}</div>
+                            </div>
+                           <div class="hotels__price-container trans-page">
+                               {% get_total_price_and_price_per_day_for_dates item time_based_from_date time_based_to_date as prices %}
+                                <div class="hotels__price-block trans-page">
+                                    <span class="hotels__price-or yellow-price trans-page"><span class="js-price-per-room">{{ prices.total_price|floatformat:-2 }}</span><span class="hotels__price-sign trans-page">&nbsp;$</span></span>
+                                    {% blocktrans context 'sport detail page price label' %}Full holiday{% endblocktrans %}
+                                </div>
+                                <div class="hotels__price-block trans-page">
+                                    <span class="hotels__price-or trans-page"><span>{{ prices.price_per_day|floatformat:-2 }}</span><span class="hotels__price-sign trans-page">&nbsp;$</span></span>
+                                    {% blocktrans context 'sport detail page price label' %}Per day{% endblocktrans %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hotels__infobox infobox-table time-based trans-page">
+                            <div class="find__form-qty__select-box trans-detail">
+                                <span class="find__form-qty__items trans-detail">{% blocktrans %}Select Quantity{% endblocktrans %}</span>
+                                <span class="find__form-qty__select-qty trans-detail">
+                                    {% generate_select_for_item %}
+                                </span>
+                            </div>
+                            <div class="hotels__infobox-text trans-page">
+                                {% blocktrans context "sport one time items count text" count num=item.number with css="hotels__infobox-num js-room-number" %}
+                                    <span class="{{ css }}">{{ num }}</span>item left
+                                {% plural %}
+                                    <span class="{{ css }}">{{ num }}</span>items left
+                                {% endblocktrans %}
+                            </div>
+                        </div>
+                        {% if item.discount_prices.exists %}
+                            <ul class="addition-price">
+                                {% for discount_obj in item.discount_prices.all %}
+                                    <li>
+                                        <div class="hotels__price-block trans-page">
+                                            {% with number_of_days=discount_obj.number_of_days %}
+                                                <span class="hotels__price-or blue-price discount trans-page js-discount-price" data-days="{{ number_of_days }}">
+                                                    <span>{{ discount_obj.total|floatformat:-2 }}</span><span class="hotels__price-sign trans-page">&nbsp;$</span>
+                                                </span>
+                                                {% blocktrans context "sport time-based item discount for number of days" %}({{ number_of_days }} days){% endblocktrans %}
+                                            {% endwith %}
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <div class="long-discr">{{ item.description_trans|linebreaksbr }}</div>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="hotels__find-container">
+        <h2 class="hotels__title">{% blocktrans %}No item with these parameters.{% endblocktrans %}</h2>
+    </div>
+    {% endif %}
+{% endif %}
+{% endwith %}

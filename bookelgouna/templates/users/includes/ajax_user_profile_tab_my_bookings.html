@@ -1,0 +1,75 @@
+{% load i18n common_tags %}
+<div class="cabinet__tab-content" id="tab-content-user-book">
+    <div class="cabinet__booking">
+        {% for order in object_list %}
+            <div class="cabinet__booking-block">
+                <h2 class="cabinet__title">{% blocktrans with datetime=order.date_created|date:"d.m.y H:i" %}Order {{ datetime }}{% endblocktrans %}</h2>
+                <table class="cabinet__book-table">
+                    <thead class="cabinet__book-thead">
+                        <tr class="cabinet__book-tr-head">
+                            <th class="cabinet__book-th"></th>
+                            <th class="cabinet__book-th">{% blocktrans %}Phone Number{% endblocktrans %}</th>
+                            <th class="cabinet__book-th">{% blocktrans %}Owner e-mail{% endblocktrans %}</th>
+                            <th class="cabinet__book-th user-book-fix">{% trans "Description" %}</th>
+    {#                            <th class="cabinet__book-th">{% trans "Service Name" %}</th>#}
+    {#                            <th class="cabinet__book-th">{% trans "Type" %}</th>#}
+    {#                            <th class="cabinet__book-th">{% trans "Adults" %}</th>#}
+    {#                            <th class="cabinet__book-th">{% trans "Children" %}</th>#}
+                            <th class="cabinet__book-th">{% trans "Dates" %}</th>
+                            <th class="cabinet__book-th">{% trans "Price" %}</th>
+                            <th class="cabinet__book-th">{% trans "Status" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="cabinet__book-tbody">
+                        {% for item in order.items.all %}
+                            <tr class="cabinet__book-tr">
+                                <td class="cabinet__book-td">
+                                    {# , sport,  #}
+                                    {% if item.is_hotel_room %}
+                                        <i class="table-icon-hotel"></i>
+                                        <span class="cabinet__book-bustype">{% blocktrans context "end user booking tab service name" %}Hotel{% endblocktrans %}</span>
+                                    {% elif item.is_apartment %}
+                                        <i class="table-icon-apt"></i>
+                                        <span class="cabinet__book-bustype">{% blocktrans context "end user booking tab service name" %}Apartment{% endblocktrans %}</span>
+                                    {% elif item.is_transport %}
+                                        <i class="table-icon-trans"></i>
+                                        <span class="cabinet__book-bustype">{% blocktrans context "end user booking tab service name" %}Transport{% endblocktrans %}</span>
+                                    {% elif item.is_sport %}
+                                        <i class="table-icon-sport"></i>
+                                        <span class="cabinet__book-bustype">{% blocktrans context "end user booking tab service name" %}Sport{% endblocktrans %}</span>
+                                    {% elif item.is_excursion %}
+                                        <i class="table-icon-excurs"></i>
+                                        <span class="cabinet__book-bustype">{% blocktrans context "end user booking tab service name" %}Excursion{% endblocktrans %}</span>
+                                    {% elif item.is_entertainment %}
+                                        <i class="table-icon-things"></i>
+                                        <span class="cabinet__book-bustype">{% blocktrans context "end user booking tab service name" %}Entertainment{% endblocktrans %}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="cabinet__book-td" data-title="{% trans "Phone number" %}">{{ item.owner_phone }}</td>
+                                <td class="cabinet__book-td" data-title="{% trans "Owner e-mail" %}">{{ item.owner_email }}</td>
+                                <td class="cabinet__book-td" data-title="{% trans "Description" %}">{{ item.item_desc }}</td>
+{#                                        <td class="cabinet__book-td" data-title="{% trans "Service Name" %}">{{ real_item.title_trans }}</td>#}
+{#                                        <td class="cabinet__book-td" data-title="{% trans "Type" %}">{{ real_item.get_type_display }}</td>#}
+{#                                        <td class="cabinet__book-td" data-title="{% trans "Adults" %}">{{ real_item.adults }}</td>#}
+{#                                        <td class="cabinet__book-td" data-title="{% trans "Children" %}">{{ real_item.children }}</td>#}
+                                <td class="cabinet__book-td" data-title="{% trans "Dates" %}">
+                                    {% if item.item_based_product %}
+                                        {% blocktrans context "end user booking tab item based product datetime clause" with date=item.from_date|date:"d.m.y H:i" %}Pick up on {{ date }}{% endblocktrans %}
+                                    {% else %}
+                                        <span class="cabinet__book-fromdate">{{ item.from_date|date:"d.m.y" }}-</span><span class="cabinet__book-todate">{{ item.to_date|date:"d.m.y" }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="cabinet__book-td" data-title="{% trans "Price" %}">{{ item.price|floatformat:-2 }}$</td>
+                                <td class="cabinet__book-td" data-title="{% trans "Status" %}">
+                                    <span class="cabinet__book-status {{ item.status_css_class }}" >{{ item.get_status_display }}</span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% empty %}
+            {% blocktrans %}No orders yet.{% endblocktrans %}
+        {% endfor %}
+    </div>
+</div>

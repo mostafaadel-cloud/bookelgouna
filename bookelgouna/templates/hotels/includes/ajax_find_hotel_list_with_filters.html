@@ -1,0 +1,39 @@
+{% load i18n %}
+
+<div class="find__form hotel-page">
+    <div class="wrap-inner">
+        <h2 class="find__form-title">{% blocktrans %}hotels{% endblocktrans %}</h2>
+        <div class="find__form-filters">
+            <div class="find__form-rate">
+                <span class="find__form-rate-title">{% trans "rating (max)" %}</span>
+                <div class="find__form-rate-stars" id="rateit" data-score="{{ form.rating.value }}"></div>
+            </div>
+            <div class="find__form-pricefilter">
+                <span class="find__form-subtitle">{% blocktrans %}price per night{% endblocktrans %}</span>
+                <div class="find__form-price-slider">
+                    {% if min_price and max_price %}
+                        <span class="find__form-price-value-min" id="price-value-min"></span>
+                        <span class="find__form-price-value-max" id="price-value-max"></span>
+                        <div class="find__form-price-line hotel-page" id="slider-price" data-min="{{ min_price }}" data-max="{{ max_price }}"
+                                data-used-min="{{ form.from_price.value }}" data-used-max="{{ form.to_price.value }}"></div>
+                    {% else %}
+                        <span class="find__form-subtitle">{% blocktrans %}no prices{% endblocktrans %}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="find__form-buttons">
+                <form id="search-form" method="GET" action="{% url "find_hotel" %}">
+                    {{ form.as_p }}
+                    <button class="find__form__search-btn">{% trans "search" %}</button>
+                    <a href="{% url 'find_hotel' %}">
+                        <button type="button" class="find__form__reset-btn hotel-page">{% trans "reset" %}
+                        </button>
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrap-inner">
+    {% include 'hotels/includes/ajax_find_hotel_list_only.html' %}
+</div>

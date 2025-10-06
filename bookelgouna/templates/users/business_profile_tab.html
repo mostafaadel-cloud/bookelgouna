@@ -1,0 +1,26 @@
+{% extends 'base_for_cabinets.html' %}
+{% load i18n static %}
+
+{% block title %}{% blocktrans context 'page title (business owner)' %}Bookelgouna|Profile{% endblocktrans %}{% endblock %}
+
+{% block css %}
+    <link href="{% static 'image_cropping/css/jquery.Jcrop.min.css' %}" type="text/css" media="all" rel="stylesheet">
+    <link href="{% static 'image_cropping/css/image_cropping.css' %}" type="text/css" media="all" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="wrap-inner">
+	<div class="cabinet">
+		<ul class="cabinet__tabs">
+            {% for tab in tabs %}
+                {% include tab %}
+            {% endfor %}
+		</ul>
+	</div>
+</div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'image_cropping/js/jquery.Jcrop.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom_image_cropping.js' %}"></script>
+{% endblock %}

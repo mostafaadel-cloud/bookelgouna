@@ -1,0 +1,172 @@
+{% extends 'base_service_detail_page.html' %}
+{% load i18n common_tags widget_tweaks %}
+
+{% block fb_images %}
+    {% if object.featured_image %}
+        <meta property="og:image" content="{% get_absolute_image_url object.service_detail_big_featured_image %}"/>
+        {% for img in object.images.all %}
+            <meta property="og:image" content="{% get_absolute_image_url img.service_detail_big_image_thumbnail %}"/>
+        {% endfor %}
+    {% else %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<div class="wrap-inner">
+    <div class="hotels">
+        <div class="hotels__top">
+            <div class="hotels__top-980">
+                <h2 class="hotels__title big maintitle apt-page">{{ object.title_trans }}</h2>
+                 <a href="#rooms-list" class="hotels__bookroom-btn reserve">{% trans "make a reservation" %}</a>
+                <div class="hotels__address">
+                    {% if apartment.review_avg > 0 %}
+                        <div class="find__article-rate-review">
+                            {% blocktrans with mark=apartment.review_avg|floatformat:"0" %}{{ mark }}/5 (based on reviews){% endblocktrans %}
+                        </div>
+                    {% endif %}
+                     {% if object.address %}
+                        <span class="hotels__address-icon"></span>{{ object.address }}
+                        <a class="hotels__link" href="#">{% blocktrans %}show on map{% endblocktrans %}</a>
+                    {% endif %}
+                    <div class="hotels__address-phone">
+                        {% if reservation_phone %}
+                            {% trans 'Reservation phone:' context 'Reservation phone text' %}
+                            <a class="hotels__link" href="tel:{{ reservation_phone }}" dir="ltr">{{ reservation_phone }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="hotels__gallery">
+                <div id="hotels-gallery-slider">
+                    <div class="find__article-preview detail-page">
+                        {% if object.featured_image %}
+                            <img id="find-gallery-preview{{ apartment.pk }}" class="find-gallery-preview"
+                                 src="{{ object.service_detail_big_featured_image }}" alt="">
+                        {% elif object.images.exists %}
+                            <img id="find-gallery-preview{{ apartment.pk }}" class="find-gallery-preview"
+                                 src="{{ image_obj.service_detail_big_image_thumbnail }}" alt="">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div id="find-gallery" class="find-gallery-multiply owl-carousel" data-previewID="find-gallery-preview{{ apartment.pk }}">
+                {% if object.featured_image %}
+                    <div class="item" data-bigImg="{{ apartment.service_detail_big_featured_image }}">
+                        <img class="lazyOwl" data-src="{{ apartment.service_detail_small_featured_image }}">
+                    </div>
+                {% endif %}
+                {% for image_obj in object.images.all %}
+                    <div class="item" data-bigImg="{{ image_obj.service_detail_big_image_thumbnail }}">
+                        <img class="lazyOwl" data-src="{{ image_obj.service_detail_small_image_thumbnail }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="sharing_toolbox">
+                {% include 'common/includes/fb_and_gplus_buttons.html' %}
+            </div>
+            
+            <div class="hotels__text-box customScroll">
+                <p class="hotels__text">{{ object.description_trans|linebreaksbr }}</p>
+            </div>
+        </div>
+        <div class="hotels__find-container">
+            <div class="hotels__discr apt-page">
+                <ul class="hotels__discr-list apt-page">
+                    <li class="hotels__discr-item apt-page">
+                        <i class="hotels__discr-icons {% if apartment.is_villa %}back-villa{% else %}back-room1{% endif %}"></i>
+                        <span class="hotels__discr-text">{{ apartment.get_type_display }}</span>
+                    </li>
+                    <li class="hotels__discr-item apt-page">
+                        <i class="hotels__discr-icons back-room2"></i>
+                        <span class="hotels__discr-text">
+                            {% blocktrans count n=apartment.number_of_rooms %}{{ n }} Room{% plural %}{{ n }} Rooms{% endblocktrans %}
+                        </span>
+                    </li>
+                    <li class="hotels__discr-item apt-page">
+                        <i class="hotels__discr-icons back-m2"></i>
+                        <span class="hotels__discr-text">{{ apartment.area|floatformat }} m²</span>
+                    </li>
+                </ul>
+                <ul class="hotels__discr-list apt-page">
+                    <li class="hotels__discr-item apt-page">
+                        <i class="hotels__discr-icons back-beds"></i>
+                        <span class="hotels__discr-text">
+                            {% blocktrans with adults_number=apartment.adults %}{{ adults_number }} Adult bed(s){% endblocktrans %}
+                        </span>
+                    </li>
+                    <li class="hotels__discr-item apt-page">
+                        <i class="hotels__discr-icons back-childbeds"></i>
+                        <span class="hotels__discr-text">
+                            {% blocktrans with child_number=apartment.children %}{{ child_number }} Child bed(s){% endblocktrans %}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            {% if has_price_category %}
+                <div class="hotels__date-container">
+                    <h2 class="hotels__title big filter-title">{% blocktrans %}Choose travel dates{% endblocktrans %}</h2>
+                    <div class="hotels__datefilter">
+                        <div class="hotels__datefilter-main">
+                            <form id="search-rooms-by-dates" method="GET" action=".">
+                                <span  class="hotels__datefilter-title apt-page">{% blocktrans %}select dates{% endblocktrans %}</span>
+                                {{ dates_form.type }}
+                                <div class="hotels__datefilter__separator">
+                                    <div class="hotels__datefilter__separator-l">
+                                        <label class="hotels__datefilter__label" for="arrival">{% trans "Arrival" %}</label>
+                                        {{ dates_form.arrival|add_class:"hotels__datefilter__input" }}
+                                    </div>
+                                    <div class="hotels__datefilter__separator-r">
+                                        <label class="hotels__datefilter__label" for="departure">{% trans "Departure" %}</label>
+                                        {{ dates_form.departure|add_class:"hotels__datefilter__input" }}
+                                    </div>
+                                </div>
+                                <input type="submit" value="apply">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div id="rooms-list">
+            {% include "apartments/includes/ajax_apartment_detail.html" %}
+        </div>
+        <div>
+            {% if show_rate_block %}
+                <div class="hotels__find-container review-container">
+                    {% include "apartments/includes/ajax_review_block.html" with service=apartment %}
+                </div>
+            {% endif %}
+            {% with amenities=apartment.amenities.all|join:", " %}
+                {% if amenities %}
+                    <div class="hotels__amenities">
+                        <h3 class="hotels__title">{% trans "amenities" %}</h3>
+                        <table class="table-amenities">
+                            <tr>
+                                {% if amenities %}
+                                    <td>{{ amenities }}</td>
+                                {% else %}
+                                    <td>{% trans "No special amenities." %}</td>
+                                {% endif %}
+                            </tr>
+                        </table>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <div id="comments_container">
+                {% if can_add_comment %}
+                    <div class="hotels__find-container comment-container">
+                        {% url 'new_apartmentcomment' as comment_url %}
+                        {% include "common/includes/ajax_comment_form_block.html" with comment_url=comment_url comment_form=comment_form %}
+                    </div>
+                {% endif %}
+                <div class="hotels__find-container comment-list-container">
+                    <h3 class="hotels__title">{% trans "comments" %}</h3>
+                    {% include "apartments/comment_list.html" with next_page=2 entity_id=object.pk %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

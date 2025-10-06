@@ -1,0 +1,61 @@
+{% extends "base_with_simple_header.html" %}
+{% load i18n %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Contacts{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag' %}contacts page description metatag{% endblocktrans %}{% endblock %}
+
+{% block content %}
+    <div class="wrap-inner">
+        <div class="contacts">
+            <div class="contacts__right">
+                <h2 class="contacts__title">{% blocktrans %}Contact us{% endblocktrans %}</h2>
+                <div class="contacts__block">
+                    <p class="contacts__text">Marketing Office, El Gouna El Gouna, Downtown, Tamr Henna, H9 Building</p>
+                </div>
+                <div class="contacts__block">
+                    <p class="contacts__text">T +20 65 3549 702</p>
+                    <p class="contacts__text">F +20 65 3549 065</p>
+                </div>
+                 <div class="contacts__block">
+                    <p class="contacts__text">Email: <a class="contacts__link" href="mailto:info@elgouna.com">info@elgouna.com</a></p>
+                </div>
+                <div class="contacts__block">
+                    <p class="contacts__text">Booking from Egypt around the world</p>
+                </div>
+                <div class="contacts__block">
+                    <p class="contacts__text">Short Number: +20 224616131  or  +20 16444</p>
+                </div>
+                
+            </div>
+            <div class="contacts__left">
+                <h2 class="contacts__title">{% blocktrans %}Feedback form{% endblocktrans %}</h2>
+                <form class="contacts__form">
+                    <div class="contacts__block">
+                        <label class="contacts__text required">Your name:</label>
+                        <div class="contacts__input-box">
+                            <input class="contacts__input error" type="text">
+                            <span class="error">Field is requred</span>
+                        </div>
+                    </div>
+                    <div class="contacts__block">
+                        <label class="contacts__text required">Your phone:</label>
+                        <div class="contacts__input-box">
+                            <input class="contacts__input" type="text">
+                        </div>
+                    </div>
+                    <div class="contacts__block">
+                        <label class="contacts__text required">Your message:</label>
+                        <div class="contacts__input-box">
+                            <textarea class="contacts__textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="contacts__buttons">
+                        <input class="contacts__btn reset" type="reset" value="clear form">
+                        <input class="contacts__btn submit" type="submit" value="send message">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock content %}

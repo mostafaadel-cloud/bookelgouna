@@ -1,0 +1,47 @@
+{% load i18n %}
+<div class="cabinet__tab-content" id="tab-content-user-book">
+    <div class="cabinet__booking">
+        {% if request.user.is_apt_owner %}
+            <a class="cabinet__link float-right ajax-change-tab" data-url="{% url "business_create_offline_booking" %}">
+                {% blocktrans context "offline booking link text" %}Create offline booking{% endblocktrans %}
+            </a>
+        {% endif %}
+        {% if object_list.exists %}
+            {% regroup object_list.all by order.date_created|date:"d.m.Y" as items_by_date %}
+            {% for item_group in items_by_date %}
+                <div class="cabinet__booking-block">
+                    <h2 class="cabinet__title">{{ item_group.grouper }}</h2>
+                    <table class="cabinet__book-table">
+                        <thead class="cabinet__book-thead">
+                            <tr class="cabinet__book-tr-head">
+                                <th class="cabinet__book-th">{% blocktrans %}Client Id{% endblocktrans %}</th>
+                                <th class="cabinet__book-th">{% blocktrans %}Full Name{% endblocktrans %}</th>
+                                <th class="cabinet__book-th">{% blocktrans %}Phone Number{% endblocktrans %}</th>
+                                <th class="cabinet__book-th">{% blocktrans %}User e-mail{% endblocktrans %}</th>
+                                <th class="cabinet__book-th">{% trans "Dates" %}</th>
+{#                                <th class="cabinet__book-th">{% trans "Adults" %}</th>#}
+{#                                <th class="cabinet__book-th">{% trans "Children" %}</th>#}
+                                <th class="cabinet__book-th">{% trans "Item" %}</th>
+                                <th class="cabinet__book-th">{% trans "Qty" %}</th>
+                                <th class="cabinet__book-th">{% trans "Price" %}</th>
+                                <th class="cabinet__book-th">{% trans "Status" %}</th>
+                                {% if request.user.is_apt_owner %}
+                                    <th class="cabinet__book-th">{% trans "Note" %}</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody class="cabinet__book-tbody">
+                            {% for item in item_group.list %}
+                                <tr class="cabinet__book-tr">
+                                    {% include "booking/includes/ajax_business_profile_orderitem.html" %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        {% else %}
+            {% blocktrans %}No bookings yet.{% endblocktrans %}
+        {% endif %}
+    </div>
+</div>

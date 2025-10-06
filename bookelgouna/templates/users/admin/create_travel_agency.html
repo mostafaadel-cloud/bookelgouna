@@ -1,0 +1,22 @@
+{% extends 'admin/base_site.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div id="content-main">
+        <form action="." method="post" id="user_form" novalidate>
+            {% csrf_token %}
+            <div>
+                {% with errors=form.errors %}
+                    {% if errors %}
+                        <p class="errornote">
+                        {% if errors|length == 1 %}Please correct the error below.{% else %}Please correct the errors below.{% endif %}
+                        </p>
+                        {{ form.non_field_errors }}
+                    {% endif %}
+                {% endwith %}
+                {{ form.as_p }}
+                <input type="submit"/>
+            </div>
+        </form>
+    </div>
+{% endblock %}

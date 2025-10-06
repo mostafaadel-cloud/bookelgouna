@@ -1,0 +1,18 @@
+{% extends 'base_with_simple_header.html' %}
+
+{% load i18n %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Social Network Login Cancelled{% endblocktrans %}{% endblock %}
+
+{% block content %}
+    <div class="wrap-inner">
+	    <div class="form">
+            <h2 class="form__title">{% trans "Login Cancelled" %}</h2>
+
+            <p class="form__text">
+                {% url 'account_login' as login_url %}
+                {% blocktrans %}You decided to cancel logging in to our site using Facebook. If this was a mistake, please proceed to <a class="form__mail" href="{{login_url}}">sign-in</a>.{% endblocktrans %}
+            </p>
+        </div>
+    </div>
+{% endblock %}

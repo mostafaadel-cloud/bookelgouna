@@ -1,0 +1,21 @@
+# use this template if you are on production server
+from .common import *
+
+ALLOWED_HOSTS = ['.bookelgouna.com']
+
+# django-secure
+INSTALLED_APPS += ("djangosecure", )
+
+# SECRET_KEY generation
+from django.utils.crypto import get_random_string
+
+SECRET_KEY = get_random_string(50, 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)')
+# end SECRET_KEY generation
+
+ALLOW_ROBOTS = True
+
+USE_GOOGLE_ANALYTICS = True
+
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
+

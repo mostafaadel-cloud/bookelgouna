@@ -1,0 +1,250 @@
+@import 'mixins.less';
+/*---------------------MAIN CSS---------------------*/
+@font-corbel: 'corbel-bold-italic';
+@font-calibri: 'Calibri';
+@font-pfd-regular: 'pfdintextcondpro-regular';
+@font-pfd-medium: 'pfdintextcondpro-medium';
+@font-pfd-bold: 'pfdintextcondpro-bold';
+@font-helvetica-medium: 'helveticaneuecyr-medium';
+@font-helvetica-roman: 'helveticaneuecyr-roman';
+
+.error-pages {
+	padding-top: 65px;
+	padding-bottom: 110px;
+	position: relative;
+	text-align: center;
+
+	&__main {
+		font: 178px @font-helvetica-roman;
+		color: #ffae00;
+		position: relative;
+
+		&.page500 {
+			color: #9d9d9d;
+		}
+
+		& span {
+			color: #000;
+
+			&.page500 {
+				color: #a1c024;
+			}
+		}
+
+		&-block {
+			position: relative;
+			width: 300px;
+			margin: 0 auto;
+
+			&.page500 {
+				width: 200px;
+			}
+		}
+	}
+	&__text {
+		font: 9px @font-helvetica-roman;
+		color: #000;
+		opacity: 0.5;
+		text-transform: uppercase;
+		padding-bottom: 10px;
+		text-align: left;
+
+		&.page500 {
+			text-align: right;
+			padding-right: 10px;
+		}
+	}
+	&__link {
+		font: 9px @font-helvetica-roman;
+		color: #000;
+		text-transform: uppercase;
+		text-decoration: underline;
+		padding-bottom: 10px;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+	&__block {
+		width: 300px;
+		height: 40px;
+		background: #fff;
+		position: absolute;
+		top: 70px;
+		text-align: right;
+		padding-top: 7px;
+
+		&.page500 {
+			width: 200px;
+			right: 0;
+			height: 30px;
+			top: 80px;
+		}
+
+		&-text {
+			font: 15px @font-helvetica-roman;
+			color: #000;
+			text-transform: uppercase;
+
+			&-sm {
+				font: 9px @font-helvetica-roman;
+				color: #000;
+				text-transform: uppercase;
+			}
+			&-big {
+				font: 30px @font-helvetica-medium;
+				color: #000;
+				text-transform: uppercase;
+				position: absolute;
+				top: -8px;
+				left: 0;
+				background: #fff;
+			}
+		}
+	}
+	
+}
+@media only screen and (min-width: 480px) {
+	.error-pages {
+		&__main {
+			font-size: 215px;
+
+			&-block {
+				width: 400px;
+
+				&.page500 {
+					width: 270px;
+				}
+			}
+		}
+		&__block {
+			width: 400px;
+			height: 48px;
+			top: 86px;
+			left: -8px;
+
+			&.page500 {
+				left: inherit;
+				width: 270px;
+				top: 105px;
+			}
+
+			&-text-big {
+				font-size: 40px;
+			}
+			&-text {
+				font-size: 20px;
+			}
+			&-text-sm {
+				font-size: 12px;
+			}
+		}
+		&__text {
+			padding-left: 70px;
+			font-size: 10px;
+
+			&.page500 {
+				padding-right: 36px;
+			}
+		}
+		&__link {
+			font-size: 10px;
+		}
+	}
+}
+@media only screen and (min-width: 768px) {
+	.error-pages {
+		&__main {
+			font-size: 330px;
+
+			&-block {
+				width: 600px;
+
+				&.page500 {
+					width: 380px;
+				}
+			}
+		}
+		&__block {
+			width: 600px;
+			height: 57px;
+			top: 140px;
+			padding-top: 3px;
+
+			&.page500 {
+				width: 380px;
+				top: 168px;
+				right: 23px;
+				height: 37px;
+			}
+
+			&-text-big {
+				font-size: 60px;
+				top: -26px;
+			}
+			&-text {
+				font-size: 29px;
+			}
+			&-text-sm {
+				font-size: 14px;
+			}
+		}
+		&__text {
+			padding-left: 100px;
+			font-size: 11px;
+
+			&.page500 {
+				font-size: 15px;
+			}
+		}
+		&__link {
+			font-size: 11px;
+		}
+	}
+}
+@media only screen and (min-width: 980px) {
+	.error-pages {
+		&__main {
+			font-size: 430px;
+
+			&-block {
+				width: 800px;
+			}
+		}
+		&__block {
+			width: 800px;
+			height: 70px;
+			top: 197px;
+			left: 3px;
+			padding-top: 3px;
+
+			&.page500 {
+				width: 510px;
+				top: 218px;
+				height: 49px;
+			}
+
+			&-text-big {
+				font-size: 74px;
+				top: -28px;
+			}
+			&-text {
+				font-size: 40px;
+			}
+			&-text-sm {
+				font-size: 18px;
+			}
+		}
+		&__text {
+			padding-left: 100px;
+			font-size: 13px;
+
+			&.page500 {
+				font-size: 19px;
+			}
+		}
+		&__link {
+			font-size: 13px;
+		}
+	}
+}

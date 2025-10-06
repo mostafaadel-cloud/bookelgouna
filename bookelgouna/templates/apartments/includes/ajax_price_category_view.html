@@ -1,0 +1,152 @@
+{% load i18n widget_tweaks %}
+
+<div class="cabinet__price__category">
+    <div class="cabinet__price-table-block">
+        <ul class="lang__tabs category">
+            {% for trans in price_category.translations.all %}
+                <li class="lang__tab-item">
+                    {% with lang_code=trans.language_code %}
+                        <input type="radio" {% if forloop.first %} checked="checked"{% endif %}
+                               name="lang-tabs-category-{{ price_category.pk }}"
+                               id="category-lang-{{ lang_code }}-{{ price_category.pk }}">
+                        <label class="lang__tab-label"
+                               for="category-lang-{{ lang_code }}-{{ price_category.pk }}"
+                               data-lang-code="{{ lang_code }}">
+                            {{ lang_code|language_name }}
+                        </label>
+{#                    <input type="radio" checked="checked" name="lang-tabs-category" id="category-lang-eng">#}
+{#                    <label class="lang__tab-label" for="category-lang-eng">eng<span>lish</span></label>#}
+                    {% endwith %}
+                    <div class="lang__tab-panel">
+                        <div class="lang__tab-content" id="tab-content-lang">
+                            <div class="cabinet__category-title">
+                                <span class="cabinet__hotel-title-small cat-title">
+                                    {{ trans.name }}
+                                    <span class="tooltip">
+                                        <span class="tooltip-icon">?</span>
+                                        <span class="tooltip-text">
+                                            <div class="tooltip-title">
+                                                {% blocktrans context "business owner apt price cat name hint title" %}business owner apt price cat name hint title{% endblocktrans %}
+                                            </div>
+                                            {% blocktrans context "business owner apt price cat name hint content" %}business owner apt price cat name hint content{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </span>
+                                <div class="cabinet__category-option-box">
+                                    <a class="cabinet__docs-link ajax-edit-category"
+                                       data-url="{% url "apt_price_category_update" price_category.pk %}">
+                                        <i class="icon-editprofile"></i><span>{% trans "Edit category" %}</span>
+                                    </a>
+                                    <a class="cabinet__docs-link ajax-delete-apt-price-category"
+                                       href="{% url "apt_price_category_delete" price_category.pk %}"
+                                       data-confirm-message="{% trans "Are you sure you want to delete this price category?" %}"
+                                       data-approval-word="{% trans "Yes" %}" data-decline-word="{% trans "No" %}"
+                                       data-success-message="{% trans "Price category was successfully removed" %}">
+                                        <i class="icon-trash"></i><span>{% trans "Delete category" %}</span></a>
+                                </div>
+                            </div>
+                            <table class="cabinet__book-table">
+                                <thead class="cabinet__book-thead">
+                                    <tr class="cabinet__book-tr-head">
+                                        <th class="cabinet__book-th room-page">{% blocktrans %}Regular Price{% endblocktrans %}
+                                            <span class="tooltip">
+                                                <span class="tooltip-icon">?</span>
+                                                <span class="tooltip-text">
+                                                    <div class="tooltip-title">
+                                                        {% blocktrans context "business owner apt price cat price hint title" %}business owner apt price cat price hint title{% endblocktrans %}
+                                                    </div>
+                                                    {% blocktrans context "business owner apt price cat price hint content" %}business owner apt price cat price hint content{% endblocktrans %}
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th class="cabinet__book-th room-page">{% blocktrans %}Pay Option{% endblocktrans %}
+                                            <span class="tooltip">
+                                                <span class="tooltip-icon">?</span>
+                                                <span class="tooltip-text">
+                                                    <div class="tooltip-title">
+                                                        {% blocktrans context "business owner apt price cat pay option hint title" %}business owner apt price cat pay option hint title{% endblocktrans %}
+                                                    </div>
+                                                    {% blocktrans context "business owner apt price cat pay option hint content" %}business owner apt price cat pay option hint content{% endblocktrans %}
+                                                </span>
+                                            </span>
+                                        </th>
+{#                                        <th class="cabinet__book-th room-page">{% blocktrans %}Meal Plan{% endblocktrans %}</th>#}
+                                        <th class="cabinet__book-th room-page fix-width">{% trans "Conditions" %}
+                                            <span class="tooltip">
+                                                <span class="tooltip-icon">?</span>
+                                                <span class="tooltip-text">
+                                                    <div class="tooltip-title">
+                                                        {% blocktrans context "business owner apt price cat conditions hint title" %}business owner apt price cat conditions hint title{% endblocktrans %}
+                                                    </div>
+                                                    {% blocktrans context "business owner apt price cat conditions hint content" %}business owner apt price cat conditions hint content{% endblocktrans %}
+                                                </span>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="cabinet__book-tbody">
+                                    <tr class="cabinet__book-tr price-cat">
+                                        <td class="cabinet__book-td room-page" data-title="{% trans "Regular price" %}">
+                                            <span class="room-field-val">
+                                                {% if price_category.regular_price %}
+                                                    {% blocktrans with price=price_category.regular_price|floatformat:-2 %}${{ price }} per day{% endblocktrans %}
+                                                {% else %}
+                                                    {% blocktrans %}No regular price{% endblocktrans %}
+                                                {% endif %}
+                                            </span>
+                                        </td>
+                                        <td class="cabinet__book-td room-page" data-title="{% trans "Pay options" %}">
+                                            <span class="room-field-val">{{ price_category.get_pay_option_display }}</span>
+                                        </td>
+{#                                        <td class="cabinet__book-td room-page" data-title="Meal plan">#}
+{#                                            <span class="room-field-val">{{ price_category.meal_plan.name_trans }}</span>#}
+{#                                        </td>#}
+                                        <td class="cabinet__book-td room-page" data-title="Conditions">
+                                            <span class="room-field-val">{{ trans.conditions }}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <table class="cabinet__room-table yellow">
+            <tbody>
+                {% for special_price in price_category.manual.all %}
+                    <tr class="cabinet__room-tr">
+                        <td class="cabinet__room-td hide-column">{% trans "From" %}</td>
+                        <td class="cabinet__room-td">
+                            <span class="room-field-val">{{ special_price.from_date|date:"d.m.y"  }}</span>
+                        </td>
+                        <td class="cabinet__room-td">{% trans "To (excl.)" %}</td>
+                        <td class="cabinet__room-td">
+                            <span class="room-field-val">{{ special_price.to_date|date:"d.m.y"  }}</span>
+                        </td>
+                        <td class="cabinet__room-td hide-column">{% blocktrans %}Special Price{% endblocktrans %}</td>
+                        <td class="cabinet__room-td">
+                            <span class="room-field-val">{% blocktrans with price=special_price.price|floatformat:-2 %}${{ price }} per day{% endblocktrans %}</span>
+                        </td>
+                        <td class="cabinet__room-td">
+                            <a class="cabinet__docs-link ajax-delete-special-price"
+                               href="{% url "apt_special_price_delete" special_price.pk %}"
+                               data-confirm-message="{% trans "Are you sure you want to delete this special price?" %}"
+                               data-approval-word="{% trans "Yes" %}" data-decline-word="{% trans "No" %}"
+                               data-success-message="{% trans "Special price was successfully removed" %}">
+                                <i class="icon-trash"></i>
+                                <span>{% trans "Delete" %}</span>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr class="cabinet__room-tr">
+                        <td class="cabinet__room-td" colspan="7" style="text-align: left;">
+                            <span>{% blocktrans %}No special prices yet. Start editing category and add them.{% endblocktrans %}</span>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

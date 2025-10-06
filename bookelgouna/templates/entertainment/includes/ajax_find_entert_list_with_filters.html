@@ -1,0 +1,39 @@
+{% load i18n common_tags %}
+
+
+<div class="find__form things-page">
+    <div class="wrap-inner sport-page">
+        <h2 class="find__form-title things-page">{% blocktrans %}Things To Do{% endblocktrans %}</h2>
+        <form id="search-form" method="GET" action="{% url "find_entertainment" %}">
+            <div class="find__form-filters sport-page">
+                <div class="find__form-pricefilter things-page">
+                    <span class="find__form-subtitle things-page">{% blocktrans %}price{% endblocktrans %}</span>
+                    <div class="find__form-price-slider things-page">
+                        {% if min_price and max_price %}
+                            <span class="find__form-price-value-min things-page" id="price-value-min"></span>
+                            <span class="find__form-price-value-max things-page" id="price-value-max"></span>
+                            <div class="find__form-price-line things-page" id="slider-price" data-min="{{ min_price }}" data-max="{{ max_price }}"
+                                    data-used-min="{{ form.from_price.value }}" data-used-max="{{ form.to_price.value }}"></div>
+                        {% else %}
+                            <span class="find__form-subtitle things-page">{% blocktrans %}no prices{% endblocktrans %}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="find__form-buttons things-page">
+                    {{ form.from_price }}
+                    {{ form.to_price }}
+                    {{ form.page }}
+                    <button class="find__form__search-btn things-page">{% trans "search" %}</button>
+                    <a href="{% url 'find_entertainment' %}">
+                        <button type="button" class="find__form__reset-btn things-page">{% trans "reset" %}
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="wrap-inner things-page">
+    {% include "entertainment/includes/ajax_find_entert_list_only.html" %}
+</div>

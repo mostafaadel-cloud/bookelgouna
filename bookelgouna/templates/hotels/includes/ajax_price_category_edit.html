@@ -1,0 +1,275 @@
+{% load i18n widget_tweaks common_tags hotel_tags %}
+
+<form class="cabinet-price-category-form ajax-price-category-submit" method="POST"
+        data-create_view="{{ create_view }}" data-update_view="{{ update_view }}"
+        {% if create_view %}
+            action="{% url "room_price_category_create" room.slug %}"
+        {% else %}
+            action="{% url "room_price_category_update" object.pk %}"
+            data-view-url="{% url "room_price_category_view" object.pk %}"
+        {% endif %}">
+    {% csrf_token %}
+    <input type="hidden" name="prefix" value="{{ form_prefix }}"/>
+    {{ translations_formset.management_form }}
+    {% if translations_formset.non_form_errors %}
+        <span class="error">{{ translations_formset.non_form_errors.0 }}</span>
+    {% endif %}
+    <ul id="{{ translations_formset.id }}" class="lang__tabs">
+        {% for subform in translations_formset.forms %}
+            <li class="lang__tab-item">
+                {% with lang_code=subform.language_code.value %}
+                    <input type="radio"{% if forloop.first %} checked="checked"{% endif %}
+                           name="lang-tabs-category-{{ form_prefix }}"
+                           id="category-lang-{{ lang_code }}-{{ form_prefix }}">
+                    <label class="lang__tab-label{% if subform.errors %} has_errors{% endif %}"
+                           for="category-lang-{{ lang_code }}-{{ form_prefix }}" data-lang-code="{{ lang_code }}">
+                        {{ lang_code|language_name }}
+                    </label>
+                    <div class="lang__tab-panel">
+                        <div class="lang__tab-content" id="tab-content-lang">
+                            {% for hidden in subform.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                            <div class="cabinet__price-top">
+                                <div class="cabinet__hotel-block category-b top-cat">
+                                    <label class="cabinet__hotel-label">{{ subform.name.label }}
+                                        <span class="tooltip">
+                                            <span class="tooltip-icon">?</span>
+                                            <span class="tooltip-text">
+                                                <div class="tooltip-title">
+                                                    {% blocktrans context "business owner room price cat name hint title" %}business owner room price cat name hint title{% endblocktrans %}
+                                                </div>
+                                                {% blocktrans context "business owner room price cat name hint content" %}business owner room price cat name hint content{% endblocktrans %}
+                                            </span>
+                                        </span>
+                                    </label>
+                                    {{ subform.name|add_class:"cabinet__hotel-input"|add_error_class:"error" }}
+                                    {% if subform.name.errors %}
+                                        <span class="error">{{ subform.name.errors.0 }}</span>
+                                    {% endif %}
+                                </div>
+{#                                    {% if create_view %}#}
+{#                                        <label class="cabinet__hotel-label">{% blocktrans %}New Category{% endblocktrans %}</label>#}
+{#                                    {% else %}#}
+{#                                        <label class="cabinet__hotel-label">{% blocktrans %}Existing Category{% endblocktrans %}</label>#}
+{#                                    {% endif %}#}
+                                <div class="cabinet__hotel-block category-btn">
+                                    <input class="cabinet__category-cancel ajax-cancel-category-edit" value="cancel" type="reset">
+                                    <input class="cabinet__category-save" value="save category" type="submit">
+                                </div>
+                            </div>
+                            <div class="cabinet__hotel-block category-pad">
+                                <span class="cabinet__hotel-label">{{ subform.conditions.label }}
+                                    <span class="hint">
+                                        <span class="hint-icon">i</span>
+                                        <span class="hint-text">
+                                            {% blocktrans context "business owner room price cat conditions hint" %}business owner room price cat conditions hint{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </span>
+                                {{ subform.conditions|add_class:"cabinet__hotel-discr conditions"|add_error_class:"error" }}
+                                {% if subform.conditions.errors %}
+                                    <span class="error">{{ subform.conditions.errors.0 }}</span>
+                                {% endif %}
+                            </div>
+                            {{ subform.language_code|attr:"style:display:none" }}
+                        </div>
+                    </div>
+                {% endwith %}
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="cabinet__category-options">
+        <div class="cabinet__category-block">
+            <div class="cabinet__hotel-block category-type">
+                <label class="cabinet__hotel-label">{{ form.type.label }}
+                    <span class="tooltip">
+                        <span class="tooltip-icon">?</span>
+                        <span class="tooltip-text">
+                            <div class="tooltip-title">
+                                {% blocktrans context "business owner room price cat type hint title" %}business owner room price cat type hint title{% endblocktrans %}
+                            </div>
+                            {% blocktrans context "business owner room price cat type hint content" %}business owner room price cat type hint content{% endblocktrans %}
+                        </span>
+                    </span>
+                </label>
+                <div class="cabinet__billing__select-box">
+                    <span class="cabinet__billing__select-method">
+                        {{ form.type|add_class:"select-method"|attr:"id:select-method"|attr:"tabindex:-1" }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="cabinet__category-block">
+            <div class="cabinet__hotel-block category-b">
+                <label class="cabinet__hotel-label input-sm">{% blocktrans %}Regular price per day, ${% endblocktrans %}
+                    <span class="tooltip">
+                        <span class="tooltip-icon">?</span>
+                        <span class="tooltip-text">
+                            <div class="tooltip-title">
+                                {% blocktrans context "business owner room price cat price hint title" %}business owner room price cat price hint title{% endblocktrans %}
+                            </div>
+                            {% blocktrans context "business owner room price cat price hint content" %}business owner room price cat price hint content{% endblocktrans %}
+                        </span>
+                    </span>
+                </label>
+                {{ form.regular_price|add_class:"cabinet__hotel-input reg-price"|add_error_class:"error" }}
+                {% if form.regular_price.errors %}
+                    <span class="error">{{ form.regular_price.errors.0 }}</span>
+                {% endif %}
+            </div>
+            <div class="cabinet__hotel-block edit-page">
+                <span class="cabinet__hotel-label">{{ form.pay_option.label }}
+                    <span class="tooltip">
+                        <span class="tooltip-icon">?</span>
+                        <span class="tooltip-text">
+                            <div class="tooltip-title">
+                                {% blocktrans context "business owner room price cat pay option hint title" %}business owner room price cat pay option hint title{% endblocktrans %}
+                            </div>
+                            {% blocktrans context "business owner room price cat pay option hint content" %}business owner room price cat pay option hint content{% endblocktrans %}
+                        </span>
+                    </span>
+                </span>
+                {% for radio in form.pay_option %}
+                    <div class="cabinet__radiobox">
+                        {{ radio.tag }}
+                        <label class="cabinet__radiobox-label" for="{{ radio.id_for_label }}"><span></span>{{ radio.choice_label }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="cabinet__hotel-block room-page category">
+                <label class="cabinet__hotel-label">{{ form.meal_plan.label }}
+                    <span class="tooltip">
+                        <span class="tooltip-icon">?</span>
+                        <span class="tooltip-text">
+                            <div class="tooltip-title">
+                                {% blocktrans context "business owner room price cat meal plan hint title" %}business owner room price cat meal plan hint title{% endblocktrans %}
+                            </div>
+                            {% blocktrans context "business owner room price cat meal plan hint content" %}business owner room price cat meal plan hint content{% endblocktrans %}
+                        </span>
+                    </span>
+                </label>
+                <div class="cabinet__billing__select-box meal-plan">
+                    <span class="cabinet__billing__select-method">
+                        {{ form.meal_plan|add_class:"select-method"|attr:"id:select-method"|attr:"tabindex:-1" }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="cabinet__category-options">
+            <div class="cabinet__hotel-block set-price">
+                <div class="cabinet__category-block">
+                    <label class="cabinet__hotel-label">{% blocktrans %}Special Prices{% endblocktrans %}
+                        <span class="hint big-text">
+                            <span class="hint-icon">i</span>
+                            <span class="hint-text">
+                                {% blocktrans context "business owner room price cat special prices header hint" %}business owner room price cat special prices header hint{% endblocktrans %}
+                            </span>
+                        </span>
+                    </label>
+                </div>
+                <div class="cabinet__hotel__block special-prices-container" id="{{ prices_formset.prefix }}">
+                    {% if prices_formset.non_form_errors %}
+                        <span class="error">{{ prices_formset.non_form_errors.0 }}</span>
+                    {% endif %}
+                    {% for subform in prices_formset.initial_forms %}
+                        <div class="cabinet__hotel__block special-price-block{% if subform.DELETE.value %} on_removal{% endif %}">
+                            {{ subform.id }}
+                            <div class="cabinet__hotel__separator hide_on_removal">
+                                <div class="cabinet__hotel__separator-l">
+                                    <label class="cabinet__hotel-label" for="{{ subform.from_date.auto_id }}">
+                                        {{ subform.from_date.label }}
+                                    </label>
+                                    {{ subform.from_date|add_class:"cabinet__hotel-input price-date from_date_input"|add_error_class:"error"|add_non_field_error_class:"error" }}
+                                    {% if subform.from_date.errors %}
+                                        <span class="error">{{ subform.from_date.errors.0 }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="cabinet__hotel__separator-r">
+                                    <label class="cabinet__hotel-label" for="{{ subform.to_date.auto_id }}">
+                                        {{ subform.to_date.label }}
+                                    </label>
+                                    {{ subform.to_date|add_class:"cabinet__hotel-input price-date to_date_input"|add_error_class:"error"|add_non_field_error_class:"error" }}
+                                    {% if subform.to_date.errors %}
+                                        <span class="error">{{ subform.to_date.errors.0 }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="cabinet__hotel-block set-price per-day hide_on_removal">
+                                <label class="cabinet__hotel-label">{% trans "Price" %}</label>
+                                {{ subform.price|add_class:"cabinet__hotel-input"|add_error_class:"error" }}
+                                {% if subform.price.errors %}
+                                    <span class="error">{{ subform.price.errors.0 }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="cabinet__hotel-block set-price delete-price hide_on_removal">
+                               <a class="cabinet__docs-link js-delete-existent-special-price">
+                                    <i class="icon-trash"></i><span>{% trans "Delete" %}</span>
+                                </a>
+                            </div>
+                            <div class="cabinet__hotel-block show_on_removal">
+                                <span>{% blocktrans %}Special price will be removed after successful category save.{% endblocktrans %}</span>
+                                <a class="cabinet__docs-link js-restore-special-price-link">
+                                    <span>{% blocktrans %}Restore it back{% endblocktrans %}</span>
+                                </a>
+                            </div>
+                            {{ subform.item }}
+                            {{ subform.DELETE|add_class:"js-delete-special-price-checkbox"|attr:"style:display:none" }}
+                        </div>
+                    {% endfor %}
+                    {% with prices_initial_form_count=prices_formset.initial_form_count %}
+                    {% for subform in prices_formset.extra_forms %}
+                        {% with first=forloop.first has_errors=subform.errors %}
+                            {% hide_this_price_extra_form forloop subform prices_initial_form_count as hide_it %}
+                            <div class="cabinet__hotel__block special-price-block"
+                                 {% if hide_it %}style="display: none;"{% endif %}>
+                                {{ subform.id }}
+                                <div class="cabinet__hotel__separator">
+                                    <div class="cabinet__hotel__separator-l">
+                                        <label class="cabinet__hotel-label" for="{{ subform.from_date.auto_id }}">
+                                            {{ subform.from_date.label }}
+                                        </label>
+                                        {{ subform.from_date|add_class:"cabinet__hotel-input price-date from_date_input"|add_error_class:"error"|add_non_field_error_class:"error" }}
+                                        {% if subform.from_date.errors %}
+                                            <span class="error">{{ subform.from_date.errors.0 }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="cabinet__hotel__separator-r">
+                                        <label class="cabinet__hotel-label" for="{{ subform.to_date.auto_id }}">
+                                            {{ subform.to_date.label }}
+                                        </label>
+                                        {{ subform.to_date|add_class:"cabinet__hotel-input price-date to_date_input"|add_error_class:"error"|add_non_field_error_class:"error" }}
+                                        {% if subform.to_date.errors %}
+                                            <span class="error">{{ subform.to_date.errors.0 }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="cabinet__hotel-block set-price per-day">
+                                    <label class="cabinet__hotel-label">{% trans "Price" %}</label>
+                                    {{ subform.price|add_class:"cabinet__hotel-input"|add_error_class:"error" }}
+                                    {% if subform.price.errors %}
+                                        <span class="error">{{ subform.price.errors.0 }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="cabinet__hotel-block set-price delete-price">
+                                   <a class="cabinet__docs-link js-delete-non-existent-special-price">
+                                        <i class="icon-trash"></i><span>{% trans "Delete" %}</span>
+                                    </a>
+                                </div>
+                                {{ subform.item }}
+                            </div>
+                        {% endwith %}
+                    {% endfor %}
+                    {% endwith %}
+                    <div class="cabinet__hotel-block add-link">
+                        <i class="icon-add-price"></i>
+                        <a class="cabinet__link js-show-more-hidden-special-price">
+                            {% blocktrans %}add new special price{% endblocktrans %}
+                        </a>
+                    </div>
+                </div>
+                {{ prices_formset.management_form }}
+            </div>
+        </div>
+    </div>
+</form>

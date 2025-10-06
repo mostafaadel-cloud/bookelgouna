@@ -1,0 +1,61 @@
+{% load i18n common_tags %}
+
+{% for entertainment in object_list %}
+    <div class="find__article">
+        <div class="find__article-top">
+            <h3 class="find__article-title">
+                <a href="{{ entertainment.get_absolute_url }}" class="find__article-title-link">
+                    {{ entertainment.title_trans }}
+                </a>
+            </h3>
+            {% if entertainment.review_avg > 0 %}
+                <div class="find__article-rate-review">
+                    {% blocktrans with mark=entertainment.review_avg|floatformat:"0" %}{{ mark }}/5 (based on reviews){% endblocktrans %}
+                </div>
+            {% endif %}
+        </div>
+        {% with absolute_url=entertainment.get_absolute_url %}
+            <div class="find__article-gallery trans-page">
+                <div id="find-gallery-single" class="find-gallery-single owl-carousel">
+                    <a href="{{ absolute_url }}" class="item">
+                        <img class="lazyOwl" data-src="{{ entertainment.find_service_big_featured_image }}">
+                    </a>
+                    {% for image_obj in entertainment.images.all %}
+                        <a href="{{ absolute_url }}" class="item">
+                            <img class="lazyOwl" data-src="{{ image_obj.find_service_big_image_thumbnail }}">
+                        </a>
+                    {% endfor %}
+                </div>
+                <div class="find__article-info trans-page">
+                    <div class="find__article-price-box trans-page">
+                        <div class="find__article-price-top trans-page">
+                            {% if entertainment.min_price  %}
+                                {% trans "from" %}
+                                <span class="find__article-price-amount yellow-price trans-page">{{ entertainment.min_price|floatformat:-2 }}
+                                    <span class="find__article-price-sign yellow-price trans-page">$</span>
+                                </span>
+                            {% else %}
+                                {% blocktrans context 'find entertainment page review text' %}Review{% endblocktrans %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ absolute_url }}" class="find__article-book-btn excurs-page">{% blocktrans context 'find entertainment page book button' %}book{% endblocktrans %}</a>
+                <p class="find__article-text trans-page">
+                    {{ entertainment.description_trans }}
+                </p>
+            </div>
+        {% endwith %}
+    </div>
+{% empty %}
+    {% url "business" as link %}
+    <h2 class="form__title">{% blocktrans context "find entertainment page no entertainment in db" with class="form__link" %}No entertainment yet. If you are an entertainment owner, <a href="{{ link }}" class="{{ class }}">register</a> and add new one.{% endblocktrans %}</h2>
+{% endfor %}
+
+{% if has_more_entertainments %}
+    <div class="find__showmore-btn">
+        <a class="find__showmore-btn-link find-page">
+            {% blocktrans %}show more{% endblocktrans %}
+        </a>
+    </div>
+{% endif %}

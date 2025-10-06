@@ -1,0 +1,13 @@
+{% extends "base_service_find_page.html" %}
+{% load i18n %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Find Transport{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag' %}find transport description metatag{% endblocktrans %}{% endblock %}
+{% block fb_title %}{% blocktrans context "facebook page title" %}find transport page facebook title{% endblocktrans %}{% endblock %}
+{% block fb_desc_meta_tag %}{% blocktrans context "facebook page description" %}find transport page facebook description{% endblocktrans %}{% endblock %}
+
+{% block content %}
+<div class="find" id="find-hotel-list" data-page="{{ form.page.value }}">
+    {% include 'transport/includes/ajax_find_transport_list_with_filters.html' %}
+</div>
+{% endblock %}

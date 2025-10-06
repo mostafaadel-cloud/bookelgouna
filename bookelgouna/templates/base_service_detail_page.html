@@ -1,0 +1,23 @@
+{% extends "base_with_simple_header.html" %}
+{% load socialaccount common_tags %}
+
+{% block title %}{{ object.title_trans }}{% endblock %}
+{% block desc_meta_tag %}{{ object.description_trans|remove_newlines|truncatechars:160 }}{% endblock %}
+{% block fb_title %}{{ object.title_trans }}{% endblock %}
+{% block fb_desc_meta_tag %}{{ object.description_trans|remove_newlines|truncatechars:160 }}{% endblock %}
+
+{% block on_body_open %}
+{#    allauth have only fb app now. Its media js includes jsdk initiailization. In order to not duplicate #}
+{#    jsdk initialization for facebook social like/share buttons I reuse here allauth templatetag. #}
+    {% providers_media_js %}
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <ul id="contrib_messages" style="display: none">
+            {% for message in messages %}
+                <li data-type="{% contrib_messages_level_as_noty_type message.level %}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

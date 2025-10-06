@@ -1,0 +1,163 @@
+{% extends "base_with_simple_header.html" %}
+{% load i18n common_tags %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Cart{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag' %}cart page description metatag{% endblocktrans %}{% endblock %}
+{% block fb_title %}{% blocktrans context "facebook page title" %}Cart page facebook title{% endblocktrans %}{% endblock %}
+{% block fb_desc_meta_tag %}{% blocktrans context "facebook page description" %}Cart page facebook description{% endblocktrans %}{% endblock %}
+
+{% block content %}
+    <div class="wrap-inner">
+        <div class="find">
+            <h2 class="find__title">{% blocktrans %}shopping cart{% endblocktrans %}</h2>
+                {% if cart_items_count > 0 %}
+                    {% if cart.hotel_rooms.exists %}
+                        <div class="shop-cart__category">
+                            <div class="shop-cart__category-title">
+                                <i class="table-icon-hotel"></i>
+                                <span class="shop-cart__item-title">{% trans "Hotels" %}</span>
+                            </div>
+                            {% for item in cart.hotel_rooms %}
+                                <div class="find__shop-item">
+                                    {% include item.content_object.shopping_cart_item_template with cartitem=item item=item.content_object %}
+                                </div>
+                            {% endfor %}
+                            <div class="shop-cart__item-amount">
+                                <span class="shop-cart__item-text">{% blocktrans %}Total hotel amount{% endblocktrans %}</span>
+                                <span class="find__article-price-amount shop-cart black-price">{{ category2total|lookup:cart.hotel_rooms.first.content_type|floatformat:-2 }} <span class="find__article-price-sign shop-cart black-price">$</span></span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if cart.apartments.exists %}
+                        <div class="shop-cart__category">
+                            <div class="shop-cart__category-title">
+                                <i class="table-icon-apt"></i>
+                                <span class="shop-cart__item-title">{% trans "Apartments" %}</span>
+                            </div>
+                            {% for item in cart.apartments %}
+                                <div class="find__shop-item">
+                                    {% include item.content_object.shopping_cart_item_template with cartitem=item item=item.content_object %}
+                                </div>
+                            {% endfor %}
+                            <div class="shop-cart__item-amount">
+                                <span class="shop-cart__item-text">{% blocktrans %}Total apartments amount{% endblocktrans %}</span>
+                                <span class="find__article-price-amount shop-cart black-price">{{ category2total|lookup:cart.apartments.first.content_type|floatformat:-2 }} <span class="find__article-price-sign shop-cart black-price">$</span></span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if cart.transport.exists %}
+                        <div class="shop-cart__category">
+                            <div class="shop-cart__category-title">
+                                <i class="table-icon-trans"></i>
+                                <span class="shop-cart__item-title">{% trans "Transport" %}</span>
+                            </div>
+                            {% for item in cart.transport %}
+                                <div class="find__shop-item">
+                                    {% include item.content_object.shopping_cart_item_template with cartitem=item item=item.content_object %}
+                                </div>
+                            {% endfor %}
+                            <div class="shop-cart__item-amount">
+                                <span class="shop-cart__item-text">{% blocktrans %}Total transport amount{% endblocktrans %}</span>
+                                <span class="find__article-price-amount shop-cart black-price">{{ category2total|lookup:cart.transport.first.content_type|floatformat:-2 }} <span class="find__article-price-sign shop-cart black-price">$</span></span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if cart.sports.exists %}
+                        <div class="shop-cart__category">
+                            <div class="shop-cart__category-title">
+                                <i class="table-icon-trans"></i>
+                                <span class="shop-cart__item-title">{% trans "Sports" %}</span>
+                            </div>
+                            {% for item in cart.sports %}
+                                <div class="find__shop-item">
+                                    {% include item.content_object.shopping_cart_item_template with cartitem=item item=item.content_object %}
+                                </div>
+                            {% endfor %}
+                            <div class="shop-cart__item-amount">
+                                <span class="shop-cart__item-text">{% blocktrans %}Total sports amount{% endblocktrans %}</span>
+                                <span class="find__article-price-amount shop-cart black-price">{{ category2total|lookup:cart.sports.first.content_type|floatformat:-2 }} <span class="find__article-price-sign shop-cart black-price">$</span></span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if cart.excursions.exists %}
+                        <div class="shop-cart__category">
+                            <div class="shop-cart__category-title">
+                                <i class="table-icon-trans"></i>
+                                <span class="shop-cart__item-title">{% trans "Excursions" %}</span>
+                            </div>
+                            {% for item in cart.excursions %}
+                                <div class="find__shop-item">
+                                    {% include item.content_object.shopping_cart_item_template with cartitem=item item=item.content_object %}
+                                </div>
+                            {% endfor %}
+                            <div class="shop-cart__item-amount">
+                                <span class="shop-cart__item-text">{% blocktrans %}Total excursions amount{% endblocktrans %}</span>
+                                <span class="find__article-price-amount shop-cart black-price">{{ category2total|lookup:cart.excursions.first.content_type|floatformat:-2 }} <span class="find__article-price-sign shop-cart black-price">$</span></span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if cart.entertainment.exists %}
+                        <div class="shop-cart__category">
+                            <div class="shop-cart__category-title">
+                                <i class="table-icon-trans"></i>
+                                <span class="shop-cart__item-title">{% trans "Entertainment" %}</span>
+                            </div>
+                            {% for item in cart.entertainment %}
+                                <div class="find__shop-item">
+                                    {% include item.content_object.shopping_cart_item_template with cartitem=item item=item.content_object %}
+                                </div>
+                            {% endfor %}
+                            <div class="shop-cart__item-amount">
+                                <span class="shop-cart__item-text">{% blocktrans %}Total entertainment amount{% endblocktrans %}</span>
+                                <span class="find__article-price-amount shop-cart black-price">{{ category2total|lookup:cart.entertainment.first.content_type|floatformat:-2 }} <span class="find__article-price-sign shop-cart black-price">$</span></span>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="find__shop-item">
+                        {% blocktrans %}No items yet.{% endblocktrans %}
+                    </div>
+                {% endif %}
+                <!--THIS IS AMOTHER ICON HEADERS
+
+                <div class="shop-cart__category-title">
+                    <i class="table-icon-apt"></i>
+                    <span class="shop-cart__item-title">apartments</span>
+                </div>
+
+                <div class="shop-cart__category-title">
+                    <i class="table-icon-excurs"></i>
+                    <span class="shop-cart__item-title">Excursions</span>
+                </div>
+
+                <div class="shop-cart__category-title">
+                    <i class="table-icon-sport"></i>
+                    <span class="shop-cart__item-title">sports</span>
+                </div>
+
+                <div class="shop-cart__category-title">
+                    <i class="table-icon-trans"></i>
+                    <span class="shop-cart__item-title">transport</span>
+                </div>
+
+                <div class="shop-cart__category-title">
+                    <i class="table-icon-things"></i>
+                    <span class="shop-cart__item-title">things to do</span>
+                </div>
+
+                -->
+            <div>
+                <div class="shop-cart__item-amount total-cart">
+                    <span class="shop-cart__item-text total-cart">{% blocktrans %}Total amount{% endblocktrans %}</span>
+                    <span class="find__article-price-amount shop-cart orange-price">{{ total_amount|floatformat:-2 }} <span class="find__article-price-sign shop-cart orange-price">$</span></span>
+                </div>
+            </div>
+            <div class="find__shop-btns">
+                <a class="find__article-book-btn shop-cart" href="{% url 'explore' %}">{% blocktrans %}Continue shopping{% endblocktrans %}</a>
+                {% if cart_items_count > 0 %}
+                    <a class="find__article-book-btn shop-cart-submit" href="{% url 'checkout' %}">{% trans "make an order" %}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

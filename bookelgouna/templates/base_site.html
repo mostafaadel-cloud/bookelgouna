@@ -1,0 +1,70 @@
+{% load i18n static common_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% trans "Bookelgouna" %}{% endblock title %}</title>
+    <link rel="shortcut icon" type="image/x-icon"  href="{{ STATIC_URL }}favicon.ico"  />
+    <link rel="canonical" href="{% get_current_absolute_url %}" />
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content=""/>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="{% block desc_meta_tag %}{% trans 'Base template description meta tag' %}{% endblock %}"/>
+    {% get_fb_app_id_if_any as fb_app_id %}
+    {% if fb_app_id %}
+        <meta property="fb:app_id" content="{{ fb_app_id }}" />
+    {% endif %}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
+    {# custom fb tags per every page start #}
+    <meta property="og:title" content="{% block fb_title %}{% blocktrans context "facebook page title" %}Base page facebook title{% endblocktrans %}{% endblock %}"/>
+    <meta property="og:description" content="{% block fb_desc_meta_tag %}{% blocktrans context "facebook page description" %}Base page facebook description{% endblocktrans %}{% endblock %}"/>
+    {% block fb_images %}
+        <meta property="og:image" content="{{ DEFAULT_FB_IMAGE }}"/>
+    {% endblock %}
+    {# custom fb tags per every page end #}
+    <meta name="robots" content="{{ ROBOTS_DIRECTIVES }}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/result.css' %}">
+    {% block css %}
+    {% endblock css %}
+    {% if USE_GOOGLE_ANALYTICS %}
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-62746430-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+    {% endif %}
+</head>
+<body{% if LANGUAGE_CODE == 'ar' %} id="arabic"{% endif %} data-lang-code="{{ LANGUAGE_CODE }}">
+    {% block on_body_open %}{% endblock %}
+    <div class="wrapper">
+        {% block base_content %}{% endblock base_content %}
+    </div>
+    <script>
+        var RATEIT_ICONS_BASE_PATH = "{% static 'images/sprite-icon/' %}";
+        var SHOW_MORE_TEXT = "{% blocktrans context "service/item description link to show more text" %}Show More{% endblocktrans %}";
+        var SHOW_LESS_TEXT = "{% blocktrans context "service/item description link to show less text" %}Show Less{% endblocktrans %}";
+        var MAX_ITEM_DESCRIPTION_LENGTH = 500;
+        var MAX_DESCRIPTION_LENGTH_ON_MOBILE = 215;
+        var READ_MORE_COMMENT = "{% blocktrans context "extend comment on mobile" %}Read More{% endblocktrans %}";
+        var MAX_COMMENT_LENGTH_ON_MOBILE = 200;
+    </script>
+    <!-- build:template
+    <% if (environment === 'dev') { %>
+        <script type="text/javascript" src="{% static 'js/lib.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+    <% } else { %>
+        <script type="text/javascript" src="{% static 'js/lib.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/script.min.js' %}"></script>
+    <% } %>
+    /build -->
+    {% block js %}
+    {% endblock js %}
+    <div id="overlay-spinner" class="overlay"><div class="spinner"></div></div>
+</body>
+</html>

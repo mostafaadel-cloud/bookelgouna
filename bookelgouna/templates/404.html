@@ -1,0 +1,31 @@
+{% extends "base_with_simple_header.html" %}
+{% load i18n %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Page 404{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag' %}page 404 description metatag{% endblocktrans %}{% endblock %}
+
+{% block content %}
+    <div class="wrap-inner">
+        <div class="error-pages">
+            <div class="error-pages__main-block">
+                <div class="error-pages__main">4<span>0</span>4</div>
+                <div class="error-pages__block">
+                    <span class="error-pages__block-text-big">{% blocktrans context 'page 404 text' %}oops!{% endblocktrans %}</span>
+                    <span class="error-pages__block-text">{% blocktrans context 'page 404 text' %}looks like we lost page{% endblocktrans %}</span>
+                    <div class="error-pages__block-text-sm ">{% blocktrans context 'page 404 text' %}perhaps this page never existed{% endblocktrans %}</div>
+                </div>
+            </div>
+            <div class="error-pages__text">
+                {% blocktrans context 'page 404 text' %}Unfortunately the content you’re looking for isn’t here.
+                There may be a misspelling in your web address or you may have clicked 
+                a link for content that no longer exists.{% endblocktrans %}
+            </div>
+            {% url 'find_hotel' as url %}
+            <div class="error-pages__text">{% blocktrans context 'page 404 text' with cls="error-pages__link" %}
+                Perhaps you will be interested to see our <a class="{{ cls }}" href="{{ url }}">best hotels</a>
+            {% endblocktrans %}
+            </div>
+            
+        </div>
+    </div>
+{% endblock content %}

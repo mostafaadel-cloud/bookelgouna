@@ -1,0 +1,37 @@
+{% extends "base_with_simple_header.html" %}
+{% load i18n %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Checkout{% endblocktrans %}{% endblock %}
+
+{% block content %}
+    <div class="wrap-inner">
+        <div class="find">
+            <h2 class="find__title checkout">{% trans "Checkout" %}</h2>
+            <div class="checkout__text">{% blocktrans with total_amount=total_amount|floatformat:-2 %}You are about to make an order on <span>{{ total_amount }}$</span>{% endblocktrans %}</div>
+            <div class="cabinet__billing-block">
+                <label class="checkout__label">{% blocktrans %}Select payment method{% endblocktrans %}</label>
+                <div class="cabinet__billing__select-box checkout">
+                    <span class="cabinet__billing__select-method">
+                        <select id="select-method" tabindex="-1" class="select-method" name="" placeholder="Upon Arrival">
+{#                            <option></option>#}
+                            <option value="wire">{% blocktrans %}Upon Arrival{% endblocktrans %}</option>
+{#                            <option value="check">Bank Wire</option>#}
+{#                            <option value="paypal">Paypal</option>#}
+                        </select>
+                    </span>
+                </div>
+            </div>
+            <div class="checkout__discr">
+                <p>{% blocktrans %}Payment method description paragraph 1 on checkout{% endblocktrans %}</p>
+                <p>{% blocktrans %}Payment method description paragraph 2 on checkout{% endblocktrans %} </p>
+            </div>
+            <div class="find__shop-btns">
+                <a class="find__article-book-btn shop-cart" href="{% url 'cart' %}">{% trans "Back" %}</a>
+                <form class="show480 shop-cart-confirm" method="POST" action="{% url 'checkout' %}">
+                    {% csrf_token %}
+                    <input class="find__article-book-btn shop-cart-submit" type="submit" value="{% trans "Confirm" %}">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

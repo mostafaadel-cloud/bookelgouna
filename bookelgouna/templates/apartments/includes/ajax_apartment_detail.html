@@ -1,0 +1,117 @@
+{% load i18n common_tags apt_tags widget_tweaks %}
+
+{% if errors %}
+    <ul id="ajax-date-form-errors" style="display: none;">
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+
+
+<form method="POST" id="apartment_booking_form" action="{% url 'add_apartment_to_cart' %}">
+    {% csrf_token %}
+    {{ cartitem_form.item_pk|attr:"style:display:none" }}
+    {{ cartitem_form.from_date|attr:"style:display:none" }}
+    {{ cartitem_form.to_date|attr:"style:display:none" }}
+    {% if has_price_category and not errors %}
+        <div class="hotels__block-l">
+            <p class="hotels__info">{% blocktrans %}Today's price{% endblocktrans %}</p>
+            <p class="hotels__info">{% blocktrans with num=night_number %}(at {{ num }} overnight){% endblocktrans %}</p>
+        </div>
+    {% endif %}
+    <div class="hotels__find-container js-room-container">
+        {% if has_price_category or has_enabled_options %}
+            <div id="item" class="hotels__rooms">
+                <div class="hotels__preview-container">
+                    <ul class="hotels__room-list apt-page js-price-categories-list">
+                        {% if has_price_category %}
+                            {% if not errors %}
+                                <li class="hotels__room-item apt-page js-current-price-category">
+                                    <div class="hotels__price-container apt-page">
+                                        {% get_price_for_dates price_category start_date end_date as holiday_price %}
+                                        <div class="hotels__price-block apt-page">
+                                            <span class="hotels__price-or apt-page yellow-price"><span class="js-price-per-room">{{ holiday_price|floatformat:-2 }}</span><span class="hotels__price-sign">&nbsp;$</span></span>
+                                            {% blocktrans context 'apartment detail page price label' %}Full holiday{% endblocktrans %}
+                                        </div>
+                                        <div class="hotels__price-block apt-page">
+                                            <span class="hotels__price-or apt-page"><span>{{ holiday_price|divideby:night_number|floatformat:-2 }}</span><span class="hotels__price-sign">&nbsp;$</span></span>
+                                            {% blocktrans context 'apartment detail page price label' %}Per night{% endblocktrans %}
+                                        </div>
+                                    </div>
+
+                                    <ul class="hotels__discr-list second-list apt-page">
+                                        <li class="hotels__discr-item second-list apt-page">
+                                            <i class="hotels__discr-icons second-list back-tick-green"></i>
+                                            <span class="hotels__discr-text second-list">{{ price_category.get_pay_option_display }}</span>
+                                            <div class="info">
+                                                <i class="info-icon">i</i>
+                                                <div class="info-box">
+                                                    <span class="info-title">{% trans "Conditions" %}</span>
+                                                    <p class="info-text">{{ price_category.conditions_trans }}</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    {% if in_cart %}
+                                        <span class="chosen-dates apt-page">
+                                            {% blocktrans with start=in_cart.from_date|date:"d.m.y" end=in_cart.to_date|date:"d.m.y" %}Already in cart with dates: {{ start }}-{{ end }}. Select again to change dates.{% endblocktrans %}
+                                        </span>
+                                    {% elif apartment.min_nights_to_book > night_number %}
+                                        <span class="chosen-dates apt-page">
+                                            {% blocktrans context "apartment detail page client tries to book apartment for too small number of nights" count num=apartment.min_nights_to_book %}You should choose at least {{ num }} night.{% plural %}You should choose at least {{ num }} nights.{% endblocktrans %}
+                                        </span>
+                                    {% elif in_order %}
+                                        <span class="chosen-dates apt-page">
+                                            {% blocktrans with start=in_order.from_date|date:"d.m.y" end=in_order.to_date|date:"d.m.y" %}Not available on these dates: {{ start }}-{{ end }}. Please select another dates.{% endblocktrans %}
+                                        </span>
+                                    {% endif %}
+                                    <button class="hotels__bookroom-btn apt-page" type="submit"{% if in_order or apartment.min_nights_to_book > night_number %} disabled="disabled"{% endif %}>{% blocktrans %}select this price{% endblocktrans %}</button>
+                                </li>
+                            {% else %}
+                                <li class="hotels__room-item apt-page">
+                                    <ul class="hotels__discr-list second-list apt-page">
+                                        <li class="hotels__discr-item second-list apt-page">
+                                            <span class="hotels__discr-text second-list">{% blocktrans context "apartment detail page date errors text" %}Fix dates to see prices.{% endblocktrans %}</span>
+                                        </li>
+                                    </ul>
+                                    <a class="hotels__bookroom-btn apt-page" href="./#rooms-list">{% blocktrans context "apartment detail page date errors button" %}Reset dates{% endblocktrans %}</a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                        {% if has_enabled_options %}
+                            <li class="hotels__room-item apt-page">
+                                <ul class="hotels__discr-list second-list apt-page with-price">
+                                    {% if apt_options.for_long_term %}
+                                        <li class="hotels__discr-item second-list apt-page with-price">
+                                            <div class="hotels__discr-withprice">
+                                                <i class="hotels__discr-icons second-list back-tick-green with-price"></i>
+                                                <span class="hotels__discr-text second-list with-price">{% blocktrans context "apartment detail page long term option" %}Long term{% endblocktrans %}</span>
+                                            </div>
+                                                <span class="hotels__price-or blue-price small-price">{{ apt_options.long_term_price|floatformat:-2 }}&nbsp;$</span>
+                                        </li>
+                                    {% endif %}
+                                    {% if apt_options.for_sale %}
+                                        <li class="hotels__discr-item second-list apt-page with-price">
+                                            <div class="hotels__discr-withprice">
+                                                <i class="hotels__discr-icons second-list back-tick-green with-price"></i>
+                                                <span class="hotels__discr-text second-list with-price">{% blocktrans context "apartment detail page for sale option" %}For sale{% endblocktrans %}</span>
+                                            </div>
+                                             <span class="hotels__price-or blue-price small-price">{{ apt_options.sale_price|floatformat:-2 }}&nbsp;$</span>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                                <a class="hotels__bookroom-btn apt-page" href="#contact-info">{% blocktrans context "apartment detail page long term or sale options button" %}Contact Admin for a Quote{% endblocktrans %}</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        {% else %}
+            <h2 class="hotels__info no-prices">{% blocktrans context "apartment detail page no prices text" %}This apartment has no prices.{% endblocktrans %}</h2>
+            <a class="hotels__bookroom-btn apt-page no-prices" href="#contact-info">{% blocktrans context "apartment detail page no prices button" %}Contact Admin for a Quote{% endblocktrans %}</a>
+        {% endif %}
+    </div>
+</form>

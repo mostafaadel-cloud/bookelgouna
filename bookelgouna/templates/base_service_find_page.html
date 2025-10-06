@@ -1,0 +1,10 @@
+{% extends "base_with_simple_header.html" %}
+{% load common_tags %}
+
+{% block fb_images %}
+    {% for object in object_list.all %}
+        <meta property="og:image" content="{% get_absolute_image_url object.service_detail_big_featured_image %}"/>
+    {% empty %}
+        {{ block.super }}
+    {% endfor %}
+{% endblock %}

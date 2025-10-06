@@ -1,0 +1,72 @@
+{% extends 'base_with_skewed_header.html' %}
+{% load i18n widget_tweaks socialaccount %}
+
+{% block title %}{% blocktrans context 'page title (end user)' %}Bookelgouna | Login{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag (end user)' %}login page description metatag{% endblocktrans %}{% endblock %}
+{% block fb_title %}{% blocktrans context "facebook page title (end user)" %}Login page facebook title{% endblocktrans %}{% endblock %}
+{% block fb_desc_meta_tag %}{% blocktrans context "facebook page description (end user)" %}Login page facebook description{% endblocktrans %}{% endblock %}
+
+{% block on_body_open %}{% providers_media_js %}{% endblock %}
+
+{% block content %}
+{% if messages %}
+    <ul id="contrib_messages" style="display: none">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<div class="signupboard login-page">
+    <div class="signupboard-center">
+        <form class="signup-form log-user" method="POST" action="{% url 'account_login' %}">
+            {% csrf_token %}
+            <span class="signup-form__text">{% blocktrans %}Already a member?{% endblocktrans %}</span><br>
+            <span class="signup-form__text">{% blocktrans %}Login, please!{% endblocktrans %}</span><br>
+            {% if form.non_field_errors %}
+                <div class="non_field_errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            <a href="{% provider_login_url "facebook" method="js_sdk" %}" tabindex="5">
+                <button class="signup-form__btn facebook" type="button">{% trans "sign in with facebook" %}</button>
+            </a>
+            <div class="signup-form__separator">   
+                {{ form.login|add_class:"signup-form__input"|add_error_class:"error"|attr:"tabindex:1" }}
+                {% if form.login.errors %}
+                    <span class="error">{{ form.login.errors.0 }}</span>
+                {% endif %}
+            </div>
+            <div class="signup-form__separator">
+                {{ form.password|add_class:"signup-form__input"|add_error_class:"error"|attr:"tabindex:2" }}
+                {% if form.password.errors %}
+                    <span class="error">{{ form.password.errors.0 }}</span>
+                {% endif %}
+            </div>
+            <div>
+                <div class="signup-form__checkbox">
+                    {{ form.remember|attr:"style:display:none" }}
+                    <label class="signup-form__checkbox-label" for="{{ form.remember.id_for_label }}">{% blocktrans %}Remember me{% endblocktrans %}</label>
+                </div>
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                <a href="{% url 'account_reset_password' %}" class="signup-form__forgotpass">{% blocktrans %}Forgot password?{% endblocktrans %}</a>
+            </div>
+            <button class="signup-form__btn signin-index" type="submit" tabindex="3">{% trans "Sign In" %}</button>
+            <a class="signup-form__link signup-form__btn signup-index" href="{% url "account_signup" %}" tabindex="4">
+               {% trans "Sign Up" %}
+            </a>
+        </form>
+        <div class="signup-form__sidebox">
+            <span class="owl-text-signup">{% blocktrans context "end user login welcome header" %}End user login regard header{% endblocktrans %}</span><br>
+            <div class="owl-text-signupsm">
+                <div class="block-overflow">
+                    <p>{% blocktrans context "end user login welcome text" %}End user login form text on the right-hand side of the slide.
+                    End user login form text on the right-hand side of the slide. End user login form text on the right-hand side of the slide.{% endblocktrans %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

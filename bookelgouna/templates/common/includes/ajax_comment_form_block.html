@@ -1,0 +1,22 @@
+{% load i18n widget_tweaks %}
+
+<form id="comment-form" method="POST" action="{{ comment_url }}"
+        {% if not user.is_authenticated %} data-login-url="{{ login_url }}"{% endif %}
+        data-success-message="{% trans "Comment was successfully added. It will be displayed after admin moderation." %}">
+    {% csrf_token %}
+    <h3 class="hotels__title">{% blocktrans %}add comment{% endblocktrans %}</h3>
+    <span class="hotels__text-add">{% blocktrans %}Notice that you can add comment only one time{% endblocktrans %}</span>
+    {% if comment_form.non_field_errors %}
+        <div>
+            <span class="error">{{ comment_form.non_field_errors.0 }}</span>
+        </div>
+    {% endif %}
+    <div class="hotels__textarea-box">
+        {{ comment_form.entity_id|attr:"style:display:none" }}
+        {{ comment_form.text|add_class:"hotels__textarea js-comment-textarea"|add_error_class:"error" }}
+        {% if comment_form.text.errors %}
+            <span class="error">{{ comment_form.text.errors.0 }}</span>
+        {% endif %}
+    </div>
+    <input class="hotels__submit-comment js-submit-comment-btn" type="submit" value="{% trans "submit" %}">
+</form>

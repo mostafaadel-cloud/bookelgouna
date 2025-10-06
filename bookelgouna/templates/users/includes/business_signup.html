@@ -1,0 +1,138 @@
+{% load i18n widget_tweaks %}
+
+<form class="signup-form reg-owner ajax-form" method="post" action="{% url 'business_signup' %}">
+    {% csrf_token %}
+    <span class="signup-form__text reg-owner">{% blocktrans %}Register and join us!{% endblocktrans %}</span><br>
+    {% if form.non_field_errors %}
+        <div class="non_field_errors">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+    <div class="signup-form__separator-main">
+        <div class="signup-form__separator-r">
+            {{ form.email|add_class:"signup-form__input reg-owner"|add_error_class:"error"|attr:"tabindex:1" }}
+            {% if form.email.errors %}
+               <span class="error">{{ form.email.errors.0 }}</span>
+            {% endif %}
+        </div>
+        <div class="signup-form__separator-l">
+            {{ form.country|add_class:"signup-form__input reg-owner"|add_error_class:"error" }}
+            {% if form.country.errors %}
+                   <span class="error">{{ form.country.errors.0 }}</span>
+            {% endif %}
+            <span class="tooltip absolute">
+                <span class="tooltip-icon">?</span>
+                <span class="tooltip-text">
+                    {% blocktrans context "business owner signup country hint content" %}Country{% endblocktrans %}
+                </span>
+            </span>
+        </div>
+    </div>
+
+    <div class="signup-form__separator-main">
+{#        Phone and username fields positions here are exchanged to ensure correct browser autocomplete functionality #}
+        <div class="signup-form__separator-l">
+            {% with WIDGET_ERROR_CLASS='error' %}
+                {% render_field form.phone class="signup-form__input-sm" placeholder=form.phone.label tabindex="3" %}
+            {% endwith %}
+            {% if form.phone.errors %}
+                <span class="error">{{ form.phone.errors.0 }}</span>
+            {% endif %}
+            <span class="tooltip absolute">
+                <span class="tooltip-icon">?</span>
+                <span class="tooltip-text">
+                    {% blocktrans context "business owner signup phone hint content" %}Phone number{% endblocktrans %}
+                </span>
+            </span>
+        </div>
+        <div class="signup-form__separator-r">
+            {{ form.username|add_class:"signup-form__input-sm"|add_error_class:"error"|attr:"tabindex:2" }}
+            {% if form.username.errors %}
+                 <span class="error">{{ form.username.errors.0 }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="signup-form__separator-main">
+        {# password field values are not cleared intentionally #}
+        <div class="signup-form__separator-r">
+            {% with WIDGET_ERROR_CLASS='error' value=form.password1.value|default:"" %}
+                {% render_field form.password1 class="signup-form__input-sm input-float" value=value tabindex="4" %}
+            {% endwith %}
+            {% if form.password1.errors %}
+                   <span class="error">{{ form.password1.errors.0 }}</span>
+            {% endif %}
+        </div>
+        <div class="signup-form__separator-l">
+            {% with WIDGET_ERROR_CLASS='error' value=form.password2.value|default:"" %}
+                {% render_field form.password2 class="signup-form__input-sm input-float" placeholder=form.password2.label value=value tabindex="5" %}
+            {% endwith %}
+            {% if form.password2.errors %}
+                  <span class="error">{{ form.password2.errors.0 }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <span class="signup-form__text reg-owner">{% blocktrans %}Choose your Business Type{% endblocktrans %}</span><br>
+
+    <div class="signup-form__empty-bustype" id="js-empty__bustype" data-header="{% trans "Select your Business type" %}"
+            data-text="{% trans "Choose your type of business to get details" %}"></div>
+    <div class="relative">
+        <ul class="signup-form__bustype">
+            <li class="signup-form__type-item" data-value="0" data-header="{% trans "Hotel page header" %}"
+                    data-text="{% trans "Hotel page huge-huge-huge text. Hotel page huge-huge-huge text. Hotel page huge-huge-huge text. Hotel page huge-huge-huge text." %}">
+                <span class="signup-form__type-link reg-hotel"></span>
+                <span class="signup-form__type-name">{% trans "Hotel" %}</span>
+            </li>
+            <li class="signup-form__type-item" data-value="1" data-header="{% trans "Apartment page header" %}"
+                    data-text="{% trans "Apartment page huge-huge-huge text. Apartment page huge-huge-huge text. Apartment page huge-huge-huge text. Apartment page huge-huge-huge text." %}">
+                <span class="signup-form__type-link reg-apt"></span>
+                <span class="signup-form__type-name reg-apt">{% trans "Apartments" %}</span>
+            </li>
+            <li class="signup-form__type-item" data-value="2" data-header="{% trans "Transport page header" %}"
+                    data-text="{% trans "Transport page huge-huge-huge text. Transport page huge-huge-huge text. Transport page huge-huge-huge text. Transport page huge-huge-huge text" %}">
+                <span class="signup-form__type-link reg-trans"></span>
+                <span class="signup-form__type-name reg-trans">{% trans "Transport" %}</span>
+            </li>
+            <li class="signup-form__type-item" data-value="3" data-header="{% trans "Excursion page header" %}"
+                    data-text="{% trans "Excursion page huge-huge-huge text. Excursion page huge-huge-huge text. Excursion page huge-huge-huge text. Excursion page huge-huge-huge text." %}">
+                <span class="signup-form__type-link reg-blog"></span>
+                <span class="signup-form__type-name reg-blog">{% trans "Excursions" %}</span>
+            </li>
+            <li class="signup-form__type-item" data-value="4" data-header="{% trans "Sport page header" %}"
+                    data-text="{% trans "Sport page huge-huge-huge text. Sport page huge-huge-huge text. Sport page huge-huge-huge text. Sport page huge-huge-huge text." %}">
+                <span class="signup-form__type-link reg-sport"></span>
+                <span class="signup-form__type-name">{% trans "Sport" %}</span>
+            </li>
+            <li class="signup-form__type-item" data-value="5" data-header="{% trans "Things to do page header" %}"
+                    data-text="{% trans "Things to do page huge-huge-huge text. Things to do page huge-huge-huge text. Things to do page huge-huge-huge text. Things to do page huge-huge-huge text." %}">
+                <span class="signup-form__type-link reg-things"></span>
+                <span class="signup-form__type-name">{% blocktrans %}things to do{% endblocktrans %}</span>
+            </li>
+        </ul>
+        {% if form.service_type.errors %}
+            <span class="error">{{ form.service_type.errors.0 }}</span>
+        {% endif %}
+    </div>
+    <div class="signup-form__checkbox terms-privacy">
+        {{ form.agree|attr:"style:display:none" }}
+        <label class="signup-form__checkbox-label" for="{{ form.agree.id_for_label }}">{% blocktrans context "business owner signup agreement clause" with cls="signup-form__bluelink inline-popup" %}I agree to the bookelgouna.com <a class="{{ cls }}" href="#terms-popup">Terms and Conditions</a> and <a class="{{ cls }}" href="#privacy-popup">Privacy Policy</a>.{% endblocktrans %}
+         {% if form.agree.errors %}
+            <span class="error">{{ form.agree.errors.0 }}</span>
+        {% endif %}
+        </label>
+        <div id="terms-popup" class="white-popup-big mfp-hide">
+            {% include "core/includes/terms_block.html" %}
+        </div>
+        <div id="privacy-popup" class="white-popup-big mfp-hide">
+            {% include "core/includes/privacy_policy_block.html" %}
+        </div>
+    </div>
+
+    {{ form.service_type|add_class:"signup-form__input"|add_error_class:"error"|attr:"style:display:none" }}
+    {{ form.confirmation_key }}
+
+{#    {% if redirect_field_value %}#}
+{#        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />#}
+{#    {% endif %}#}
+
+    <button class="signup-form__btn reg-btn" type="submit" tabindex="6">{% blocktrans %}Register{% endblocktrans %}</button>
+</form>

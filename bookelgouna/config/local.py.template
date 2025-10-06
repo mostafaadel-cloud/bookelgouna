@@ -1,0 +1,68 @@
+# use this template if you are on development server
+from .common import *
+from os.path import join, dirname
+import sys
+import dj_database_url
+
+# DEBUG
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+# END DEBUG
+
+# STATIC/MEDIA PATHES CORRECTION
+MEDIA_PATH = dirname(dirname(BASE_DIR))
+
+STATIC_ROOT = join(MEDIA_PATH, 'staticfiles')
+
+MEDIA_ROOT = join(MEDIA_PATH, 'media')
+# END STATIC/MEDIA PATHES CORRECTION
+
+# Mail settings - corporative dev email
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'robot@steelkiwi.com'
+EMAIL_HOST_PASSWORD = 'A1aaaaaa'
+DEFAULT_FROM_EMAIL = 'robot@steelkiwi.com'
+# End mail settings
+
+
+# django-debug-toolbar
+MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+INSTALLED_APPS += ('debug_toolbar',)
+
+INTERNAL_IPS = ('127.0.0.1', '10.0.2.2',)
+
+DEBUG_TOOLBAR_CONFIG = {
+    'DISABLE_PANELS': [
+        'debug_toolbar.panels.redirects.RedirectsPanel',
+    ],
+    'SHOW_TEMPLATE_CONTEXT': True,
+}
+# end django-debug-toolbar
+
+# DATABASE
+# postgres://USER:PASSWORD@HOST:PORT/NAME
+DATABASES = {'default': dj_database_url.config(default='postgres://USER:PASSWORD@HOST:PORT/NAME')}
+# END DATABASE
+
+if 'test' in sys.argv:
+    # Disable migrations for tests start
+    class DisableMigrations(object):
+        def __contains__(self, item):
+            return True
+
+        def __getitem__(self, item):
+            return "notmigrations"
+    MIGRATION_MODULES = DisableMigrations()
+    # Disable migrations for tests end
+
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+    }
+    # Default backend for testing:
+    EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+    # Simplify password hashing
+    PASSWORD_HASHERS = (
+        'django.contrib.auth.hashers.MD5PasswordHasher',
+    )

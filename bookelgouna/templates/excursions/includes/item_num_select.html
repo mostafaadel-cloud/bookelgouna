@@ -1,0 +1,12 @@
+<div class="select-room-qty select-room-qty__active js-room-qty-selected">
+    <label class="select-room-qty__label">0</label>
+</div>
+<div class="room-qty-drop select-room-qty__form js-room-qty-select selectScroll" data-max-num="{{ options|last }}" data-prev-val="0">
+    {% for option in options %}
+        <div class="select-room-qty__item js-room-qty-item">
+            <input class="select-room-qty__radio" type="radio" name="{{ name }}" id="id_{{ name }}_{{ option }}"
+                   value="{{ option }}" {% if forloop.first %}checked="checked"{% endif %}/>
+            <label class="select-room-qty__label js-room-qty-selecting-link" for="id_{{ name }}_{{ option }}">{{ option }}</label>
+        </div>
+    {% endfor %}
+</div>

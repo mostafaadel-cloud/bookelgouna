@@ -1,0 +1,215 @@
+{% extends 'base_site.html' %}
+{% load i18n static socialaccount widget_tweaks flatpages_i18n %}
+{% block base_content %}
+<div class="wrapper-main-overflow">
+    <header class="header">
+        <div class="header__bg">
+            <div class="wrap-inner relative">
+                <a class="header__logo" href="{% url 'index' %}">
+                    <h1 class="header__logo-title">
+                        <span>{% trans "book" %}</span>{% blocktrans %}el GOUNA{% endblocktrans %}
+                    </h1>
+                </a>
+                <div class="header__barbox">
+                    <div class="header__bar">
+                        {% if request.user.is_authenticated %}
+                            <a class="header__link logged-in" href="{% url 'choose_profile' %}">
+                                    {% if request.user.avatar %}
+                                        <img class="header__avatar" src="{{ request.user.avatar_thumbnail }}">
+                                    {% else %}
+                                        <i class="back-profile"></i>
+                                    {% endif %}
+                                <span class="link-decor">{% trans "Profile" %}</span>
+                            </a>
+<!-- this if for cabiner profile 
+
+    <span class="header__link cabinet-layout">
+        <i class="back-profile"></i>
+        <span>{% trans "Userqwerty" %}</span>
+    </span>
+-->
+
+
+                            <a class="header__link logged-in" href="{% url 'account_logout' %}">
+                                <i class="back-logout"></i>
+                                <span class="link-decor">{% trans "Logout" %}</span>
+                            </a>
+                        {% else %}
+                            <a class="header__link" href="{% url 'account_signup' %}">
+                                <i class="back-pencil"></i>
+                                <span class="link-decor">{% trans "Register" %}</span>
+                            </a>
+                            <a class="header__link" href="{% url 'account_login' %}">
+                                <i class="back-login"></i>
+                                <span class="link-decor">{% trans "Login" %}</span>
+                            </a>
+<!--                             <a class="header__link fb" href="{% provider_login_url "facebook" method="js_sdk" %}">
+                                <i class="back-fb-12"></i><span class="fb-link link-decor">{% blocktrans %}facebook login{% endblocktrans %}</span>
+                            </a> -->
+                        {% endif %}
+                        <a href="{% url 'cart' %}" class="header__busket">
+                            <i class="back-busket-12"></i>
+                            <span class="header__items link-decor">
+                                <span class="header-m__counter">{{ cart_items_count }}</span>{% blocktrans %}My Trip{% endblocktrans %}
+                            </span>
+                        </a>
+                        <a class="header__link date date-box">
+                            <i class="back-calendar-12"></i>
+                            <span class="date-option link-decor">
+                                Dates & Guests
+                            </span>
+                            <span class="selected-date"></span>
+                               <div class="date-calendar main-page">
+                                    <div class="date-calendar__box">
+                                        <form id="save_dates_and_guests_form" method="POST" action="{% url 'save_dates_ajax' %}">
+                                            {% csrf_token %}
+                                            <div class="date-calendar__filters">
+                                                <div class="date-calendar__select-box adults">
+                                                    <span class="date-calendar__label">{% trans "Adults" %}</span>
+                                                    <span class="date-calendar__select-qty">
+                                                        {{ dates_and_guests_form.adults|add_class:"select-qty select-guests"|attr:"tabindex:-1" }}
+                                                    </span>
+                                                </div>
+                                                <div class="date-calendar__select-box children">
+                                                    <span class="date-calendar__label">{% trans "Children" %}</span>
+                                                    <span class="date-calendar__select-qty">
+                                                        {{ dates_and_guests_form.children|add_class:"select-qty select-guests"|attr:"tabindex:-1" }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="date-calendar__separator">
+                                                <label class="date-calendar__label" for="id_arrival">{% trans "Arrival" %}</label>
+                                                {{ dates_and_guests_form.arrival|add_class:"date-calendar__input"|attr:"id:from-date" }}
+                                            </div>
+                                            <div class="date-calendar__separator">
+                                                <label class="date-calendar__label" for="id_departure">{% trans "Departure" %}</label>
+                                                {{ dates_and_guests_form.departure|add_class:"date-calendar__input"|attr:"id:to-date" }}
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="calendar-box"></div>
+                                    <div class="date-calendar__btn">
+                                        <input type="submit" value="apply">
+                                    </div>
+                                </div>
+                        </a>
+
+                    </div>
+                    <span class="select-lang main-page switch-menu">
+                        {% include "common/includes/select_lang_form.html" %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="header__bg-down">
+            <div class="wrap-inner relative">
+                <div class="header__menubox">
+                    <div id ="menu-switch" class="header__switch-menu"><span>{% blocktrans %}find{% endblocktrans %}</span><i class="icon-switchmenu"></i></div>
+                    <ul id="menu-dropdown" class="header__menu">
+                    <li class="header__menu-list">
+                        <a href="{% url 'find_hotel' %}" class="header__menu-link{% if active_tab == 'hotels' %} active{% endif %}">
+                            <i class="back-hotel wt"></i>{% trans "hotels" %}
+                        </a>
+                    </li>
+                    <li class="header__menu-list">
+                        <a href="{% url 'find_apartment' %}" class="header__menu-link{% if active_tab == 'apartment' %} active{% endif %}">
+                            <i class="back-apartment wt"></i>{% trans "apartments" %}
+                        </a>
+                    </li>
+                    <li class="header__menu-list">
+                        <a href="{% url 'find_transport' %}" class="header__menu-link{% if active_tab == 'transport' %} active{% endif %}">
+                            <i class="back-transport wt"></i>{% trans "transport" %}
+                        </a>
+                    </li>
+                    <li class="header__menu-list">
+                        <a href="{% url 'find_sport' %}" class="header__menu-link{% if active_tab == 'sport' %} active{% endif %}">
+                            <i class="back-sports wt"></i>{% trans "sports" %}
+                        </a>
+                    </li>
+                    <li class="header__menu-list">
+                        <a href="{% url 'find_excursion' %}" class="header__menu-link{% if active_tab == 'excursions' %} active{% endif %}">
+                            <i class="back-excursion wt"></i>{% trans "excursions" %}
+                        </a>
+                    </li>
+                    <li class="header__menu-list">
+                        <a href="{% url 'find_entertainment' %}" class="header__menu-link{% if active_tab == 'entertainment' %} active{% endif %}">
+                            <i class="back-things wt"></i>{% blocktrans %}things to do{% endblocktrans %}
+                        </a>
+                    </li>
+                    <li class="header__menu-list">
+                        <a href="{% url 'blog' %}" class="header__menu-link{% if active_tab == 'blog' %} active{% endif %}">
+                            <i class="back-blog wt"></i>{% trans "blog" %}
+                        </a>
+                    </li>
+                    <li class="header__menu-list">
+                        <a href="{% url 'weather' %}" class="header__menu-link{% if active_tab == 'weather' %} active{% endif %}">
+                            <i class="back-weather wt"></i>{% trans "weather" %}
+                        </a>
+                    </li>
+                     <li class="header__menu-list contact">
+                        <a href="#contact-info" class="header__menu-link">
+                            <i class="back-contact wt"></i>{% trans "contact us" %}
+                        </a>
+                    </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="content">
+        {% block content %}{% endblock content %}
+    </div>
+    <footer class="footer" id="contact-info">
+        <div class="wrap-inner">
+            {% get_flatpages as flatpages %}
+            <div class="footer__info-mob">
+                <p class="footer__copy">{% blocktrans %}Copyright 2014{% endblocktrans %}</p>
+                <ul class="footer__list">
+                    {% for page in flatpages %}
+                        <li class="footer__item"><a class="footer__link" href="{{ page.url }}">{{ page.title_trans }}</a></li>
+                    {% endfor %}
+                    <li class="footer__item"><a class="footer__link" href="{% url 'privacy_policy' %}">{% trans "Privacy" %}</a></li>
+                    <li class="footer__item"><a class="footer__link" href="{% url 'terms' %}">{% blocktrans %}Terms and conditions{% endblocktrans %}</a></li>
+                </ul>
+            </div>
+            <div class="footer__contactlist">
+                <h4 class="footer__title">{% trans "Contacts" %}</h4>
+                <p class="footer__contacts address">{% blocktrans %}Marketing Office, Bookelgouna{% endblocktrans %} <span>{% blocktrans %}Bookelgouna, Downtown{% endblocktrans %}</span></p>
+                <p class="footer__contacts">{% blocktrans %}Phone: +20 65 3545 706{% endblocktrans %}</p>
+                <p class="footer__contacts">{% blocktrans %}Fax:     +20 65 3549 066{% endblocktrans %}</p>
+                <p class="footer__contacts address">{% trans "E-mail:" %} <em>{% trans "info@bookelgouna.com" %}</em></p>
+                <p class="footer__contacts">{% blocktrans %}Booking from Egypt around the world{% endblocktrans %}</p>
+                <p class="footer__contacts-mail"><a class="footer__contacts" href="mailto:support@bookelgouna.com">{% blocktrans %}Short Number: +20 224616136 or +20 16446{% endblocktrans %}</a></p>
+            </div>
+            <div class="footer__menulist">
+                <h4 class="footer__title">{% trans "bookelgouna" %}</h4>
+                <ul>
+                    <li class="footer__menulist-item"><a class="footer__menulist-link" href="{% url 'find_hotel' %}">{% trans "Hotels" %}</a></li>
+                    <li class="footer__menulist-item"><a class="footer__menulist-link" href="{% url 'find_apartment' %}">{% trans "Apartments" %}</a></li>
+                    <li class="footer__menulist-item"><a class="footer__menulist-link" href="{% url 'find_transport' %}">{% trans "Transport" %}</a></li>
+                    <li class="footer__menulist-item"><a class="footer__menulist-link" href="{% url 'find_sport' %}">{% trans "Sports" %}</a></li>
+                    <li class="footer__menulist-item"><a class="footer__menulist-link" href="{% url 'find_excursion' %}">{% trans "Excursions" %}</a></li>
+                    <li class="footer__menulist-item"><a class="footer__menulist-link" href="{% url 'find_entertainment' %}">{% blocktrans %}Things to do{% endblocktrans %}</a></li>
+                    <li class="footer__menulist-item"><a class="footer__menulist-link" href="{% url 'weather' %}">{% trans "Weather" %}</a></li>
+                </ul>
+            </div>
+            <div class="footer__infolist">
+                <h4 class="footer__title">{% blocktrans %}more info{% endblocktrans %}</h4>
+                <ul>
+                    {% for page in flatpages %}
+                        <li class="footer__infolist-item"><a class="footer__infolist-link" href="{{ page.url }}">{{ page.title_trans }}</a></li>
+{#                        <li class="footer__infolist-item"><a class="footer__infolist-link" href="#">{% trans "About Bookelgouna" %}</a></li>#}
+{#                        <li class="footer__infolist-item"><a class="footer__infolist-link" href="#">{% trans "Payment" %}</a></li>#}
+{#                        <li class="footer__infolist-item"><a class="footer__infolist-link" href="#">{% trans "Privacy" %}</a></li>#}
+{#                        <li class="footer__infolist-item"><a class="footer__infolist-link" href="#">{% trans "Help" %}</a></li>#}
+                    {% endfor %}
+                    <li class="footer__infolist-item"><a class="footer__infolist-link" href="{% url 'terms' %}">{% blocktrans %}Terms & Conditions{% endblocktrans %}</a></li>
+                    <li class="footer__infolist-item"><a class="footer__infolist-link" href="{% url 'privacy_policy' %}">{% blocktrans %}Privacy Policy{% endblocktrans %}</a></li>
+                    <li class="footer__infolist-item"><a class="footer__infolist-link" href="{% url 'blog' %}">{% trans "Blog" %}</a></li>
+                    <li class="footer__infolist-item"><a class="footer__infolist-link" href="#">{% blocktrans %}Contact us{% endblocktrans %}</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
+{% endblock %}

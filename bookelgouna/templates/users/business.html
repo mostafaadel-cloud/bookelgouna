@@ -1,0 +1,58 @@
+{% extends "base_for_business_owner.html" %}
+{% load i18n static common_tags %}
+
+{% block title %}{% blocktrans context 'page title (business owner)' %}Bookelgouna | Business Owner Login&Signup{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag (business owner)' %}login&signup page description metatag{% endblocktrans %}{% endblock %}
+{% block fb_title %}{% blocktrans context "facebook page title" %}Business Owner Login&Signup page facebook title{% endblocktrans %}{% endblock %}
+{% block fb_desc_meta_tag %}{% blocktrans context "facebook page description" %}Business Owner Login&Signup page facebook description{% endblocktrans %}{% endblock %}
+{% block fb_images %}
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/slider1.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/slider2.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/slider3.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/slider4-1.jpg" prepend_static=True %}"/>
+    <meta property="og:image" content="{% get_absolute_image_url "images/photos/slider5.jpg" prepend_static=True %}"/>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+    <ul id="contrib_messages" style="display: none">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<div class="signupboard reg-owner">
+    <ul class="signup-form__tabs">
+        <li class="signup-form__tab-item">
+             <input  class="signup-form__tab-input" type="radio" checked name="owner-signup" id="tab-owner-login"
+                     data-header="{% blocktrans %}Login into bookelgouna{% endblocktrans %}"
+                     data-text="{% blocktrans %}Login tab huge-huge-huge text. Login tab huge-huge-huge text. Login tab huge-huge-huge text.
+                     Login tab huge-huge-huge text. Login tab huge-huge-huge text.{% endblocktrans %}">
+             <label class="signup-form__tab-label" for="tab-owner-login">{% trans "Login" %}</label>
+             <div id="tab-content-owner-login" class="signup-form__tab-content">
+                 {% include 'users/includes/business_login.html' with form=login_form %}
+             </div>
+        </li>
+        <li class="signup-form__tab-item">
+            <input  class="signup-form__tab-input" type="radio" name="owner-signup" id="tab-owner-register">
+            <label class="signup-form__tab-label" for="tab-owner-register">{% trans "Register" %}</label>
+            <div id="tab-content-owner-register" class="signup-form__tab-content">
+                {% include 'users/includes/business_signup.html' with form=signup_form %}
+            </div>
+        </li>
+    </ul>
+    <div class="signup-form__sidebox reg-owner">
+        <span class="owl-text-signup reg-owner business-header"></span><br>
+        <div class="owl-text-signupsm reg-owner">
+        <div class="block-overflow">
+            <p class="business-text-description"></p>
+{#            <p>{% blocktrans %}p2{% endblocktrans %}</p>#}
+{#            <p>{% blocktrans %}p3{% endblocktrans %}</p>#}
+{#            <p class="text-add">{% blocktrans %}p4{% endblocktrans %}</p>#}
+{#             <p class="text-add-1350">{% blocktrans %}p5{% endblocktrans %}</p>#}
+{#             <p class="text-add-1350">{% blocktrans %}p6{% endblocktrans %}</p>#}
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

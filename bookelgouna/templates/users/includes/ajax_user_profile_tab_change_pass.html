@@ -1,0 +1,69 @@
+{% load i18n widget_tweaks %}
+<div class="cabinet__tab-content" id="tab-content-owner-info">
+    <div class="cabinet__info js-scroll-to-this-if-error">
+{#							<div class="cabinet__info-options">#}
+{#								<a id="edit-profile" class="cabinet__link" href="#">#}
+{#								<i class="icon-editprofile"></i>edit profile</a>#}
+{#								<a class="cabinet__link" href="#">#}
+{#								<i class="icon-changepass"></i>change password</a>#}
+{#							</div>#}
+{#							<div class="cabinet__info-avatar">#}
+{#								<div class="cabinet__info-img">#}
+{#									<img src="http://lorempixel.com/118/118/animals/7/">#}
+{#								</div>#}
+{#								<a class="cabinet__link link-sm" href="#">change avatar</a>#}
+{#							</div>#}
+        <form method="POST" action="{% url 'account_change_password' %}">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="non_field_errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            <div class="cabinet__info-details">
+                <div class="cabinet__info-detailbox js-scroll-to-this-if-error">
+                    <span class="cabinet__info-title">{{ form.oldpassword.label }}</span>
+                    <div class="cabinet__info-separator">
+                        {% with WIDGET_ERROR_CLASS='error' %}
+                            {% render_field form.oldpassword class='cabinet__info-input' placeholder='' %}
+                        {% endwith %}
+                        {% if form.oldpassword.errors %}
+                            <span class="error">{{ form.oldpassword.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="cabinet__info-detailbox js-scroll-to-this-if-error">
+                    <span class="cabinet__info-title">{{ form.password1.label }}</span>
+                    <div class="cabinet__info-separator">
+                        {% with WIDGET_ERROR_CLASS='error' %}
+                            {% render_field form.password1 class='cabinet__info-input' placeholder='' %}
+                        {% endwith %}
+                        {% if form.password1.errors %}
+                            <span class="error">{{ form.password1.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="cabinet__info-detailbox js-scroll-to-this-if-error">
+                    <span class="cabinet__info-title">{{ form.password2.label }}</span>
+                    <div class="cabinet__info-separator">
+                        {% with WIDGET_ERROR_CLASS='error' %}
+                            {% render_field form.password2 class='cabinet__info-input' placeholder='' %}
+                        {% endwith %}
+                        {% if form.password2.errors %}
+                            <span class="error">{{ form.password2.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="cabinet__info-edit">
+                <button class="cabinet__btn submit-btn edit-profile ajax-post-in-tab">
+                    {% blocktrans %}submit<span>changes</span>{% endblocktrans %}
+                </button>
+                <button type="button" class="cabinet__btn cancel-btn edit-profile ajax-change-tab"
+                        data-url="{% url "user_profile" %}">
+                    {% trans "cancel" %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+{% load i18n %}
+<div class="cabinet__tab-content" id="tab-content-owner-info">
+    {% if business_user.show_next_link %}
+        <a href="{% url "service_view" %}" class="cabinet__link float-right next-link">
+            {% blocktrans context "business owner profile NEXT link text" %}next{% endblocktrans %}
+        </a>
+    {% endif %}
+    <div class="cabinet__info">
+        <div class="cabinet__info-options">
+            <a id="edit-profile" class="cabinet__link ajax-change-tab" data-url="{% url "edit_business_profile" %}">
+                <i class="icon-editprofile"></i>{% blocktrans %}edit profile{% endblocktrans %}
+            </a>
+            <a class="cabinet__link ajax-change-tab" data-url="{% url "business_change_password" %}">
+                <i class="icon-changepass"></i>{% blocktrans %}change password{% endblocktrans %}
+            </a>
+        </div>
+        <div class="cabinet__info-avatar">
+            <div class="cabinet__info-img">
+                {% if business_user.avatar %}
+                    <img src="{{ business_user.avatar_thumbnail }}">
+                {% else %}
+                    <div class="cabinet__info-img default-avatar"></div>
+                {% endif %}
+            </div>
+{#                <a class="cabinet__link ajax-change-tab link-sm" data-url="{% url "edit_business_profile" %}">{% blocktrans %}change avatar{% endblocktrans %}</a>#}
+        </div>
+        <div class="cabinet__info-details">
+            <div class="cabinet__info-detailbox">
+                <span class="cabinet__info-title">{% blocktrans %}Your Login:{% endblocktrans %}</span>
+                <span class="cabinet__info-discr">{{ business_user.username }}</span>
+            </div>
+            {% if business_user.first_name or business_user.last_name %}
+                <div class="cabinet__info-detailbox">
+                    <span class="cabinet__info-title">{% blocktrans %}Your Name:{% endblocktrans %}</span>
+                    <span class="cabinet__info-discr">{{ business_user.full_name }}</span>
+                </div>
+            {% endif %}
+            {% if business_user.country %}
+                <div class="cabinet__info-detailbox">
+                    <span class="cabinet__info-title">{% blocktrans %}Country:{% endblocktrans %}</span>
+                    <span class="cabinet__info-discr">{{ business_user.get_country_display }}</span>
+                </div>
+            {% endif %}
+            {% if business_user.preferred_language %}
+                <div class="cabinet__info-detailbox">
+                    <span class="cabinet__info-title">{% blocktrans %}Language:{% endblocktrans %}</span>
+                    <span class="cabinet__info-discr">{{ business_user.get_preferred_language_display }}</span>
+                </div>
+            {% endif %}
+            {% if business_user.phone %}
+                <div class="cabinet__info-detailbox">
+                    <span class="cabinet__info-title">{% blocktrans %}Phone Number:{% endblocktrans %}</span>
+                    <span class="cabinet__info-discr"><bdo dir="ltr">{{ business_user.phone }}</bdo></span>
+                </div>
+            {% endif %}
+        </div>
+        {% comment %}
+        <div class="cabinet__bus-type">
+                <div class="cabinet__bus-type__current">
+                    Your current business is: <span class="cabinet__bus-type__current blue">Entertainment</span>
+                </div>
+                    <span class="cabinet__bus-text">Change your business type (only once)
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">
+                                <div class="tooltip-title">
+                                    {% blocktrans context "business owner general info hint title" %}business owner general info hint title{% endblocktrans %}
+                                </div>
+                                {% blocktrans context "business owner general info hint content" %}business owner general info hint content{% endblocktrans %}
+                            </span>
+                        </span>
+                    </span>
+                <ul class="cabinet__bustype">
+                    <li class="cabinet__bus-item bus-type-selected" data-value="0" data-header="{% trans "Hotel page header" %}"
+                            data-text="{% trans "Hotel page huge-huge-huge text. Hotel page huge-huge-huge text. Hotel page huge-huge-huge text. Hotel page huge-huge-huge text." %}">
+                        <span class="cabinet__bus-link reg-hotel"></span>
+                        <span class="cabinet__bus-name">{% trans "Hotel" %}</span>
+                    </li>
+                    <li class="cabinet__bus-item" data-value="1" data-header="{% trans "Apartment page header" %}"
+                            data-text="{% trans "Apartment page huge-huge-huge text. Apartment page huge-huge-huge text. Apartment page huge-huge-huge text. Apartment page huge-huge-huge text." %}">
+                        <span class="cabinet__bus-link reg-apt"></span>
+                        <span class="cabinet__bus-name reg-apt">{% trans "Apartments" %}</span>
+                    </li>
+                    <li class="cabinet__bus-item" data-value="2" data-header="{% trans "Transport page header" %}"
+                            data-text="{% trans "Transport page huge-huge-huge text. Transport page huge-huge-huge text. Transport page huge-huge-huge text. Transport page huge-huge-huge text" %}">
+                        <span class="cabinet__bus-link reg-trans"></span>
+                        <span class="cabinet__bus-name reg-trans">{% trans "Transport" %}</span>
+                    </li>
+                    <li class="cabinet__bus-item" data-value="3" data-header="{% trans "Excursion page header" %}"
+                            data-text="{% trans "Excursion page huge-huge-huge text. Excursion page huge-huge-huge text. Excursion page huge-huge-huge text. Excursion page huge-huge-huge text." %}">
+                        <span class="cabinet__bus-link reg-blog"></span>
+                        <span class="cabinet__bus-name reg-blog">{% trans "Excursions" %}</span>
+                    </li>
+                    <li class="cabinet__bus-item" data-value="4" data-header="{% trans "Sport page header" %}"
+                            data-text="{% trans "Sport page huge-huge-huge text. Sport page huge-huge-huge text. Sport page huge-huge-huge text. Sport page huge-huge-huge text." %}">
+                        <span class="cabinet__bus-link reg-sport"></span>
+                        <span class="cabinet__bus-name">{% trans "Sport" %}</span>
+                    </li>
+                    <li class="cabinet__bus-item" data-value="5" data-header="{% trans "Things to do page header" %}"
+                            data-text="{% trans "Things to do page huge-huge-huge text. Things to do page huge-huge-huge text. Things to do page huge-huge-huge text. Things to do page huge-huge-huge text." %}">
+                        <span class="cabinet__bus-link reg-things"></span>
+                        <span class="cabinet__bus-name">{% blocktrans %}things to do{% endblocktrans %}</span>
+                    </li>
+                </ul>
+                <input type="submit" value="save" class="cabinet__btn submit-btn gen-tab">
+            </div>
+        {% endcomment %}
+    </div>
+</div>

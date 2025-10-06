@@ -1,0 +1,65 @@
+{% load i18n %}
+<div class="cabinet__tab-content" id="tab-content-owner-dash">
+    <div class="cabinet__hotel">
+        <div class="cabinet__hotel-container">
+            <h2 class="cabinet__title">{{ base_account }}</h2>
+            {% if request.user.pk != base_account.pk %}
+                <form action="{% url 'business_login_as' %}">
+                    <input type="hidden" value="{{ base_account.pk }}" name="user_pk"/>
+                    <button type="submit" class="cabinet__approve ajax-post-in-tab"
+                            >{% blocktrans context "business owner dashboard login as button" %}Login as{% endblocktrans %}</button>
+                </form>
+            {% else %}
+                <span class="cabinet__status">{% blocktrans context "business owner dashboard logged in text" %}LOGGED IN{% endblocktrans %}</span>
+            {% endif %}
+        </div>
+        {% for key, group in grouped_subaccounts.items %}
+            <h2 class="cabinet__title full-width">{{ group.name }}</h2>
+            {% if group.items %}
+                <div class="cabinet__hotel-block">
+                    <table class="cabinet__room-table subaccount-list">
+                        <thead class="cabinet__room-thead">
+                            <tr class="cabinet__room-tr-head">
+                                <th class="cabinet__room-th">{% blocktrans context "business owner dashboard table title column" %}Title{% endblocktrans %}</th>
+                                <th class="cabinet__room-th">{% blocktrans context "business owner dashboard table bookings column" %}Bookings{% endblocktrans %}</th>
+                                <th class="cabinet__room-th">{% blocktrans context "business owner dashboard table status column" %}Status{% endblocktrans %}</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="cabinet__room-tbody">
+                            {% for subaccount in group.items %}
+                                <tr class="cabinet__room-tr">
+                                    <td class="cabinet__room-td" data-title="{% blocktrans context "business owner dashboard table title column" %}Title{% endblocktrans %}">
+                                        {% if subaccount.first_name %}{{ subaccount.first_name }}{% else %}{{ subaccount.username }}{% endif %}
+                                    </td>
+                                    <td class="cabinet__room-td" data-title="{% blocktrans context "business owner dashboard table bookings column" %}Bookings{% endblocktrans %}">
+                                        {% if subaccount.bookings > 0 %}
+                                            <span class="cabinet__coloured-status">{% blocktrans context "business owner dashboard table bookings info" with bookings=subaccount.bookings %}{{ bookings }} pending bookings{% endblocktrans %}</span>
+                                        {% else %}
+                                            {% blocktrans context "business owner dashboard table bookings empty info" %}no{% endblocktrans %}
+                                        {% endif %}
+                                    </td>
+                                    <td class="cabinet__room-td" data-title="{% blocktrans context "business owner dashboard table status column" %}Status{% endblocktrans %}">
+                                        {% if request.user.pk != subaccount.pk %}
+                                            <form action="{% url 'business_login_as' %}">
+                                                <input type="hidden" value="{{ subaccount.pk }}" name="user_pk"/>
+                                                <button type="submit" class="cabinet__approve ajax-post-in-tab"
+                                                        >{% blocktrans context "business owner dashboard login as button" %}Login as{% endblocktrans %}</button>
+                                            </form>
+                                        {% else %}
+                                            {% blocktrans context "business owner dashboard logged in text" %}LOGGED IN{% endblocktrans %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+            <button class="cabinet__btn hotel-btn ajax-change-tab" data-url="{% url "business_add_subaccount" key %}"
+                    >{% blocktrans context "business owner dashboard create new button" %}Create new{% endblocktrans %}</button>
+            <hr/>
+            <br/>
+        {% endfor %}
+    </div>
+</div>

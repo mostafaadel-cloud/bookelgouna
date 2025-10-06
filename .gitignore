@@ -1,0 +1,98 @@
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+#.Python
+#env/
+#build/
+#develop-eggs/
+#dist/
+#downloads/
+#eggs/
+#lib/
+#lib64/
+#parts/
+#sdist/
+#var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+*.pot
+*.po
+
+# Django stuff:
+*.log
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+/.idea
+
+# sqlite database
+db.sqlite3
+
+local.py
+prod.py
+
+staticfiles
+media
+
+node_modules
+
+# celerycam pid file
+celeryev.pid
+
+# celery beat files
+/bookelgouna/celerybeat.pid
+/bookelgouna/celerybeat-schedule
+
+/bookelgouna/common/static/css/fonts.css
+/bookelgouna/common/static/css/hotels.css
+/bookelgouna/common/static/css/index.css
+/bookelgouna/common/static/css/main.css
+/bookelgouna/common/static/css/terms.css
+/bookelgouna/common/static/css/mixins.css
+/bookelgouna/common/static/css/reset.css
+/bookelgouna/common/static/css/find.css
+
+/bookelgouna/common/static/js/lib.js
+/bookelgouna/common/static/js/lib.min.js
+/bookelgouna/common/static/js/script.min.js
+/bookelgouna/common/static/css/result.css
+/bookelgouna/common/static/css/style.css
+/bookelgouna/common/static/css/sprites.css
+/bookelgouna/common/static/css/sprites-backs2.css
+/bookelgouna/common/static/css/sprites-back.css
+/bookelgouna/common/static/images/spritesheet-icons.png
+/bookelgouna/common/static/images/spritesheet-backs.png
+/bookelgouna/common/static/images/spritesheet-menu-ic.png

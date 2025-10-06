@@ -1,0 +1,80 @@
+{% extends 'base_site.html' %}
+{% load i18n static socialaccount widget_tweaks flatpages_i18n %}
+{% block base_content %}
+    {% include "socialaccount/snippets/login_extra.html" %}
+<div class="wrapper-main-overflow">
+    <header class="header cabinet-layout">
+        <div class="header__bg cabinet-layout">
+            <div class="wrap-inner relative">
+                <a class="header__logo cabinet-layout" href="{% url 'index' %}">
+                    <h1 class="header__logo-title">
+                        <span>{% trans "book" %}</span>{% blocktrans %}el GOUNA{% endblocktrans %}
+                    </h1>
+                </a>
+                <div class="header__barbox cabinet-layout">
+                    <div class="header__bar cabinet-layout">
+                            
+                            <span class="header__user-title user-cabinet-name">{% blocktrans with user=request.user class="header__user-name" %}Hi, <span class="{{ class }}">{{ user }}</span>!{% endblocktrans %}</span>
+                            <a class="header__link logged-in cabinet-layout__owner" href="{% url 'account_logout' %}">
+                                <i class="back-logout cabinet-layout"></i>
+                                <span class="link-decor">{% trans "Logout" %}</span>
+                            </a>
+                        </div>
+                            <span class="select-lang cabinet-layout">
+                                {% include "common/includes/select_lang_form.html" %}
+                            </span>
+                    
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="content">
+        {% block content %}{% endblock content %}
+    </div>
+    <footer class="footer">
+        <div class="wrap-inner">
+            {% get_flatpages as flatpages %}
+            <div class="footer__info-mob">
+                <p class="footer__copy">{% blocktrans %}Copyright 2014{% endblocktrans %}</p>
+                <ul class="footer__list">
+                    {% for page in flatpages %}
+                        <li class="footer__item"><a class="footer__link" href="{{ page.url }}">{{ page.title_trans }}</a></li>
+                    {% endfor %}
+                    <li class="footer__item"><a class="footer__link" href="{% url 'privacy_policy' %}">{% trans "Privacy" %}</a></li>
+                    <li class="footer__item"><a class="footer__link" href="{% url 'terms' %}">{% blocktrans %}Terms and conditions{% endblocktrans %}</a></li>
+                </ul>
+            </div>
+            <div class="footer__contactlist cabinet-layout">
+                <h4 class="footer__title cabinet-layout">{% trans "Contacts" %}</h4>
+                <p class="footer__contacts address width-wrap cabinet-layout">{% blocktrans %}Marketing Office, Bookelgouna{% endblocktrans %} <span>{% blocktrans %}Bookelgouna, Downtown{% endblocktrans %}</span></p>
+                <div class="footer__block-l width-wrap cabinet-layout">
+                    <p class="footer__contacts cabinet-layout">{% blocktrans %}Phone: +20 65 3545 706{% endblocktrans %}</p>
+                    <p class="footer__contacts cabinet-layout">{% blocktrans %}Fax:     +20 65 3549 066{% endblocktrans %}</p>
+                </div>
+
+                <p class="footer__contacts address width-wrap  cabinet-layout">{% trans "E-mail:" %} <em>{% trans "info@bookelgouna.com" %}</em></p>
+                <div class="footer__block-r cabinet-layout">
+                    <p class="footer__contacts cabinet-layout">{% blocktrans %}Booking from Egypt around the world{% endblocktrans %}</p>
+                    <p class="footer__contacts cabinet-layout"><a class="footer__contacts-mail cabinet-layout" href="mailto:support@bookelgouna.com">{% blocktrans %}Short Number: +20 224616136 or +20 16446{% endblocktrans %}</a></p>
+                </div>
+            </div>
+            <div class="footer__infolist cabinet-layout">
+                <h4 class="footer__title cabinet-layout">{% blocktrans %}more info{% endblocktrans %}</h4>
+                <ul>
+                    {% for page in flatpages %}
+                        <li class="footer__infolist-item"><a class="footer__infolist-link" href="{{ page.url }}">{{ page.title_trans }}</a></li>
+{#                        <li class="footer__infolist-item"><a class="footer__infolist-link" href="#">{% trans "About Bookelgouna" %}</a></li>#}
+{#                        <li class="footer__infolist-item"><a class="footer__infolist-link" href="#">{% trans "Payment" %}</a></li>#}
+{#                        <li class="footer__infolist-item"><a class="footer__infolist-link" href="#">{% trans "Privacy" %}</a></li>#}
+{#                        <li class="footer__infolist-item"><a class="footer__infolist-link" href="#">{% trans "Help" %}</a></li>#}
+                    {% endfor %}
+                    <li class="footer__infolist-item"><a class="footer__infolist-link" href="{% url 'terms' %}">{% blocktrans %}Terms & Conditions{% endblocktrans %}</a></li>
+                    <li class="footer__infolist-item"><a class="footer__infolist-link" href="{% url 'privacy_policy' %}">{% blocktrans %}Privacy Policy{% endblocktrans %}</a></li>
+                    <li class="footer__infolist-item"><a class="footer__infolist-link" href="{% url 'blog' %}">{% trans "Blog" %}</a></li>
+                    <li class="footer__infolist-item"><a class="footer__infolist-link" href="#">{% blocktrans %}Contact us{% endblocktrans %}</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
+{% endblock %}

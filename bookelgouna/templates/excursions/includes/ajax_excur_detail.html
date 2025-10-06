@@ -1,0 +1,108 @@
+{% load i18n common_tags excursions_tags widget_tweaks %}
+
+{% if errors %}
+    <ul id="ajax-date-form-errors" style="display: none;">
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+<form method="POST" id="detail_page_items_booking_form" action="{% url 'add_excursion_items_to_cart' %}" data-warning="{% trans "Choose at least one item for booking." %}">
+    {% if no_items %}
+        <div class="hotels__find-container">
+            <h2 class="hotels__info no-prices">{% blocktrans context "excursion detail page no prices text" %}This excursion has no prices.{% endblocktrans %}</h2>
+            <a class="hotels__bookroom-btn apt-page no-prices" href="#contact-info">{% blocktrans context "excursion detail page no prices button" %}Contact Admin for a Quote{% endblocktrans %}</a>
+        </div>
+    {% else %}
+        <div class="hotels__block">
+            <div class="hotels__block-r">
+                 <button class="hotels__bookroom-btn" type="submit">{% blocktrans %}book items{% endblocktrans %}</button>
+                 <div class="hotels__total">
+                     <div class="hotels__total-text js-total-number">{% blocktrans with num=0 %}Selected <span>{{ num }}</span> item(s){% endblocktrans %}</div>
+                     <div class="hotels__total-amount js-total-amount">{% blocktrans with price=0 %}Price <span>{{ price }}</span>${% endblocktrans %}</div>
+                 </div>
+            </div>
+        </div>
+        {% if one_time_items.exists %}
+            <h2 class="hotels__info">{% blocktrans %}One Time{% endblocktrans %}</h2>
+            <div class="hotels__find-container js-room-container">
+                <div class="hotels__rooms">
+                    <div class="hotels__preview-container">
+                        <ul class="hotels__room-list trans-page js-price-categories-list">
+                        {% for item in one_time_items %}
+                            <li class="hotels__room-item js-current-price-category">
+                                <div class="hotels__block preview-container itemsGallery">
+                                    <a class="hotels__block preview photo-gallery" href="{{ item.service_detail_small_image_thumbnail }}">
+                                        <img src="{{ item.service_detail_small_image_thumbnail }}">
+                                    </a>
+                                    {% for img in item.images.all %}
+                                        <a class="item-image-hide" href="{{ img.service_detail_popup_image_thumbnail }}" alt="">
+                                            <img src="{{ img.service_detail_popup_image_thumbnail }}" alt="">
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                                <div class="display-table">
+                                    <div class="hotels__discr-item trans-page">
+                                        <div class="hotels__discr-text trans-page">{{ item.title_trans }}</div>
+                                    </div>
+                                    <span class="hotels__price-or trans-page one-price">
+                                        {% get_price_for_dates item item_based_from_date time_based_to_date as one_time_price %}
+                                        <span class="js-price-per-room">{{ one_time_price|floatformat:-2 }}</span><span class="hotels__price-sign trans-page">&nbsp;$</span>
+                                    </span>
+                                </div>
+                                <div class="hotels__infobox infobox-table trans-page js-qty-and-dates-container-of-item-based">
+                                    <div class="find__form-qty__select-box trans-detail">
+                                        <span class="find__form-qty__items trans-detail">{% blocktrans %}Select Quantity{% endblocktrans %}</span>
+                                        <span class="find__form-qty__select-qty trans-detail">
+                                            {% generate_select_for_item %}
+                                        </span>
+                                    </div>
+                                    <div class="hotels__infobox-text trans-page">
+                                    </div>
+                                    <table class="datetime-table">
+                                        <tr>
+                                            <th style="display: none;" class="js-first-datetime">{% blocktrans context "excursion detail page item based first item name" %}Choose date{% endblocktrans %}</th>
+                                        </tr>
+                                        <tr>
+                                            {% get_name_for_item as item_name  %}
+                                            <td style="display: none;" class="js-first-datetime">
+                                                {% with name="name:first_datetime_"|add:item_name id="id:id_first_datetime_"|add:item_name %}
+                                                    {{ item_based_form_1.datetime|add_class:"detail-from-datetime"|attr:name|attr:id }}
+                                                {% endwith %}
+                                            </td>
+                                            <td style="display: none;" class="add-item-input"><i class="icon-add-lang"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="display: none;" class="js-second-datetime">
+                                                {% with name="name:second_datetime_"|add:item_name id="id:id_second_datetime_"|add:item_name %}
+                                                    {{ item_based_form_2.datetime|add_class:"detail-to-datetime"|attr:name|attr:id|attr:"disabled:disabled" }}
+                                                {% endwith %}
+                                            </td>
+                                            <td style="display: none;" class="remove-item-input"><i class="icon-test-icon"></i></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="long-discr">{{ item.description_trans|linebreaksbr }}</div>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div id="js-time-based-items-list">
+            {% include "excursions/includes/ajax_excur_detail_time_based_only.html" %}
+        </div>
+        <div class="hotels__block">
+            <div class="hotels__block-r">
+                 <button class="hotels__bookroom-btn" type="submit">{% blocktrans %}book items{% endblocktrans %}</button>
+                 <div class="hotels__total">
+                     <div class="hotels__total-text js-total-number">{% blocktrans with num=0 %}Selected <span>{{ num }}</span> item(s){% endblocktrans %}</div>
+                     <div class="hotels__total-amount js-total-amount">{% blocktrans with price=0 %}Price <span>{{ price }}</span>${% endblocktrans %}</div>
+                 </div>
+            </div>
+        </div>
+    {% endif %}
+</form>

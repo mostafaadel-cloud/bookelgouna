@@ -1,0 +1,329 @@
+{% extends 'base_with_simple_header.html' %}
+{% block content %}
+<div class="wrap-inner">
+	<div class="cabinet">
+		<ul class="cabinet__tabs">
+			<li class="cabinet__tab-item">
+				<input type="radio" name="owner-tabs" id="cab-owner-info">
+				<label class="cabinet__tab-label" for="cab-owner-info">general info</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-info">tab1
+					</div>
+				</div>
+			</li>
+			<li class="cabinet__tab-item">
+				<input type="radio"  name="owner-tabs" id="cab-owner-billing">
+				<label class="cabinet__tab-label" for="cab-owner-billing">billing info</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-billing">
+					</div>
+				</div>
+			</li>
+			<li class="cabinet__tab-item">
+				<input type="radio" checked="checked" name="owner-tabs" id="cab-owner-hotel">
+				<label class="cabinet__tab-label" for="cab-owner-hotel">my hotel</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-hotel">
+						<div class="cabinet__hotel">
+							<h2 class="cabinet__title room-page">Create Room</h2>
+							<span class="cabinet__title-add">for hotel ramada</span>
+									<ul class="lang__tabs">
+										<li class="lang__tab-item">
+											<input type="radio" checked="checked" name="lang-tabs" id="cab-lang-eng">
+											<label class="lang__tab-label" for="cab-lang-eng">eng<span>lish</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-ar">
+											<label class="lang__tab-label" for="cab-lang-ar">ara<span>bic</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-ge">
+											<label class="lang__tab-label" for="cab-lang-ge">ger<span>man</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-ru">
+											<label class="lang__tab-label" for="cab-lang-ru">rus<span>sian</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-it">
+											<label class="lang__tab-label" for="cab-lang-it">ita<span>lian</span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="lang__tab-item">
+											<input type="radio" name="lang-tabs" id="cab-lang-fr">
+											<label class="lang__tab-label" for="cab-lang-fr">fr<em>a</em><span>ench<span></label>
+											<div class="lang__tab-panel">
+												<div class="lang__tab-content" id="tab-content-lang">
+													<div class="cabinet__hotel-block">
+														<label class="cabinet__hotel-label">Name:</label>
+														<input class="cabinet__hotel-input" placeholder='Standart Room'>
+													</div>
+													<div class="cabinet__hotel-block">
+														<span class="cabinet__hotel-label">Discription</span>
+														<textarea class="cabinet__hotel-discr"></textarea>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul>
+								<div class="cabinet__hotel-block">
+									<span class="cabinet__hotel-label">Featured image</span>
+									<div class="cabinet__hotel-pic">
+										<img src="http://lorempixel.com/300/300/city/8/">
+									</div>
+									<a class="cabinet__link hotel-page" href="#"><i class="icon-editprofile"></i>Change</a>
+									<a class="cabinet__link hotel-page" href="#"><i class="icon-trash"></i>delete</a>
+									<a class="cabinet__link hotel-page" href="#"><i class="icon-crop"></i>crop</a>
+								</div>
+								<div class="cabinet__hotel-block room-page">
+									<label class="cabinet__hotel-label">Square:</label>
+									<div class="cabinet__billing__select-box">
+										<span class="cabinet__billing__select-method">
+											<select id="select-method" tabindex="-1" class="select-method" name="" placeholder="37">
+												<option></option>
+												<option value="wire">10</option>
+												<option value="check">20</option>
+												<option value="paypal">30</option>
+											</select>
+										</span>
+									</div>
+								</div>
+								<div class="cabinet__hotel-block room-page">
+									<label class="cabinet__hotel-label">Adults:</label>
+									<div class="cabinet__billing__select-box">
+										<span class="cabinet__billing__select-method">
+											<select id="select-method" tabindex="-1" class="select-method" name="" placeholder="2">
+												<option></option>
+												<option value="wire">1</option>
+												<option value="check">2</option>
+												<option value="paypal">3</option>
+											</select>
+										</span>
+									</div>
+								</div>
+								<div class="cabinet__hotel-block room-page">
+									<label class="cabinet__hotel-label">Children:</label>
+									<div class="cabinet__billing__select-box">
+										<span class="cabinet__billing__select-method">
+											<select id="select-method" tabindex="-1" class="select-method" name="" placeholder="0">
+												<option></option>
+												<option value="wire">0</option>
+												<option value="check">1</option>
+												<option value="paypal">2</option>
+											</select>
+										</span>
+									</div>
+								</div>
+								<div class="cabinet__hotel-block">
+									<span class="cabinet__hotel-title-big">Price</span>
+									<div class="cabinet__hotel-block reg-price">
+										<label class="cabinet__hotel-label input-sm bold">Regular price per day , $</label>
+										<input class="cabinet__hotel-input reg-price" type="text" placeholder="50">
+									</div>
+									<div class="cabinet__hotel-block set-price">
+										<label class="cabinet__hotel-label bold">Set special price</label>
+										 <div class="cabinet__hotel__separator">
+					                        <div class="cabinet__hotel__separator-l">
+					                            <label class="cabinet__hotel-label" for="fromdate">From</label>
+					                            <input class="cabinet__hotel-input price-date" type="text" id="from2-date" name="fromdate" placeholder="dd/mm/yyyy">
+					                        </div>
+					                        <div class="cabinet__hotel__separator-r">
+					                            <label class="cabinet__hotel-label" for="todate">to</label>
+					                            <input class="cabinet__hotel-input price-date" type="text" id="to2-date" name="todate" placeholder="dd/mm/yyyy">
+					                        </div>
+					                    </div>
+					                    <div class="cabinet__hotel-block set-price">
+						                    <label class="cabinet__hotel-label bold">Set price</label>
+											<input class="cabinet__hotel-input set-price" type="text">
+										</div>
+									</div>
+									<div class="cabinet__hotel-block add-link">
+										<i class="icon-add-price"></i><a href="#" class="cabinet__link"> add <span> special price </span></a>
+									</div>
+
+								</div>
+								<div class="cabinet__price-table-block">
+									<table class="cabinet__room-table">
+										<caption class="cabinet__room-caption">Special prices</caption>
+										<tbody>
+											<tr class="cabinet__room-tr">
+												<td class="cabinet__room-td hide-column">from</td>
+												<td class="cabinet__room-td">1/09/15</td>
+												<td class="cabinet__room-td">
+													to
+												</td>
+												<td class="cabinet__room-td">
+													1/010/15
+												</td>
+												<td class="cabinet__room-td">
+													$35 per day
+												</td>
+												<td class="cabinet__room-td">
+													<a class="cabinet__docs-link" href="#">
+														<i class="icon-trash"></i>
+														<span>Delete</span>
+													</a>
+												</td>
+											</tr>
+											<tr class="cabinet__room-tr">
+												<td class="cabinet__room-td hide-column">from</td>
+												<td class="cabinet__room-td">1/09/15</td>
+												<td class="cabinet__room-td">
+													to
+												</td>
+												<td class="cabinet__room-td">
+													1/010/15
+												</td>
+												<td class="cabinet__room-td">
+													$35 per day
+												</td>
+												<td class="cabinet__room-td">
+													<a class="cabinet__docs-link" href="#">
+														<i class="icon-trash"></i>
+														<span>Delete</span>
+													</a>
+												</td>
+											</tr>
+											<tr class="cabinet__room-tr">
+												<td class="cabinet__room-td hide-column">from</td>
+												<td class="cabinet__room-td">1/09/15</td>
+												<td class="cabinet__room-td">
+													to
+												</td>
+												<td class="cabinet__room-td">
+													1/010/15
+												</td>
+												<td class="cabinet__room-td">
+													$35 per day
+												</td>
+												<td class="cabinet__room-td">
+													<a class="cabinet__docs-link" href="#">
+														<i class="icon-trash"></i>
+														<span>Delete</span>
+													</a>
+												</td>
+											</tr>
+											<tr class="cabinet__room-tr">
+												<td class="cabinet__room-td hide-column">from</td>
+												<td class="cabinet__room-td">1/09/15</td>
+												<td class="cabinet__room-td">
+													to
+												</td>
+												<td class="cabinet__room-td">
+													1/010/15
+												</td>
+												<td class="cabinet__room-td">
+													$35 per day
+												</td>
+												<td class="cabinet__room-td">
+													<a class="cabinet__docs-link" href="#">
+														<i class="icon-trash"></i>
+														<span>Delete</span>
+													</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="cabinet__hotel-block">
+									<span class="cabinet__hotel-title-big">Options</span>
+									<div class="cabinet__hotel__separator">
+										<div class="cabinet__hotel__separator-l">
+							            	<div class="cabinet__checkbox">
+												<input class="cabinet__checkbox-input" type="checkbox" value="" id="check-view" style="display:none;" checked="checked">
+												<label class="cabinet__checkbox-label" for="check-view">Sea view</label>
+											</div>
+											<div class="cabinet__checkbox">
+												<input class="cabinet__checkbox-input" type="checkbox" value="" id="check-aircon" style="display:none;">
+												<label class="cabinet__checkbox-label" for="check-aircon">Air Conditioning</label>
+											</div>
+										</div>
+										<div class="cabinet__hotel__separator-r">
+											<div class="cabinet__checkbox">
+												<input class="cabinet__checkbox-input" type="checkbox" value="" id="check-meal" style="display:none;">
+												<label class="cabinet__checkbox-label" for="check-meal">Free Dreakfast</label>
+											</div>
+											<div class="cabinet__checkbox">
+												<input class="cabinet__checkbox-input" type="checkbox" value="" id="check-cancel" style="display:none;">
+												<label class="cabinet__checkbox-label" for="check-cancel">Free Cancelation</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							<button class="cabinet__btn submit-btn room-page">Save</button>
+							<button class="cabinet__btn cancel-btn room-page">Cancel</button>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="cabinet__tab-item">
+				<input type="radio" name="owner-tabs" id="cab-owner-docs">
+				<label class="cabinet__tab-label" for="cab-owner-docs">doc<span class="cabinet__tab-add">ument</span>s</label>
+				<div class="cabinet__tab-panel">
+					<div class="cabinet__tab-content" id="tab-content-owner-docs">
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% load i18n %}
+
+<div class="find__form apt-page">
+    <div class="wrap-inner">
+        <h2 class="find__form-title apt-page">{% blocktrans %}apartments{% endblocktrans %}</h2>
+        <form id="search-form" method="GET" action="{% url "find_apartment" %}">
+            <div class="find__form-filters apt-page">
+                <div class="find__form-type apt-page">
+                    <div class="find__form-type-subtitle apt-page">{{ form.type.label }}</div>
+                        <div class="find__form-type-box">
+                            {% for checkbox in form.type %}
+                                <div class="find-form__checkbox">
+                                    <input class="find-form__checkbox-input" type="checkbox" name="{{ checkbox.name }}"
+                                           {% if checkbox.choice_value in checkbox.value %}checked="checked"{% endif %} value="{{ checkbox.choice_value }}"
+                                           id="{{ checkbox.id_for_label }}" style="display:none;">
+                                    <label class="find-form__checkbox-label" for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                </div>
+                <div class="find__form-pricefilter apt-page">
+                    <span class="find__form-subtitle apt-page">{% blocktrans %}room number{% endblocktrans %}</span>
+                    <div class="find__form-price-slider room-number apt-page">
+                        {% if room_num_min and room_num_max %}
+                            <span class="find__form-price-value-min" id="room-num-value-min"></span>
+                            <span class="find__form-price-value-max" id="room-num-value-max"></span>
+                            <div class="find__form-price-line apt-page room-number" id="room-num-slider" data-min="{{ room_num_min }}" data-max="{{ room_num_max }}"
+                                    data-used-min="{{ form.room_num_from.value }}" data-used-max="{{ form.room_num_to.value }}"></div>
+                        {% else %}
+                            <span class="find__form-subtitle apt-page">{% blocktrans %}no data{% endblocktrans %}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="find__form-pricefilter apt-page">
+                    <span class="find__form-subtitle apt-page">{% blocktrans %}price per night{% endblocktrans %}</span>
+                    <div class="find__form-price-slider apt-page">
+                        {% if min_price and max_price %}
+                            <span class="find__form-price-value-min" id="price-value-min"></span>
+                            <span class="find__form-price-value-max" id="price-value-max"></span>
+                            <div class="find__form-price-line apt-page" id="slider-price" data-min="{{ min_price }}" data-max="{{ max_price }}"
+                                    data-used-min="{{ form.from_price.value }}" data-used-max="{{ form.to_price.value }}"></div>
+                        {% else %}
+                            <span class="find__form-subtitle apt-page">{% blocktrans %}no prices{% endblocktrans %}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="find__form-buttons apt-page">
+                    {{ form.from_price }}
+                    {{ form.to_price }}
+                    {{ form.room_num_from }}
+                    {{ form.room_num_to }}
+                    {{ form.page }}
+                    <button class="find__form__search-btn js-service-with-type-filter-search"
+                            data-warning-msg="{% trans "Choose at least one apartment type." %}">{% trans "search" %}</button>
+                    <a href="{% url 'find_apartment' %}">
+                        <button type="button" class="find__form__reset-btn apt-page">{% trans "reset" %}
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="wrap-inner">
+    {% include 'apartments/includes/ajax_find_apartment_list_only.html' %}
+</div>

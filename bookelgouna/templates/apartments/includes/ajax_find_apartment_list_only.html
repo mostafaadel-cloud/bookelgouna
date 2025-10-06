@@ -1,0 +1,102 @@
+{% load i18n common_tags %}
+
+{% for apartment in object_list %}
+    <div class="find__article">
+        <div class="find__article-top">
+            <h3 class="find__article-title">
+                <a href="{{ apartment.get_absolute_url }}" class="find__article-title-link">
+                    {{ apartment.title_trans }}
+                </a>
+            </h3>
+            {% if apartment.review_avg > 0 %}
+                <div class="find__article-rate-review">
+                    {% blocktrans with mark=apartment.review_avg|floatformat:"0" %}{{ mark }}/5 (based on reviews){% endblocktrans %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="find__article-gallery">
+            <a href="{{ apartment.get_absolute_url }}" class="find__article-preview">
+                {% if apartment.featured_image %}
+                    <img id="find-gallery-preview{{ apartment.pk }}" class="find-gallery-preview"
+                         src="{{ apartment.find_service_big_featured_image }}" alt="">
+                {% elif apartment.images.exists %}
+                    <img id="find-gallery-preview{{ apartment.pk }}" class="find-gallery-preview"
+                         src="{{ apartment.images.first.find_service_big_image_thumbnail }}" alt="">
+                {% endif %}
+            </a>
+
+            {% with price_per_night=apartment.price_per_night %}
+                <div class="find__article-info">
+                    {% if price_per_night %}
+                        <div class="find__article-price-box">
+                            <div class="find__article-price-top apt-page">
+                                <span class="find__article-price-amount yellow-price float-price">
+                                    {{ price_per_night|multiply:night_number|floatformat:-2 }}<span class="find__article-price-sign yellow-price">$</span>
+                                </span>
+                                <div class="find__article-overnight block">
+                                    <div class="find__article-overnight">{% blocktrans %}Full holiday{% endblocktrans %}</div>
+                                    <div class="find__article-overnight">{% blocktrans with num=night_number %}(at {{ num }} overnight){% endblocktrans %}</div>
+                                </div>
+                            </div>
+
+                            <div class="find__article-price-top">
+                                <span class="find__article-price-amount orange-price">
+                                    {{ price_per_night|floatformat:-2 }}<span class="find__article-price-sign orange-price">$</span>
+                                </span>{% blocktrans %}Per night{% endblocktrans %}
+                            </div>
+                        </div>
+                        {% with order_item=apartment_to_order_item|lookup:apartment.pk %}
+                            <div{% if order_item %} class="not-available"{% endif %}>
+                                <a href="{{ apartment.get_absolute_url }}" class="find__article-book-btn apt-page ">{% blocktrans %}view apartment{% endblocktrans %}</a>
+                                {% if order_item %}
+                                    <div class="availability">
+                                        {% blocktrans with start=order_item.from_date|date:"d.m.y" end=order_item.to_date|date:"d.m.y" %}<span>{{ start }}-{{ end }}</span><p>Not available on these dates, please, select another dates</p>{% endblocktrans %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endwith %}
+                    {% else %}
+                        <div class="find__article-price-box">
+                            <div class="find__article-price-top apt-page">
+                                <div class="find__article-overnight block">
+                                    <div class="find__article-overnight">{% blocktrans context 'find apartment page review text' %}Review apartment{% endblocktrans %}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="{{ apartment.get_absolute_url }}" class="find__article-book-btn apt-page ">{% blocktrans context 'find apartment page book button' %}view apartment{% endblocktrans %}</a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endwith %}
+
+            <div id="find-gallery" class="find-gallery-multiply owl-carousel" data-previewID="find-gallery-preview{{ apartment.pk }}">
+                {% if apartment.featured_image %}
+                    <div class="item" data-bigImg="{{ apartment.find_service_big_featured_image }}">
+                        <img class="lazyOwl" data-src="{{ apartment.find_service_small_featured_image }}">
+                    </div>
+                {% endif %}
+                {% for image_obj in apartment.images.all %}
+                    <div class="item" data-bigImg="{{ image_obj.find_service_big_image_thumbnail }}">
+                        <img class="lazyOwl" data-src="{{ image_obj.find_service_small_image_thumbnail }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <p class="find__article-text apt-page">
+                {{ apartment.description_trans }}
+            </p>
+
+        </div>
+    </div>
+{% empty %}
+    {% url "business" as link %}
+    <h2 class="form__title">{% blocktrans context "find apartment page no apartments in db" with class="form__link" %}No apartments yet. If you are an apartment owner, <a href="{{ link }}" class="{{ class }}">register</a> and add new one.{% endblocktrans %}</h2>
+{% endfor %}
+
+{% if has_more_apartments %}
+    <div class="find__showmore-btn">
+        <a class="find__showmore-btn-link find-page">
+            {% blocktrans %}show more{% endblocktrans %}
+        </a>
+    </div>
+{% endif %}

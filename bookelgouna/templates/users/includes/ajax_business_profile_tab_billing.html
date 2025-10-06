@@ -1,0 +1,88 @@
+{% load i18n %}
+
+<div class="cabinet__tab-content" id="tab-content-owner-billing">
+    <div class="cabinet__billing">
+        <h2 class="cabinet__title">{% blocktrans %}This tab is not ready yet.{% endblocktrans %}</h2>
+        {% comment %}
+        <h2 class="cabinet__title">Financial information (JUST A SAMPLE)</h2>
+        <span class="cabinet__billing-warning">This information will be used for payout, please, fill it carefully</span>
+        <form class="cabinet__billing-form">
+            <div class="cabinet__billing-container">		<div class="cabinet__billing-left">
+                    <div class="cabinet__billing-block">
+                        <label class="cabinet__billing-label">Payout Method</label>
+                        <div class="cabinet__billing__select-box">
+                            <span class="cabinet__billing__select-method">
+                                <select id="select-method" tabindex="-1" class="select-method" name="" placeholder="Bank Wire">
+                                    <option></option>
+                                    <option value="wire">Bank Wire</option>
+                                    <option value="check">Bank Check</option>
+                                    <option value="paypal">Paypal</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="cabinet__billing-block">
+                        <label class="cabinet__billing-label">Beneficiary account number</label>
+                        <input class="error cabinet__billing-input" placeholder='9 digits'>
+                        <span class="error">This field is requered</span>
+                    </div>
+                    <div class="cabinet__billing-block">
+                        <label class="cabinet__billing-label">Beneficiary name</label>
+                        <input class=" error cabinet__billing-input" placeholder="Your full name">
+                        <span class="error">This field is requered</span>
+                    </div>
+                    <div class="cabinet__billing-block">
+                        <label class="cabinet__billing-label">Bank Name</label>
+                        <input class="cabinet__billing-input">
+                    </div>
+                    <div class="cabinet__billing-block">
+                        <label class="cabinet__billing-label">IBAN</label>
+                        <input class="cabinet__billing-input">
+                    </div>
+                    <div class="cabinet__billing-block">
+                        <label class="cabinet__billing-label">BIC</label>
+                        <input class="cabinet__billing-input">
+                    </div>
+                </div>
+
+                <div class="cabinet__billing-right">
+                    <div class="cabinet__billing-block">
+                        <label class="cabinet__billing-label">Preffered Currency</label>
+                        <div class="cabinet__billing__select-box">
+                            <span class="cabinet__billing__select-method">
+                                <select id="select-method" tabindex="-1" class="select-method" name="" placeholder="USD">
+                                    <option></option>
+                                    <option value="wire">USD</option>
+                                    <option value="check">EUR</option>
+                                    <option value="paypal">GBP</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="cabinet__billing-block">
+                        <label class="cabinet__billing-label">Bank Address</label>
+                        <input class="cabinet__billing-input">
+                    </div>
+                    <div class="cabinet__billing-block">
+                        <label class="cabinet__billing-label">Street</label>
+                        <input class="cabinet__billing-input">
+                    </div>
+                    <div class="cabinet__billing-block">
+                        <label class="cabinet__billing-label">City</label>
+                        <input class="cabinet__billing-input">
+                    </div>
+                    <div class="cabinet__billing-block">
+                        <label class="cabinet__billing-label">State</label>
+                        <input class="cabinet__billing-input">
+                    </div>
+                    <div class="cabinet__billing-block">
+                        <label class="cabinet__billing-label">Country</label>
+                        <input class="cabinet__billing-input">
+                    </div>
+                </div>
+            </div>
+            <button class="cabinet__btn billing-btn">Save information</button>
+        </form>
+        {% endcomment %}
+    </div>
+</div>

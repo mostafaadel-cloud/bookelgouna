@@ -1,0 +1,39 @@
+{% load i18n common_tags %}
+
+
+<div class="find__form sport-page">
+    <div class="wrap-inner sport-page">
+        <h2 class="find__form-title sport-page">{% blocktrans %}sports{% endblocktrans %}</h2>
+        <form id="search-form" method="GET" action="{% url "find_sport" %}">
+            <div class="find__form-filters sport-page">
+                <div class="find__form-pricefilter sport-page">
+                    <span class="find__form-subtitle sport-page">{% blocktrans %}price{% endblocktrans %}</span>
+                    <div class="find__form-price-slider sport-page">
+                        {% if min_price and max_price %}
+                            <span class="find__form-price-value-min" id="price-value-min"></span>
+                            <span class="find__form-price-value-max" id="price-value-max"></span>
+                            <div class="find__form-price-line sport-page" id="slider-price" data-min="{{ min_price }}" data-max="{{ max_price }}"
+                                    data-used-min="{{ form.from_price.value }}" data-used-max="{{ form.to_price.value }}"></div>
+                        {% else %}
+                            <span class="find__form-subtitle sport-page">{% blocktrans %}no prices{% endblocktrans %}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="find__form-buttons sport-page">
+                    {{ form.from_price }}
+                    {{ form.to_price }}
+                    {{ form.page }}
+                    <button class="find__form__search-btn sport-page">{% trans "search" %}</button>
+                    <a href="{% url 'find_sport' %}">
+                        <button type="button" class="find__form__reset-btn sport-page">{% trans "reset" %}
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="wrap-inner trans-page">
+    {% include 'sports/includes/ajax_find_sport_list_only.html' %}
+</div>

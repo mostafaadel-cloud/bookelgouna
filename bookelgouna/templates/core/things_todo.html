@@ -1,0 +1,97 @@
+{% extends 'base_with_simple_header.html' %}
+{% load i18n static %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Find Things to do{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag' %}find things to do description metatag{% endblocktrans %}{% endblock %}
+
+{% block content %}
+<div class="find" data-base-path="{% static 'images/sprite-icon/' %}">
+    <div class="find__form things-page">
+        <div class="wrap-inner">
+            <h2 class="find__form-title things-page">Things To Do</h2>
+            <div class="find__form-filters things-page">
+	            <div class="find__form-pricefilter things-page">
+					<span class="find__form-subtitle things-page">price</span>
+					<div class="find__form-price-slider things-page">
+						<span class="find__form-price-value-min" id="price-value-min">100</span>
+						<span class="find__form-price-value-max" id="price-value-max">300</span>
+				    	<div class="find__form-price-line things-page" id="slider-price"></div>
+					</div>
+				</div>
+				<div class="find__form-buttons things-page">
+					<button class="find__form__search-btn">search</button>
+					<button class="find__form__reset-btn things-page">reset</button>
+				</div>
+			</div>
+			
+        </div>
+    </div>
+    <div class="wrap-inner things-page">
+    	<div class="find__article">
+    		<div class="find__article-top">
+    			<h3 class="find__article-title">Restaurant</h3>
+    		</div>
+    		<div class="find__article-gallery things-page">
+				
+				<div id="find-gallery-single" class="find-gallery-single owl-carousel">
+					<div class="item">
+						<img src="http://lorempixel.com/445/280/nature/1/" alt="">
+					</div>
+					<div class="item">
+						<img src="http://lorempixel.com/445/280/nature/2/" alt="">
+					</div>
+					<div class="item">
+						<img src="http://lorempixel.com/445/280/nature/3/" alt="">
+					</div>
+					<div class="item">
+						<img src="http://lorempixel.com/445/280/nature/4/" alt="">
+					</div>
+					<div class="item">
+						<img src="http://lorempixel.com/445/280/nature/5/" alt="">
+					</div>
+					<div class="item">
+						<img src="http://lorempixel.com/445/280/nature/6/" alt="">
+					</div>
+					<div class="item">
+						<img src="http://lorempixel.com/445/280/nature/7/" alt="">
+					</div>
+					<div class="item">
+						<img src="http://lorempixel.com/445/280/nature/8/" alt="">
+					</div>
+					<div class="item">
+						<img src="http://lorempixel.com/445/280/nature/9/" alt="">
+					</div>
+					<div class="item">
+						<img src="http://lorempixel.com/445/280/nature/10/" alt="">
+					</div>
+				</div>
+				<h4 class="find__article-name">Sea grill</h4>
+				<div class="find__article-info things-page">
+					
+					<div class="find__article-price-box things-page">
+						<div class="find__article-price-top things-page">
+						From
+							<span class="find__article-price-amount yellow-price things-page">3750<span class="find__article-price-sign yellow-price things-page">$</span></span>
+						</div>
+					</div>
+				</div>
+				<a href="#" class="find__article-book-btn things-page">book</a>
+
+				<p class="find__article-text things-page">Vestibulum tincidunt dolor purus, ultricies egestas ante volutpat in. Aenean congue magna sed dolor pulvinar, accumsan porta risus tempusNam suscipit tellus ac sapien euismod vehicula.Phasellus tempor quis neque id elementum.
+				</p>
+
+    		</div>
+    	</div>
+
+    	    	
+
+
+
+    	<div class="find__showmore-btn">
+			<a class="find__showmore-btn-link" href="#">
+				show more
+			</a>
+		</div>
+    </div>
+</div>
+{% endblock %}

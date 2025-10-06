@@ -1,0 +1,91 @@
+{% extends "base_service_detail_page.html" %}
+{% load i18n common_tags widget_tweaks %}
+
+{% block fb_images %}
+    {% fb_service_images_sharing items1=one_time_items items2=tour_items %}
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<div class="wrap-inner">
+    <div class="hotels">
+        <div class="hotels__top">
+            <div class="hotels__top-980">
+                <h2 class="hotels__title big maintitle">{{ object.title_trans }}</h2>
+            <a href="#items-list" class="hotels__bookroom-btn reserve">{% trans "make a reservation" %}</a>
+            <div class="hotels__address">
+                {% if excursion.review_avg > 0 %}
+                    <div class="find__article-rate-review">
+                        {% blocktrans with mark=excursion.review_avg|floatformat:"0" %}{{ mark }}/5 (based on reviews){% endblocktrans %}
+                    </div>
+                {% endif %}
+                 {% if object.address %}
+                    <span class="hotels__address-icon"></span>{{ object.address }}
+                    <a class="hotels__link" href="#">{% blocktrans %}show on map{% endblocktrans %}</a>
+                {% endif %}
+                <div class="hotels__address-phone">
+                    {% if reservation_phone %}
+                        {% trans 'Reservation phone:' context 'Reservation phone text' %}
+                        <a class="hotels__link" href="tel:{{ reservation_phone }}" dir="ltr">{{ reservation_phone }}</a>
+                    {% endif %}
+                </div>
+            </div>
+            </div>
+            <div class="hotels__gallery">
+                <div id="hotels-gallery-slider">
+                    <div class="find__article-preview detail-page">
+                        {% if object.featured_image %}
+                            <img id="find-gallery-preview{{ excursion.pk }}" class="find-gallery-preview"
+                                 src="{{ object.service_detail_big_featured_image }}" alt="">
+                        {% elif object.images.exists %}
+                            <img id="find-gallery-preview{{ excursion.pk }}" class="find-gallery-preview"
+                                 src="{{ image_obj.service_detail_big_image_thumbnail }}" alt="">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div id="find-gallery" class="find-gallery-multiply owl-carousel" data-previewID="find-gallery-preview{{ excursion.pk }}">
+                {% if object.featured_image %}
+                    <div class="item" data-bigImg="{{ excursion.service_detail_big_featured_image }}">
+                        <img class="lazyOwl" data-src="{{ excursion.service_detail_small_featured_image }}">
+                    </div>
+                {% endif %}
+                {% for image_obj in object.images.all %}
+                    <div class="item" data-bigImg="{{ image_obj.service_detail_big_image_thumbnail }}">
+                        <img class="lazyOwl" data-src="{{ image_obj.service_detail_small_image_thumbnail }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="sharing_toolbox">
+                {% include 'common/includes/fb_and_gplus_buttons.html' %}
+            </div>
+            
+            <div class="hotels__text-box customScroll">
+                <p class="hotels__text">{{ object.description_trans|linebreaksbr }}</p>
+            </div>
+        </div>
+        <div id="items-list">
+            {% include "excursions/includes/ajax_excur_detail.html" %}
+        </div>
+        <div>
+            {% if show_rate_block %}
+                <div class="hotels__find-container review-container">
+                    {% include "excursions/includes/ajax_review_block.html" with service=excursion %}
+                </div>
+            {% endif %}
+            <div id="comments_container">
+                {% if can_add_comment %}
+                    <div class="hotels__find-container comment-container">
+                        {% url 'new_excursioncomment' as comment_url %}
+                        {% include "common/includes/ajax_comment_form_block.html" with comment_url=comment_url comment_form=comment_form %}
+                    </div>
+                {% endif %}
+                <div class="hotels__find-container comment-list-container">
+                    <h3 class="hotels__title">{% trans "comments" %}</h3>
+                    {% include "excursions/comment_list.html" with next_page=2 entity_id=object.pk %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

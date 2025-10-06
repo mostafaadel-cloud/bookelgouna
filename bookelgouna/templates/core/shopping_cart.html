@@ -1,0 +1,241 @@
+{% extends "base_with_simple_header.html" %}
+{% load i18n %}
+{% block content %}
+    <div class="wrap-inner">
+        <div class="find">
+            <h2 class="find__title">shopping cart</h2>
+            <div class="find__shop-item">
+                <div class="find__link-block">
+                    <i class="icon-trash"></i><a class="find__link" href="#">delete</a>
+                </div>
+                <h3 class="find__article-title shop-cart">the three corners ocean view</h3>
+                <!-- rate stars classes 
+                    star-rate-1,
+                    star-rate-2,
+                    star-rate-3,
+                    star-rate-4,
+                    star-rate-5
+
+                    add to .find__article-rate-box
+                -->
+                <div class="find__article-rate-box star-rate-3 shop-cart">
+                    <ul>
+                        <li class="find__article-star"></li>
+                        <li class="find__article-star"></li>
+                        <li class="find__article-star"></li>
+                        <li class="find__article-star"></li>
+                        <li class="find__article-star"></li>
+                    </ul>
+                </div>
+                <div class="find__article-item">
+                    <div class="find__article-preview shop-cart">
+                        <img id="find-gallery-preview" class="find-gallery-preview" src="http://lorempixel.com/g/400/200/" alt="">
+                    </div>
+                    <div class="find__article-info shop-cart">
+                        <div class="find__article-price-box">
+                            <div class="find__form-qty__select-box">
+                                <span class="find__form-qty__items">Select quantity</span>
+                                <span class="find__form-qty__select-qty">
+                                    <select id="select-qty" tabindex="-1" class="select-qty" name="">
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        <option value="">3</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="find__article-price-block">
+                                <div class="find__article-price-top shop-cart">
+                                    Today's price
+                                     <div  class="find__article-overnight shop-cart">(at 22 over night)</div>
+                                </div>
+                                <span class="find__article-price-amount shop-cart orange-price">1420<span class="find__article-price-sign shop-cart orange-price">$</span></span>
+                            </div>
+                        </div>
+                    </div>
+                
+                <p class="find__article-text shop-cart">
+                    Sed eleifend, dui non rutrum commodo, odi ex vulputate nulla, quis fringilla ex nisi ut ligu la. In finibus turpis eu elementum cursus. Donec eu dapibus nisi. Mauris eget imperdi enim, ut faucibus nun
+                </p>
+                <div class="find__shop-discr">
+                    <ul class="find__shop-discr-col-l">
+                        <li class="find__shop-discr-item">
+                            <span class="find__shop-discr-left">Adults</span>
+                            <span class="find__shop-discr-right">2</span>
+                        </li>
+                         <li class="find__shop-discr-item">
+                            <span class="find__shop-discr-left">Children</span>
+                            <span class="find__shop-discr-right">1</span>
+                        </li>
+                    </ul>
+                     <ul class="find__shop-discr-col-r">
+                        <li class="find__shop-discr-item">
+                            <span class="find__shop-discr-left">Arrival</span>
+                            <span class="find__shop-discr-right">12.12.14</span>
+                        </li>
+                         <li class="find__shop-discr-item">
+                            <span class="find__shop-discr-left">Departure</span>
+                            <span class="find__shop-discr-right">22.12.14</span>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+            <div class="find__shop-item">
+                <div class="find__link-block">
+                    <i class="icon-trash"></i><a class="find__link" href="#">delete</a>
+                </div>
+                <h3 class="find__article-title shop-cart">Brilliant Hotel</h3>
+                <!-- rate stars classes 
+                    star-rate-1,
+                    star-rate-2,
+                    star-rate-3,
+                    star-rate-4,
+                    star-rate-5
+
+                    add to .find__article-rate-box
+                -->
+                <div class="find__article-rate-box star-rate-4 shop-cart">
+                    <ul>
+                        <li class="find__article-star"></li>
+                        <li class="find__article-star"></li>
+                        <li class="find__article-star"></li>
+                        <li class="find__article-star"></li>
+                        <li class="find__article-star"></li>
+                    </ul>
+                </div>
+                <div class="find__article-item">
+                    <div class="find__article-preview shop-cart">
+                        <img id="find-gallery-preview" class="find-gallery-preview" src="http://lorempixel.com/g/400/200/" alt="">
+                    </div>
+                    <div class="find__article-info shop-cart">
+                        <div class="find__article-price-box">
+                            <div class="find__form-qty__select-box">
+                                <span class="find__form-qty__items">Select quantity</span>
+                                <span class="find__form-qty__select-qty">
+                                    <select id="select-qty" tabindex="-1" class="select-qty" name="">
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        <option value="">3</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="find__article-price-block">
+                            <div class="find__article-price-top shop-cart">
+                                Today's price
+                                 <div  class="find__article-overnight shop-cart">(at 22 over night)</div>
+                            </div>
+                            <span class="find__article-price-amount shop-cart orange-price">560<span class="find__article-price-sign shop-cart orange-price">$</span></span>
+                            </div>
+                        </div>
+                    </div>
+                
+                <p class="find__article-text shop-cart">
+                    Sed eleifend, dui non rutrum commodo, odi ex vulputate nulla, quis fringilla ex nisi ut ligu la. In finibus turpis eu elementum cursus. Donec eu dapibus nisi. Mauris eget imperdi enim, ut faucibus nun
+                </p>
+                <div class="find__shop-discr">
+                    <ul class="find__shop-discr-col-l">
+                        <li class="find__shop-discr-item">
+                            <span class="find__shop-discr-left">Adults</span>
+                            <span class="find__shop-discr-right">1</span>
+                        </li>
+                         <li class="find__shop-discr-item">
+                            <span class="find__shop-discr-left">Children</span>
+                            <span class="find__shop-discr-right">3</span>
+                        </li>
+                    </ul>
+                     <ul class="find__shop-discr-col-r">
+                        <li class="find__shop-discr-item">
+                            <span class="find__shop-discr-left">Arrival</span>
+                            <span class="find__shop-discr-right">14.12.14</span>
+                        </li>
+                         <li class="find__shop-discr-item">
+                            <span class="find__shop-discr-left">Departure</span>
+                            <span class="find__shop-discr-right">29.12.14</span>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+            <div class="find__shop-item">
+                <div class="find__link-block">
+                    <i class="icon-trash"></i><a class="find__link" href="#">delete</a>
+                </div>
+                <h3 class="find__article-title shop-cart">The best of the best</h3>
+                <!-- rate stars classes 
+                    star-rate-1,
+                    star-rate-2,
+                    star-rate-3,
+                    star-rate-4,
+                    star-rate-5
+
+                    add to .find__article-rate-box
+                -->
+                <div class="find__article-rate-box star-rate-5 shop-cart">
+                    <ul>
+                        <li class="find__article-star"></li>
+                        <li class="find__article-star"></li>
+                        <li class="find__article-star"></li>
+                        <li class="find__article-star"></li>
+                        <li class="find__article-star"></li>
+                    </ul>
+                </div>
+                <div class="find__article-item">
+                    <div class="find__article-preview shop-cart">
+                        <img id="find-gallery-preview" class="find-gallery-preview" src="http://lorempixel.com/g/400/200/" alt="">
+                    </div>
+                    <div class="find__article-info shop-cart">
+                        <div class="find__article-price-box">
+                            <div class="find__form-qty__select-box">
+                                <span class="find__form-qty__items">Select quantity</span>
+                                <span class="find__form-qty__select-qty">
+                                    <select id="select-qty" tabindex="-1" class="select-qty" name="">
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        <option value="">3</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="find__article-price-block">
+                            <div class="find__article-price-top shop-cart">
+                                Today's price
+                                 <div  class="find__article-overnight shop-cart">(at 22 over night)</div>
+                            </div>
+                            <span class="find__article-price-amount shop-cart orange-price">11350<span class="find__article-price-sign shop-cart orange-price">$</span></span>
+                            </div>
+                        </div>
+                    </div>
+                
+                <p class="find__article-text shop-cart">
+                    Sed eleifend, dui non rutrum commodo, odi ex vulputate nulla, quis fringilla ex nisi ut ligu la. In finibus turpis eu elementum cursus. Donec eu dapibus nisi. Mauris eget imperdi enim, ut faucibus nun
+                </p>
+                <div class="find__shop-discr">
+                    <ul class="find__shop-discr-col-l">
+                        <li class="find__shop-discr-item">
+                            <span class="find__shop-discr-left">Adults</span>
+                            <span class="find__shop-discr-right">2</span>
+                        </li>
+                         <li class="find__shop-discr-item">
+                            <span class="find__shop-discr-left">Children</span>
+                            <span class="find__shop-discr-right">0</span>
+                        </li>
+                    </ul>
+                     <ul class="find__shop-discr-col-r">
+                        <li class="find__shop-discr-item">
+                            <span class="find__shop-discr-left">Arrival</span>
+                            <span class="find__shop-discr-right">30.12.14</span>
+                        </li>
+                         <li class="find__shop-discr-item">
+                            <span class="find__shop-discr-left">Departure</span>
+                            <span class="find__shop-discr-right">05.01.15</span>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+            <div class="find__shop-btns">
+                <a class="find__article-book-btn shop-cart" href="#">Continue shopping</a>
+                <input class="find__article-book-btn shop-cart-submit" type="submit" value="make an order">
+            </div>
+        </div>
+    </div>
+{% endblock content %}

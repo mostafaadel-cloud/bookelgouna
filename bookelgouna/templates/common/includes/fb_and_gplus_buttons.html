@@ -1,0 +1,19 @@
+{% load common_tags %}
+
+<div class="fb-like" data-href="{% get_current_absolute_url %}" data-layout="button_count"
+     data-action="like" data-show-faces="false" data-share="true"></div>
+
+<div class="g-plusone" data-size="medium"></div>
+
+<script>
+    window.___gcfg = {lang: '{{ LANGUAGE_CODE }}'};
+
+    (function () {
+        var po = document.createElement('script');
+        po.type = 'text/javascript';
+        po.async = true;
+        po.src = 'https://apis.google.com/js/platform.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(po, s);
+    })();
+</script>

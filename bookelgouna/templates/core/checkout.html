@@ -1,0 +1,31 @@
+{% extends "base_with_simple_header.html" %}
+{% load i18n %}
+{% block content %}
+    <div class="wrap-inner">
+        <div class="find">
+            <h2 class="find__title checkout">Checkout</h2>
+            <div class="checkout__text">You are about to make an order on <span>4260$</span></div>
+            <div class="cabinet__billing-block">
+                <label class="checkout__label">Select payment method</label>
+                <div class="cabinet__billing__select-box checkout">
+                    <span class="cabinet__billing__select-method">
+                        <select id="select-method" tabindex="-1" class="select-method" name="" placeholder="Upon Arrival">
+                            <option></option>
+                            <option value="wire">Upon Arrival</option>
+                            <option value="check">Bank Wire</option>
+                            <option value="paypal">Paypal</option>
+                        </select>
+                    </span>
+                </div>
+            </div>
+            <div class="checkout__discr">
+                <p>Hotel prefer cash payment upon arrival, credit card or debit card payment will be charged with 5% service fee on top of it.  Suspendisse feugiat magna lorem, et enim    mauris euismod a. Pellentesque id iaculis ex, vel iaculis augue. Curabitur est lorem, posuere et laoreet ut, finibus a enim.</p>
+                <p>Donec aliquet odio id nisl porttitor luctus. Donec vehicula, arcu sit amet hendrerit gravida, leo mauris aliquam lacus, ut ornare sem orci non eros. Morbi quis urna debit  accumsan, sollicitudin est ut, eleifend justo. Quisque congue vitae dolor vitae accumsan. </p>
+            </div>
+            <div class="find__shop-btns">
+                <a class="find__article-book-btn shop-cart" href="#">Back</a>
+                <input class="find__article-book-btn shop-cart-submit" type="submit" value="Confirm">
+            </div>
+        </div>
+    </div>
+{% endblock content %}

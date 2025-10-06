@@ -1,0 +1,173 @@
+{% load i18n %}
+<div class="cabinet__tab-content" id="tab-content-owner-hotel">
+    <div class="cabinet__hotel">
+{#        <div class="cabinet__hotel-container">#}
+{#            <h2 class="cabinet__title">{{ service.title_trans }}</h2>#}
+{#            <a data-url="{% url "update_service" %}" class="cabinet__updatelink ajax-change-tab" >#}
+{#                <i class="icon-pencil"></i>{% blocktrans %}update info{% endblocktrans %}#}
+{#            </a>#}
+{#            </div>#}
+            <h2 class="cabinet__title full-width">{% trans "Apartments" %}
+                <span class="hint big-text">
+                    <span class="hint-icon">i</span>
+                    <span class="hint-text">
+                        {% blocktrans context "business owner apt list header hint" %}business owner apt list header hint{% endblocktrans %}
+                    </span>
+                </span>
+            </h2>
+            <button data-url="{% url "create_service" %}" class="cabinet__btn hotel-btn ajax-change-tab">
+                {% blocktrans %}add new apartment{% endblocktrans %}
+            </button>
+            {% if object_list %}
+            <div class="js-apts-block">
+                <div class="cabinet__hotel-block">
+                    <table class="cabinet__room-table room-list">
+                        <thead class="cabinet__room-thead room-list">
+                            <tr class="cabinet__room-tr-head room-list">
+                                <th class="cabinet__room-th room-list">{% trans "Name" %}
+                                    <span class="tooltip">
+                                        <span class="tooltip-icon">?</span>
+                                        <span class="tooltip-text">
+                                            <div class="tooltip-title">
+                                                {% blocktrans context "business owner apt list name hint title" %}business owner apt list name hint title{% endblocktrans %}
+                                            </div>
+                                            {% blocktrans context "business owner apt list name hint content" %}business owner apt list name hint content{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </th>
+                                <th class="cabinet__room-th room-list">{% trans "Type" %}
+                                    <span class="tooltip">
+                                        <span class="tooltip-icon">?</span>
+                                        <span class="tooltip-text">
+                                            <div class="tooltip-title">
+                                                {% blocktrans context "business owner apt list type hint title" %}business owner apt list type hint title{% endblocktrans %}
+                                            </div>
+                                            {% blocktrans context "business owner apt list type hint content" %}business owner apt list type hint content{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </th>
+                                <th class="cabinet__room-th room-list">{% trans "Square" %}
+                                    <span class="tooltip">
+                                        <span class="tooltip-icon">?</span>
+                                        <span class="tooltip-text">
+                                            <div class="tooltip-title">
+                                                {% blocktrans context "business owner apt list square hint title" %}business owner apt list square hint title{% endblocktrans %}
+                                            </div>
+                                            {% blocktrans context "business owner apt list square hint content" %}business owner apt list square hint content{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </th>
+{#                                <th class="cabinet__room-th room-list">{% trans "Allotment" %}</th>#}
+                                <th class="cabinet__room-th room-list">{% trans "Show on site" %}
+                                    <span class="tooltip">
+                                        <span class="tooltip-icon">?</span>
+                                        <span class="tooltip-text">
+                                            <div class="tooltip-title">
+                                                {% blocktrans context "business owner apt list show-on-site hint title" %}business owner apt list show-on-site hint title{% endblocktrans %}
+                                            </div>
+                                            {% blocktrans context "business owner apt list show-on-site hint content" %}business owner apt list show-on-site hint content{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </th>
+                                <th class="cabinet__room-th room-list">{% trans "Current Status" %}
+                                    <span class="tooltip">
+                                        <span class="tooltip-icon">?</span>
+                                        <span class="tooltip-text">
+                                            <div class="tooltip-title">
+                                                {% blocktrans context "business owner apt list current status hint title" %}business owner apt list current status hint title{% endblocktrans %}
+                                            </div>
+                                            {% blocktrans context "business owner apt list current status hint content" %}business owner apt list current status hint content{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </th>
+                                 <th class="cabinet__room-th room-list">{% trans "Last Published" %}
+                                    <span class="tooltip">
+                                        <span class="tooltip-icon">?</span>
+                                        <span class="tooltip-text">
+                                            <div class="tooltip-title">
+                                                {% blocktrans context "business owner apt list last published hint title" %}business owner apt list current status hint title{% endblocktrans %}
+                                            </div>
+                                            {% blocktrans context "business owner apt list last published hint content" %}business owner apt list last published hint content{% endblocktrans %}
+                                        </span>
+                                    </span>
+                                </th>
+                                <th class="cabinet__room-th room-list"></th>
+{#                                <th class="cabinet__room-th room-list"></th>#}
+                            </tr>
+                        </thead>
+                        <tbody class="cabinet__room-tbody room-list js-apts-list">
+                            {% for apt in object_list %}
+                                <tr class="cabinet__room-tr room-list">
+                                    <td class="cabinet__room-td room-list" data-title="{% trans "Name" %}">
+                                        {{ apt.title_trans }}
+                                    </td>
+                                    <td class="cabinet__room-td room-list" data-title="{% trans "Type" %}">
+                                        {{ apt.get_type_display }}
+                                    </td>
+                                    <td class="cabinet__room-td room-list" data-title="{% trans "Square" %}">
+                                        {{ apt.area|floatformat }}
+                                    </td>
+{#                                    <td class="cabinet__room-td room-list" data-title="{% trans "Allotment" %}">#}
+{#                                        <span class="cabinet__allotment">#}
+{#                                            <i class="cabinet__allotment-minus icon-decrease-arrow minus-this"></i>#}
+{#                                            <span class="cabinet__allotment-value current-value">{{ apt.allotment }}</span>#}
+{#                                            <input id="room-allotment-{{ apt.pk }}" class="change-value" type="hidden"#}
+{#                                                   value="{{ apt.allotment }}" data-url="{% url "room_allotment_attr_change" apt.slug %}">#}
+{#                                            <i class="cabinet__allotment-plus icon-increase-arrow plus-this"></i>#}
+{#                                        </span>#}
+{#                                    </td>#}
+                                    <td class="cabinet__room-td room-list" data-title="{% trans "Show on site" %}">
+                                       <div class="cabinet__switch">
+                                          <input id="show-on-site-{{ apt.pk }}" class="cabinet__switch-input ajax-show-on-site-attr-change"
+                                                 type="checkbox"{% if apt.show_on_site %} checked="checked"{% endif %}
+                                                  data-url="{% url "apt_show_on_site_attr_change" apt.slug %}">
+                                          <label class="cabinet__switch-label" for="show-on-site-{{ apt.pk }}"></label>
+                                        </div>
+                                    </td>
+                                    <td class="cabinet__room-td room-list" data-title="{% trans "Current Status:" %}">
+                                        {% if not apt.is_updating %}
+                                            <div class="cabinet__service-status {{ apt.status_css_class }}">{{ apt.get_status_display }}</div>
+                                            <a href="{{ apt.get_absolute_url }}" class="cabinet__link">{% trans "View" %}</a>
+                                        {% else %}
+                                            {% blocktrans context "business owner apt list already approved text" %}Approved{% endblocktrans %}
+                                        {% endif %}
+                                    </td>
+                                    <td class="cabinet__room-td room-list" data-title="{% trans "Last Published:" %}">
+                                        {% with origin=apt.origin %}
+                                        {% if not origin.is_on_moderation %}
+                                            <div class="cabinet__service-status {{ origin.status_css_class }}">{{ origin.get_status_display }}</div>
+                                            <a href="{{ origin.get_absolute_url }}" class="cabinet__link">{% trans "View" %}</a>
+                                        {% else %}
+                                            {% blocktrans context "business owner apt list not published text" %}Not published{% endblocktrans %}
+                                        {% endif %}
+                                        {% endwith %}
+                                    </td>
+                                    <td class="cabinet__room-td room-list">
+                                        <a class="cabinet__docs-link ajax-change-tab"
+                                           data-url="{% url 'update_service_with_slug' apt.slug %}">
+                                            <i class="icon-pencil"></i>
+                                            <span>{% trans "Update" %}</span>
+                                        </a>
+                                    </td>
+{#                                Hide delete action for now #}
+{#                                    <td class="cabinet__room-td room-list">#}
+{#                                        <a class="cabinet__docs-link ajax-delete-apt" href="{% url 'remove_apt' apt.slug %}"#}
+{#                                                data-confirm-message="{% trans "Are you sure you want to delete this apartment?" %}"#}
+{#                                                data-approval-word="{% trans "Yes" %}" data-decline-word="{% trans "No" %}"#}
+{#                                                data-success-message="{% trans "Apartment was successfully removed" %}">#}
+{#                                            <i class="icon-trash"></i>#}
+{#                                            <span>{% trans "Delete" %}</span>#}
+{#                                        </a>#}
+{#                                    </td>#}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <button data-url="{% url "create_service" %}" class="cabinet__btn hotel-btn ajax-change-tab">
+                    {% blocktrans %}add new apartment{% endblocktrans %}
+                </button>
+            </div>
+            {% endif %}
+    </div>
+</div>

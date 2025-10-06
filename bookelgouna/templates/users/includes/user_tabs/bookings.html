@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<li class="cabinet__tab-item">
+    <input type="radio" {% if tab_name == "bookings" %}checked="checked"{% endif %} name="tabs"
+           id="cab-user-book" data-url="{% url "user_bookings" %}" class="ajax-change-tab">
+    <label class="cabinet__tab-label" for="cab-user-book">{% blocktrans %}bookings{% endblocktrans %}</label>
+    <div class="cabinet__tab-panel">
+        {% if tab_name == "bookings" %}
+            {% include ajax_template_name %}
+        {% endif %}
+    </div>
+</li>

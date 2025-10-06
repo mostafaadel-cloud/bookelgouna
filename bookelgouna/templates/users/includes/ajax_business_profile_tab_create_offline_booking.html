@@ -1,0 +1,82 @@
+{% load i18n widget_tweaks %}
+<div class="cabinet__tab-content" id="tab-content-user-book">
+    <div class="cabinet__hotel js-scroll-to-this-if-error">
+        <div class="cabinet__hotel-container">
+            <h2 class="cabinet__title">{% blocktrans %}Create Offline Booking{% endblocktrans %}</h2>
+            <a class="cabinet__backlink ajax-change-tab" data-url="{% url "business_bookings" %}">
+                {% blocktrans %}go back{% endblocktrans %}
+            </a>
+        </div>
+        <form method="POST" action="{% url 'business_create_offline_booking' %}">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="cabinet__hotel-block">
+                    <span class="error">{{ form.non_field_errors.0 }}</span>
+                </div>
+            {% endif %}
+            <div class="cabinet__hotel-block js-scroll-to-this-if-error">
+                <label class="cabinet__hotel-label">{{ form.apartment.label }}
+                    <span class="hint">
+                        <span class="hint-icon">i</span>
+                        <span class="hint-text">
+                            {% blocktrans context "business owner offline booking apartment hint" %}business owner offline booking apartment hint{% endblocktrans %}
+                        </span>
+                    </span>
+                </label>
+                <div class="cabinet__billing__select-box">
+                    <span class="cabinet__billing__select-method">
+                        {{ form.apartment|add_class:"select-method"|add_error_class:"error"|attr:"tabindex:-1" }}
+                        {% if form.apartment.errors %}
+                            <span class="error">{{ form.apartment.errors.0 }}</span>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="cabinet__hotel-block js-scroll-to-this-if-error">
+                <label class="cabinet__hotel-label" for="{{ form.from_date.auto_id }}">{{ form.from_date.label }}
+                    <span class="hint">
+                        <span class="hint-icon">i</span>
+                        <span class="hint-text">
+                            {% blocktrans context "business owner offline booking arrival hint" %}business owner offline booking arrival hint{% endblocktrans %}
+                        </span>
+                    </span>
+                </label>
+                {{ form.from_date|add_class:"cabinet__hotel-input from_date_offline_booking"|add_error_class:"error" }}
+                {% if form.from_date.errors %}
+                    <span class="error">{{ form.from_date.errors.0 }}</span>
+                {% endif %}
+            </div>
+            <div class="cabinet__hotel-block js-scroll-to-this-if-error">
+                <label class="cabinet__hotel-label" for="{{ form.to_date.auto_id }}">{{ form.to_date.label }}
+                    <span class="hint">
+                        <span class="hint-icon">i</span>
+                        <span class="hint-text">
+                            {% blocktrans context "business owner offline booking departure hint" %}business owner offline booking departure hint{% endblocktrans %}
+                        </span>
+                    </span>
+                </label>
+                {{ form.to_date|add_class:"cabinet__hotel-input to_date_offline_booking"|add_error_class:"error" }}
+                {% if form.to_date.errors %}
+                    <span class="error">{{ form.to_date.errors.0 }}</span>
+                {% endif %}
+            </div>
+            <div class="cabinet__hotel-block js-scroll-to-this-if-error">
+                <span class="cabinet__hotel-label">{{ form.offline_booking_note.label }}
+                    <span class="hint">
+                        <span class="hint-icon">i</span>
+                        <span class="hint-text">
+                            {% blocktrans context "business owner offline booking note hint" %}business owner offline booking note hint{% endblocktrans %}
+                        </span>
+                    </span>
+                </span>
+                {{ form.offline_booking_note|add_class:"cabinet__hotel-discr"|add_error_class:"error" }}
+                {% if form.offline_booking_note.errors %}
+                    <span class="error">{{ form.offline_booking_note.errors.0 }}</span>
+                {% endif %}
+            </div>
+            <button type="submit" class="cabinet__btn submit-btn room-page ajax-post-in-tab">
+                {% trans "Save" %}
+            </button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,186 @@
+@import 'mixins.less';
+/*---------------------MAIN CSS---------------------*/
+@font-corbel: 'corbel-bold-italic';
+@font-calibri: 'Calibri';
+@font-pfd-regular: 'pfdintextcondpro-regular';
+@font-pfd-medium: 'pfdintextcondpro-medium';
+@font-pfd-bold: 'pfdintextcondpro-bold';
+@font-helvetica-medium: 'helveticaneuecyr-medium';
+@font-helvetica-roman: 'helveticaneuecyr-roman';
+
+.contacts {
+	padding-top: 20px;
+	padding-bottom: 110px;
+	.clearfix;
+
+	&__title {
+		font: 20px @font-helvetica-roman;
+		color: #000;
+		text-transform: uppercase;
+		padding: 15px 0;
+	}
+	&__block {
+		padding-bottom: 15px;
+
+		& > .error {
+			font: 14px @font-helvetica-roman;
+			color: #cc2a00;
+		}
+	}
+	&__text {
+		font: 14px @font-helvetica-roman;
+		color: #000;
+
+		&.required {
+			position: relative;
+			&:after {
+				content: '*';
+				position: absolute;
+				font: 15px @font-helvetica-roman;
+				color: #cc2a00;
+				padding-left: 5px;
+			}
+		}
+	}
+	&__link {
+		color: #000;
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+	&__input {
+		width: 100%;
+		border: 1px solid #c3c3c3;
+		height: 40px;	
+		font: 15px @font-helvetica-roman;
+		color: #000;
+		margin: 10px 0 5px;
+		padding: 0 10px;
+
+		&.search {
+			padding: 0 10px 0 30px;
+			background: url(../images/spritesheet-backs.png) no-repeat 6px -3631px;
+		}
+		&.error {
+			border: 1px solid #cc2a00;
+		}
+		& + .error {
+			color: #cc2a00;
+		}
+	}
+	&__textarea {
+		width: 100%;
+		height: 105px;
+		border: 1px solid #c3c3c3;
+		resize: none;
+		font: 15px @font-helvetica-roman;
+		color: #000;
+		padding: 15px;
+		margin-top: 15px;
+
+		&.error {
+			border: 1px solid #cc2a00;
+		}
+	}
+	&__buttons {
+		text-align: right;
+	}
+	&__btn {
+		height: 50px;
+		text-align: center;
+		text-transform: uppercase;
+		font: 22px @font-pfd-regular;
+		color: #fff;
+		padding: 0 10px;
+		cursor: pointer;
+
+		&.reset {
+			background: #ffc400;
+
+			&:hover {
+				background: #ffde00;
+			}
+			&:active {
+				background: #ffb400;
+			}
+		}
+
+		&.submit {
+			margin-left: 10px;
+			background: #2a83bf;
+
+			&:hover {
+				background: #078feb;
+			}
+			&:active {
+				background: #005b99;
+			}
+		}
+	}
+
+}
+@media only screen and (min-width: 480px) {
+	.contacts {
+		&__title {
+			font-size: 38px;
+		}
+		&__btn {
+			height: 60px;
+			font-size: 30px;
+		}
+	}
+}
+@media only screen and (min-width: 768px) {
+	.contacts {
+
+		&__text {
+			&.required {
+				// top: 15px;
+				margin-top: 15px;
+				float: left;
+			}
+		}
+
+		&__block {
+			.clearfix;
+		}
+
+		&__input-box {
+			.clearfix;
+			width: 545px;
+			float: right;
+		}
+	}
+}
+@media only screen and (min-width: 980px) {
+	.contacts {
+		&__right {
+			float: right;
+			width: 290px;
+		}
+		&__left {
+			float: left;
+		}
+		&__title {
+			font-size: 44px;
+		}
+		&__input-box {
+			width: 500px;
+		}
+		&__form {
+			width: 635px;
+		}
+	}
+}
+@media only screen and (min-width: 1800px) {
+	.contacts {
+		&__form {
+			width: 900px;
+		}
+		&__input-box {
+			width: 700px;
+		}
+	}
+}

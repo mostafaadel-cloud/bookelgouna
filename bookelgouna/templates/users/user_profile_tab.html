@@ -1,0 +1,16 @@
+{% extends 'base_with_simple_header.html' %}
+{% load i18n %}
+
+{% block title %}{% blocktrans context 'page title (end user)' %}Bookelgouna|Profile{% endblocktrans %}{% endblock %}
+
+{% block content %}
+<div class="wrap-inner">
+	<div class="cabinet">
+		<ul class="cabinet__tabs">
+            {% for tab in tabs %}
+                {% include tab %}
+            {% endfor %}
+		</ul>
+	</div>
+</div>
+{% endblock content %}

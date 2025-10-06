@@ -1,0 +1,28 @@
+{% load i18n %}
+
+{% for comment in comments %}
+    <div class="hotels__comment">
+        <span class="hotels__comment-date">{{ comment.created|date:"d.m.y" }}
+            <span class="hotels__comment-user">{{ comment.creator.full_name }}</span>
+        </span>
+            {% if comment.creator.avatar %}
+                <img class="hotels__comment-img" src="{{ comment.creator.avatar_thumbnail }}">
+            {% else %}
+                <img class="hotels__comment-img" src="{{ STATIC_URL }}images/default-avatar.png" alt="">
+            {% endif %}
+        <p class="hotels__comment-text">{{ comment.text|linebreaksbr }}</p>
+    </div>
+{% empty %}
+    <div class="hotels__comment">
+        <p class="hotels__comment-text">{% trans "No comments yet." %}</p>
+    </div>
+{% endfor %}
+
+{% if has_more_comments %}
+    <div class="find__showmore-btn">
+        <a class="find__showmore-btn-link comment-pagination" data-entity-id="{{ entity_id }}"
+           data-next-page="{{ next_page }}" data-url="{% url "entertainment_comment_list" %}">
+            {% blocktrans %}show more{% endblocktrans %}
+        </a>
+    </div>
+{% endif %}

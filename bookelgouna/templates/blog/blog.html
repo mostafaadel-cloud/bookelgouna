@@ -1,0 +1,24 @@
+{% extends "blog/base.html" %}
+{% load i18n common_tags %}
+
+{% block title %}{% blocktrans context 'page title' %}Bookelgouna|Blog{% endblocktrans %}{% endblock %}
+{% block desc_meta_tag %}{% blocktrans context 'page description meta tag' %}blog description metatag{% endblocktrans %}{% endblock %}
+{% block fb_title %}{% blocktrans context "facebook page title" %}Blog page facebook title{% endblocktrans %}{% endblock %}
+{% block fb_desc_meta_tag %}{% blocktrans context "facebook page description" %}Blog page facebook description{% endblocktrans %}{% endblock %}
+{% block fb_images %}
+    {% for post in posts %}
+        <meta property="og:image" content="{% get_absolute_image_url post.featured_image_thumbnail %}"/>
+    {% empty %}
+        {{ block.super }}
+    {% endfor %}
+{% endblock %}
+
+{% block blog_content %}
+    {% include "blog/includes/pagination.html" %}
+    {% for post in posts %}
+        {% include "blog/includes/blog_post.html" %}
+    {% empty %}
+        <h2 class="blog__article-title">{% blocktrans %}No posts yet.{% endblocktrans %}</h2>
+    {% endfor %}
+    {% include "blog/includes/pagination.html" %}
+{% endblock blog_content %}

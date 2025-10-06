@@ -1,0 +1,36 @@
+{% load i18n widget_tweaks %}
+
+<form class="signup-form log-owner ajax-form" method="POST" action="{% url 'business_login' %}">
+    {% csrf_token %}
+    <span class="signup-form__text">{% blocktrans %}Already a member?{% endblocktrans %}</span><br>
+    <span class="signup-form__text">{% blocktrans %}Login, please!{% endblocktrans %}</span><br>
+    {% if form.non_field_errors %}
+        <div class="non_field_errors">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+
+    <div class="signup-form__separator">
+        {{ form.login|add_class:"signup-form__input"|add_error_class:"error"|attr:"tabindex:1" }}
+        {% if form.login.errors %}
+            <span class="error">{{ form.login.errors.0 }}</span>
+        {% endif %}
+    </div>
+    <div class="signup-form__separator">
+        {{ form.password|add_class:"signup-form__input"|add_error_class:"error"|attr:"tabindex:2" }}
+        {% if form.password.errors %}
+            <span class="error">{{ form.password.errors.0 }}</span>
+        {% endif %}
+    </div>
+    <div>
+        <div class="signup-form__checkbox">
+            {{ form.remember|attr:"style:display:none" }}
+            <label class="signup-form__checkbox-label" for="{{ form.remember.id_for_label }}">{% blocktrans %}Remember me{% endblocktrans %}</label>
+        </div>
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <a href="{% url 'business_reset_password' %}" class="signup-form__forgotpass">{% blocktrans %}Forgot password?{% endblocktrans %}</a>
+    </div>
+    <button class="signup-form__btn" type="submit" tabindex="3">{% trans "Sign In" %}</button>
+</form>
