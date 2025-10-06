@@ -34,7 +34,7 @@ django-model-utils>=4.3
 django-pipeline>=2.0
 
 # Facebook registration/authorization
-django-allauth>=3.58
+django-allauth==0.51.0
 
 django-phonenumber-field>=7.0
 phonenumberslite>=8.12
