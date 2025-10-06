@@ -1,20 +1,20 @@
 # https://docs.djangoproject.com/en/1.7/
-Django==1.7.2
+Django==3.2.*
 
 # Configuration
-django-secure==1.0.1
+# django-secure==1.0.1
 dj-database-url==0.3.0
 
 # PostgreSQL adapter
 # http://pythonhosted.org/psycopg2/
-psycopg2==2.9.9
+psycopg2-binary>=2.9
 
 # Lots of custom mixins
 # http://django-braces.readthedocs.org/en/v1.4.0/
-django-braces==1.4.0
+django-braces>=1.15
 
 # Cool class-based views
-django-extra-views==0.6.5
+django-extra-views>=0.14
 
 # Control of output of form rendering
 # http://django-floppyforms.readthedocs.org/en/latest/
@@ -23,27 +23,29 @@ django-floppyforms==1.3.0
 # Serve production static files with Django
 # https://github.com/kennethreitz/dj-static
 dj-static==0.0.6
+# whitenoise>=6.0
 
 # Useful model mixins and utilities such as `TimeStampedModel` and `Choices`
 # https://django-model-utils.readthedocs.org/en/latest/
-django-model-utils==2.2
+django-model-utils>=4.3
 
 # CSS and JS compressor and compiler. Also minifies HTML
 # http://django-pipeline.readthedocs.org/en/latest/
-django-pipeline==1.4.2
+django-pipeline>=2.0
 
 # Facebook registration/authorization
-django-allauth==0.19.0
+django-allauth>=3.58
 
-django-phonenumber-field==0.6
+django-phonenumber-field>=7.0
+phonenumberslite>=8.12
 
 # Memcached
-python-memcached==1.59
+python-memcached>=1.59
 
-Pillow==2.7.0
+Pillow>=9.0
 
 # Form fields styling directly in templates
-django-widget-tweaks==1.3
+django-widget-tweaks>=1.5
 
 django-aggregate-if==0.5
 
@@ -51,48 +53,51 @@ django-aggregate-if==0.5
 django-rosetta==0.7.4
 
 # Image crop lib
-django-image-cropping==1.0.1
-easy-thumbnails==2.2
+django-image-cropping>=1.7
+easy-thumbnails>=2.9
 
 # Rich text editor
 django-ckeditor==4.4.7
 
 # Translation library
 django-hvad==1.2.0
+django-parler>=2.3
 
 # solr python adapter
-pysolr==3.9.0
+pysolr>=3.9
 
 # Django search platform
-django-haystack==2.3.1
+django-haystack>=3.2
 
 # Django slugify application that guarantees Uniqueness and handles Unicode
-django-uuslug==1.0.3
+django-uuslug>=2.0
 
 # Admin sortable
-django-admin-sortable2==0.3.3
+django-admin-sortable2>=2.1
 
 # SKD tools to check file types
 django-skd-tools[TypedFileField]==0.2.2
 
 # country codes lib with CountryField
-django-countries==3.3
+django-countries>=7.5
 
 # http library
-requests==2.6.0
+requests>=2.31
 
 # ip retriever
-django-ipware==1.0.0
+django-ipware>=4.0
 
 pytz
 
 # async task lib
-celery==3.1.18
+celery==5.5.*
 
 # adapter
-django-celery==3.1.16
+# django-celery==3.1.16
+django-celery-beat>=2.6
 
 # celery email backend
-django-celery-email==1.1.1
+# django-celery-email==1.1.1
+django-celery-results>=2.5
 
 django-multiselectfield==0.1.3
