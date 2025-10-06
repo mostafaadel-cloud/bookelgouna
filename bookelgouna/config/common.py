@@ -45,9 +45,9 @@ THIRD_PARTY_APPS = (
     'hvad',
     'haystack',
     'adminsortable',
-    'django_countries',
-    'djcelery',
-    'djcelery_email'
+    'django_countries'
+    # 'djcelery',
+    # 'djcelery_email'
 )
 
 # Apps specific for this project go here.
