@@ -3,7 +3,7 @@
 -r base.txt
 
 gunicorn==21.2
-gevent==24.2
+gevent==24.2.1
 # Amazon part
 #django-storages==1.1.8
 #Collectfast==0.2.1
