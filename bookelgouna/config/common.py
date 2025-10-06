@@ -36,7 +36,7 @@ THIRD_PARTY_APPS = (
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
     'allauth.socialaccount.providers.facebook',  # registration
-    'floppyforms',
+    # 'floppyforms',
     'widget_tweaks',
     'rosetta',
     'easy_thumbnails',
