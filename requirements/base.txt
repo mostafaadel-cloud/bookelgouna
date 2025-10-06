@@ -1,103 +1,116 @@
-# https://docs.djangoproject.com/en/1.7/
+# Base dependencies for Book El Gouna (Python 3 + Django 3.2)
+
+# --------------------------------------------------------------------
+# Django core
+# --------------------------------------------------------------------
 Django==3.2.*
 
+# --------------------------------------------------------------------
 # Configuration
-# django-secure==1.0.1
+# --------------------------------------------------------------------
 dj-database-url==0.3.0
 
+# --------------------------------------------------------------------
 # PostgreSQL adapter
-# http://pythonhosted.org/psycopg2/
+# --------------------------------------------------------------------
 psycopg2-binary>=2.9
 
-# Lots of custom mixins
-# http://django-braces.readthedocs.org/en/v1.4.0/
+# --------------------------------------------------------------------
+# Useful model mixins, utilities, and class-based views
+# --------------------------------------------------------------------
 django-braces>=1.15
-
-# Cool class-based views
 django-extra-views>=0.14
+django-model-utils>=4.3
 
-# Control of output of form rendering
-# http://django-floppyforms.readthedocs.org/en/latest/
-django-floppyforms==1.3.0
+# --------------------------------------------------------------------
+# Forms and rendering
+# --------------------------------------------------------------------
+django-floppyforms==1.9.0
+django-widget-tweaks>=1.5
 
-# Serve production static files with Django
-# https://github.com/kennethreitz/dj-static
+# --------------------------------------------------------------------
+# Static files serving (alternative: whitenoise)
+# --------------------------------------------------------------------
 dj-static==0.0.6
 # whitenoise>=6.0
 
-# Useful model mixins and utilities such as `TimeStampedModel` and `Choices`
-# https://django-model-utils.readthedocs.org/en/latest/
-django-model-utils>=4.3
-
-# CSS and JS compressor and compiler. Also minifies HTML
-# http://django-pipeline.readthedocs.org/en/latest/
+# --------------------------------------------------------------------
+# CSS and JS compression
+# --------------------------------------------------------------------
 django-pipeline>=2.0
 
-# Facebook registration/authorization
+# --------------------------------------------------------------------
+# Authentication and user management
+# --------------------------------------------------------------------
 django-allauth==0.51.0
-
 django-phonenumber-field>=7.0
 phonenumberslite>=8.12
 
-# Memcached
+# --------------------------------------------------------------------
+# Caching and image handling
+# --------------------------------------------------------------------
 python-memcached>=1.59
-
 Pillow>=9.0
 
-# Form fields styling directly in templates
-django-widget-tweaks>=1.5
-
+# --------------------------------------------------------------------
+# Database aggregations and slugs
+# --------------------------------------------------------------------
 django-aggregate-if==0.5
+django-uuslug>=2.0
 
-# Translation library
-django-rosetta==0.7.4
+# --------------------------------------------------------------------
+# Translation and localization
+# --------------------------------------------------------------------
+django-rosetta==0.9.9
+django-parler>=2.3
+django-countries>=7.5
 
-# Image crop lib
+# --------------------------------------------------------------------
+# Rich text editor
+# --------------------------------------------------------------------
+django-ckeditor==6.7.1
+
+# --------------------------------------------------------------------
+# Image cropping
+# --------------------------------------------------------------------
 django-image-cropping>=1.7
 easy-thumbnails>=2.9
 
-# Rich text editor
-django-ckeditor==4.4.7
-
-# Translation library
-django-hvad==1.2.0
-django-parler>=2.3
-
-# solr python adapter
+# --------------------------------------------------------------------
+# Search (Solr + Haystack)
+# --------------------------------------------------------------------
 pysolr>=3.9
-
-# Django search platform
 django-haystack>=3.2
 
-# Django slugify application that guarantees Uniqueness and handles Unicode
-django-uuslug>=2.0
+# --------------------------------------------------------------------
+# Admin UI extensions
+# --------------------------------------------------------------------
+django-admin-sortable2>=2.1,<2.2
 
-# Admin sortable
-django-admin-sortable2>=2.1
-
-# SKD tools to check file types
+# --------------------------------------------------------------------
+# Custom tools and utilities
+# --------------------------------------------------------------------
 django-skd-tools[TypedFileField]==0.2.2
 
-# country codes lib with CountryField
-django-countries>=7.5
-
-# http library
+# --------------------------------------------------------------------
+# Networking and IP
+# --------------------------------------------------------------------
 requests>=2.31
-
-# ip retriever
 django-ipware>=4.0
 
+# --------------------------------------------------------------------
+# Timezone
+# --------------------------------------------------------------------
 pytz
 
-# async task lib
+# --------------------------------------------------------------------
+# Celery and async tasks
+# --------------------------------------------------------------------
 celery==5.5.*
-
-# adapter
-# django-celery==3.1.16
 django-celery-beat>=2.6
-
-# celery email backend
-# django-celery-email==1.1.1
 django-celery-results>=2.5
 
+# --------------------------------------------------------------------
+# Multi-select fields
+# --------------------------------------------------------------------
 django-multiselectfield==0.1.3
